@@ -18,6 +18,19 @@ body {
   -moz-osx-font-smoothing: grayscale;
   background: #f5f5f5;
   color: #333333;
+  overflow-x: hidden;
+}
+
+/* Prevent horizontal overflow from any element */
+*:not(style):not(script) {
+  min-width: 0;
+}
+
+/* Responsive images & media */
+img, video {
+  max-width: 100%;
+  height: auto;
+  display: block;
 }
 
 /* Hide scrollbar for horizontal scroll sections */
@@ -47,4 +60,49 @@ img {
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 2;
   }
+}
+
+/* ══════════════════════════════
+   Global Responsive Overrides
+══════════════════════════════ */
+
+/* Footer grid */
+@media (max-width: 900px) {
+  .footer-grid { grid-template-columns: repeat(3, 1fr) !important; }
+}
+@media (max-width: 540px) {
+  .footer-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    padding: 0 16px !important;
+  }
+  .footer-bottom {
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center !important;
+  }
+}
+
+/* Promo top banner */
+@media (max-width: 480px) {
+  .promo-top-banner {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 10px !important;
+    padding: 14px 16px !important;
+  }
+  .promo-top-btn {
+    width: 100% !important;
+    justify-content: center !important;
+  }
+}
+
+/* Advertising hero */
+@media (max-width: 640px) {
+  .adv-hero { height: 240px !important; }
+  .adv-hero-title { font-size: 22px !important; }
+  .adv-hero-desc { max-width: 100% !important; font-size: 13px !important; }
+}
+@media (max-width: 480px) {
+  .adv-hero { height: 200px !important; }
+  .adv-hero-title { font-size: 18px !important; }
 }

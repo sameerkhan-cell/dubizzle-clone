@@ -128,6 +128,24 @@ export default function LandingPage() {
               width: '100%',
             }}
           >
+            <style>{`
+              @media (max-width: 640px) {
+                .dubz-landing-city-grid {
+                  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+                }
+              }
+              @media (max-width: 400px) {
+                .dubz-landing-hero {
+                  padding-bottom: 40px;
+                }
+                .dubz-landing-hero-content {
+                  padding-top: 28px !important;
+                }
+              }
+              .dubz-landing-header {
+                padding: 12px 16px !important;
+              }
+            `}</style>
             {cities.map(({ name, route }) => (
               <Link
                 key={name}
@@ -177,7 +195,7 @@ export default function LandingPage() {
         </h2>
 
         {/* Tab bar */}
-        <div className="mb-8 mx-auto grid w-full max-w-[980px] grid-cols-5 gap-1 rounded-full bg-[#efefef] p-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
+        <div className="mb-8 mx-auto grid w-full max-w-[980px] grid-cols-2 gap-1 rounded-full bg-[#efefef] p-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
           {seoTabs.map((tab) => (
             <button
               key={tab}

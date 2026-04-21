@@ -3,13 +3,21 @@ import { ArrowRight } from 'lucide-react'
 export default function PromoBanners() {
     return (
         <div className="mx-auto mt-6 flex max-w-[1232px] flex-col gap-4 px-4">
+            <style>{`
+              @media (max-width: 640px) {
+                .promo-top-banner { flex-direction: column !important; align-items: flex-start !important; gap: 12px !important; padding: 14px 16px !important; }
+                .promo-top-banner-text h3 { font-size: 15px !important; }
+                .promo-top-banner-text p { font-size: 12px !important; }
+                .promo-top-btn { width: 100% !important; justify-content: center !important; }
+              }
+            `}</style>
             {/* Top Full-width Banner - Sell/Rent home */}
-            <div className="flex h-[80px] w-full cursor-pointer items-center justify-between rounded-lg bg-gradient-to-r from-[#FFF5DA] to-[#FFE6BC] px-6 transition-shadow hover:shadow-card">
-                <div className="flex items-center gap-4">
+            <div className="promo-top-banner flex min-h-[80px] w-full cursor-pointer flex-wrap items-center justify-between rounded-lg bg-gradient-to-r from-[#FFF5DA] to-[#FFE6BC] px-6 py-3 transition-shadow hover:shadow-card">
+                <div className="promo-top-banner-text flex items-center gap-4">
                     <img
                         src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=150&q=80"
                         alt="Property"
-                        className="h-[56px] w-[80px] rounded object-cover shadow-sm"
+                        className="h-[56px] w-[80px] shrink-0 rounded object-cover shadow-sm"
                     />
                     <div>
                         <h3 className="text-[17px] font-bold text-[#4A3B18]">
@@ -22,7 +30,7 @@ export default function PromoBanners() {
                 </div>
                 <button
                     type="button"
-                    className="flex h-10 items-center gap-1.5 rounded bg-white px-5 text-[14px] font-bold text-dubizzle-red shadow-sm transition-colors hover:text-red-700 active:scale-[0.98]"
+                    className="promo-top-btn flex h-10 shrink-0 items-center gap-1.5 rounded bg-white px-5 text-[14px] font-bold text-dubizzle-red shadow-sm transition-colors hover:text-red-700 active:scale-[0.98]"
                 >
                     Get started now
                     <ArrowRight size={16} />

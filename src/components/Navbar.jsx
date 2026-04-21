@@ -10,6 +10,8 @@ import {
   MapPin,
   LocateFixed,
   ChevronRight,
+  Menu,
+  X,
 } from 'lucide-react'
 import Logo from './Logo'
 
@@ -68,6 +70,7 @@ export default function Navbar({ city = 'Dubai' }) {
   const [isScrolled, setIsScrolled] = useState(false)
   const [activeTab, setActiveTab] = useState('Motors')
   const [isCityOpen, setIsCityOpen] = useState(false)
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const cityRef = useRef(null)
   const navigate = useNavigate()
 
@@ -87,6 +90,16 @@ export default function Navbar({ city = 'Dubai' }) {
     return () => document.removeEventListener('mousedown', handleClickOutside)
   }, [])
 
+  // Lock body scroll when mobile menu is open
+  useEffect(() => {
+    if (isMobileMenuOpen) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = ''
+    }
+    return () => { document.body.style.overflow = '' }
+  }, [isMobileMenuOpen])
+
   function handleCitySelect(selectedCity) {
     setIsCityOpen(false)
     const route = cityRoutes[selectedCity]
@@ -99,112 +112,113 @@ export default function Navbar({ city = 'Dubai' }) {
   }
 
   return (
-    <header
-      className={`sticky top-0 z-50 bg-white transition-shadow duration-300 ${isScrolled ? 'shadow-header' : ''
-        }`}
-    >
-      {/* Top bar */}
-      <div className="border-b border-dubizzle-border">
-        <div className="mx-auto flex h-[56px] max-w-[1232px] items-center justify-between px-4">
-          {/* Left - Logo + City */}
-          <div className="flex items-center gap-3">
-            <a href="/" aria-label="dubizzle home" onClick={(e) => { e.preventDefault(); navigate('/') }}>
-              <Logo width={110} height={26} />
-            </a>
-            <div
-              ref={cityRef}
-              className="relative mt-1"
-              onMouseEnter={() => setIsCityOpen(true)}
-              onMouseLeave={() => setIsCityOpen(false)}
-            >
-              <button
-                type="button"
-                onClick={() => setIsCityOpen((p) => !p)}
-                onFocus={() => setIsCityOpen(true)}
-                className={`flex items-center gap-1.5 text-[14px] font-semibold transition-colors ${
-                  city === 'Egypt' ? 'text-dubizzle-dark' : 'text-dubizzle-red hover:text-red-700'
-                }`}
+    <>
+      <header
+        className={`sticky top-0 z-50 bg-white transition-shadow duration-300 ${isScrolled ? 'shadow-header' : ''
+          }`}
+      >
+        {/* Top bar */}
+        <div className="border-b border-dubizzle-border">
+          <div className="mx-auto flex h-[56px] max-w-[1232px] items-center justify-between px-4">
+            {/* Left - Logo + City */}
+            <div className="flex items-center gap-3">
+              <a href="/" aria-label="dubizzle home" onClick={(e) => { e.preventDefault(); navigate('/') }}>
+                <Logo width={110} height={26} />
+              </a>
+              <div
+                ref={cityRef}
+                className="relative mt-1"
+                onMouseEnter={() => setIsCityOpen(true)}
+                onMouseLeave={() => setIsCityOpen(false)}
               >
-                {city === 'Egypt' && <MapPin size={18} className="text-dubizzle-red" />}
-                {city}
-                <ChevronDown size={16} className={`transition-transform duration-200 ${isCityOpen ? 'rotate-180' : ''}`} />
-              </button>
-              {isCityOpen && city !== 'Egypt' && (
-                <div className="absolute left-0 top-full z-50 mt-1 w-[164px] overflow-hidden rounded-md border border-dubizzle-border bg-white shadow-lg sm:w-[220px]">
-                  <button
-                    type="button"
-                    className="w-full border-b border-dubizzle-border bg-[#f6f6f6] px-4 py-2.5 text-left text-[15px] text-[#4b4b4b]"
-                    onClick={() => handleCitySelect('All Cities (UAE)')}
-                  >
-                    All Cities (UAE)
-                  </button>
-                  {cities.map((c) => (
+                <button
+                  type="button"
+                  onClick={() => setIsCityOpen((p) => !p)}
+                  onFocus={() => setIsCityOpen(true)}
+                  className={`flex items-center gap-1.5 text-[14px] font-semibold transition-colors ${
+                    city === 'Egypt' ? 'text-dubizzle-dark' : 'text-dubizzle-red hover:text-red-700'
+                  }`}
+                >
+                  {city === 'Egypt' && <MapPin size={18} className="text-dubizzle-red" />}
+                  {city}
+                  <ChevronDown size={16} className={`transition-transform duration-200 ${isCityOpen ? 'rotate-180' : ''}`} />
+                </button>
+                {isCityOpen && city !== 'Egypt' && (
+                  <div className="absolute left-0 top-full z-50 mt-1 w-[164px] overflow-hidden rounded-md border border-dubizzle-border bg-white shadow-lg sm:w-[220px]">
                     <button
-                      key={c}
                       type="button"
-                      className={`flex w-full items-center border-b border-dubizzle-border px-4 py-2.5 text-left text-sm transition-colors last:border-b-0 hover:bg-gray-50 ${c === city ? 'font-semibold text-dubizzle-dark' : 'text-dubizzle-dark'
-                        }`}
-                      onClick={() => handleCitySelect(c)}
+                      className="w-full border-b border-dubizzle-border bg-[#f6f6f6] px-4 py-2.5 text-left text-[15px] text-[#4b4b4b]"
+                      onClick={() => handleCitySelect('All Cities (UAE)')}
                     >
-                      {c}
-                      {c === city && <span className="ml-auto text-[14px] font-semibold text-dubizzle-red">✓</span>}
+                      All Cities (UAE)
                     </button>
-                  ))}
-                </div>
-              )}
-              {isCityOpen && city === 'Egypt' && (
-                <div className="absolute left-0 top-full z-50 mt-1 w-[260px] overflow-hidden rounded-md border border-[#e5e5e5] bg-white shadow-lg">
-                  <div className="p-3 border-b border-[#e5e5e5]">
-                    <input 
-                      type="text" 
-                      placeholder="Search for location" 
-                      className="w-full rounded border border-[#cccccc] px-3 py-2.5 text-[14px] outline-none focus:border-dubizzle-red text-dubizzle-dark"
-                    />
-                  </div>
-                  <button className="flex w-full items-center gap-2 border-b border-[#e5e5e5] px-4 py-3 text-left transition-colors hover:bg-gray-50">
-                    <LocateFixed size={18} className="text-dubizzle-red" />
-                    <span className="text-[14px] font-bold text-dubizzle-dark">Use current location</span>
-                  </button>
-                  <div className="max-h-[300px] overflow-y-auto scrollbar-hide">
-                    <div className="px-4 py-3 pb-2 text-[13px] font-bold text-[#888888]">
-                      Choose location
-                    </div>
-                    <button className="flex w-full items-center px-4 py-2 text-left text-[14px] text-dubizzle-red hover:bg-gray-50">
-                      See ads in all Egypt
-                    </button>
-                    {egyptCities.map(c => (
-                      <button key={c} className="flex w-full items-center justify-between px-4 py-3 text-left text-[14px] text-dubizzle-dark hover:bg-gray-50">
+                    {cities.map((c) => (
+                      <button
+                        key={c}
+                        type="button"
+                        className={`flex w-full items-center border-b border-dubizzle-border px-4 py-2.5 text-left text-sm transition-colors last:border-b-0 hover:bg-gray-50 ${c === city ? 'font-semibold text-dubizzle-dark' : 'text-dubizzle-dark'
+                          }`}
+                        onClick={() => handleCitySelect(c)}
+                      >
                         {c}
-                        <ChevronRight size={16} className="text-dubizzle-dark" />
+                        {c === city && <span className="ml-auto text-[14px] font-semibold text-dubizzle-red">✓</span>}
                       </button>
                     ))}
                   </div>
-                </div>
-              )}
+                )}
+                {isCityOpen && city === 'Egypt' && (
+                  <div className="absolute left-0 top-full z-50 mt-1 w-[260px] overflow-hidden rounded-md border border-[#e5e5e5] bg-white shadow-lg">
+                    <div className="p-3 border-b border-[#e5e5e5]">
+                      <input 
+                        type="text" 
+                        placeholder="Search for location" 
+                        className="w-full rounded border border-[#cccccc] px-3 py-2.5 text-[14px] outline-none focus:border-dubizzle-red text-dubizzle-dark"
+                      />
+                    </div>
+                    <button className="flex w-full items-center gap-2 border-b border-[#e5e5e5] px-4 py-3 text-left transition-colors hover:bg-gray-50">
+                      <LocateFixed size={18} className="text-dubizzle-red" />
+                      <span className="text-[14px] font-bold text-dubizzle-dark">Use current location</span>
+                    </button>
+                    <div className="max-h-[300px] overflow-y-auto scrollbar-hide">
+                      <div className="px-4 py-3 pb-2 text-[13px] font-bold text-[#888888]">
+                        Choose location
+                      </div>
+                      <button className="flex w-full items-center px-4 py-2 text-left text-[14px] text-dubizzle-red hover:bg-gray-50">
+                        See ads in all Egypt
+                      </button>
+                      {egyptCities.map(c => (
+                        <button key={c} className="flex w-full items-center justify-between px-4 py-3 text-left text-[14px] text-dubizzle-dark hover:bg-gray-50">
+                          {c}
+                          <ChevronRight size={16} className="text-dubizzle-dark" />
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
             </div>
-          </div>
 
-          {/* Right - Icons + Login + Place Ad */}
-          <div className="flex items-center gap-4">
-            <div className="hidden items-center gap-4 md:flex">
-              {iconActions.map(({ icon: Icon, label }) => (
-                <button
-                  key={label}
-                  type="button"
-                  className="group flex flex-col items-center gap-0.5 transition-colors"
-                  title={label}
-                >
-                  <Icon
-                    size={18}
-                    className="text-dubizzle-gray transition-colors group-hover:text-dubizzle-red"
-                    strokeWidth={1.8}
-                  />
-                  <span className="text-[10px] text-dubizzle-gray transition-colors group-hover:text-dubizzle-red">
-                    {label}
-                  </span>
-                </button>
-              ))}
-            </div>
+            {/* Right - Icons + Login + Place Ad */}
+            <div className="flex items-center gap-3 sm:gap-4">
+              <div className="hidden items-center gap-4 md:flex">
+                {iconActions.map(({ icon: Icon, label }) => (
+                  <button
+                    key={label}
+                    type="button"
+                    className="group flex flex-col items-center gap-0.5 transition-colors"
+                    title={label}
+                  >
+                    <Icon
+                      size={18}
+                      className="text-dubizzle-gray transition-colors group-hover:text-dubizzle-red"
+                      strokeWidth={1.8}
+                    />
+                    <span className="text-[10px] text-dubizzle-gray transition-colors group-hover:text-dubizzle-red">
+                      {label}
+                    </span>
+                  </button>
+                ))}
+              </div>
               <button
                 type="button"
                 className="hidden text-[13px] font-bold text-dubizzle-dark transition-colors hover:text-dubizzle-red md:block"
@@ -223,38 +237,118 @@ export default function Navbar({ city = 'Dubai' }) {
               >
                 Place Your Ad
               </button>
+              {/* Hamburger — mobile only */}
+              <button
+                type="button"
+                className="flex items-center justify-center rounded p-1.5 text-dubizzle-dark transition-colors hover:bg-gray-100 md:hidden"
+                onClick={() => setIsMobileMenuOpen((p) => !p)}
+                aria-label="Toggle menu"
+              >
+                <Menu size={22} />
+              </button>
+            </div>
           </div>
         </div>
-      </div>
 
-      {/* Category nav tabs */}
-      <div className="border-b border-[#e5e5e5] bg-white">
-        <div className="mx-auto max-w-[1232px] px-4">
-          <nav className="scrollbar-hide flex h-[42px] items-center justify-between overflow-x-auto" aria-label="Category navigation">
-            {navTabs.map((tab) => (
-              <button
-                key={tab.label}
-                type="button"
-                onClick={() => setActiveTab(tab.label)}
-                className={`relative flex h-full shrink-0 items-center gap-1 whitespace-nowrap px-3 text-[14px] font-semibold transition-colors ${activeTab === tab.label
-                    ? 'text-dubizzle-red'
-                    : 'text-dubizzle-dark hover:text-dubizzle-red'
-                  }`}
-              >
-                {tab.label}
-                {tab.badge && (
-                  <span className="rounded-full bg-dubizzle-red px-1.5 py-0.5 text-[9px] font-bold leading-none tracking-tight text-white">
-                    {tab.badge}
-                  </span>
-                )}
-                {activeTab === tab.label && (
-                  <span className="absolute bottom-0 left-0 h-[2px] w-full bg-dubizzle-red" />
-                )}
-              </button>
-            ))}
-          </nav>
+        {/* Category nav tabs */}
+        <div className="border-b border-[#e5e5e5] bg-white">
+          <div className="mx-auto max-w-[1232px] px-4">
+            <nav className="scrollbar-hide flex h-[42px] items-center justify-between overflow-x-auto" aria-label="Category navigation">
+              {navTabs.map((tab) => (
+                <button
+                  key={tab.label}
+                  type="button"
+                  onClick={() => setActiveTab(tab.label)}
+                  className={`relative flex h-full shrink-0 items-center gap-1 whitespace-nowrap px-3 text-[14px] font-semibold transition-colors ${activeTab === tab.label
+                      ? 'text-dubizzle-red'
+                      : 'text-dubizzle-dark hover:text-dubizzle-red'
+                    }`}
+                >
+                  {tab.label}
+                  {tab.badge && (
+                    <span className="rounded-full bg-dubizzle-red px-1.5 py-0.5 text-[9px] font-bold leading-none tracking-tight text-white">
+                      {tab.badge}
+                    </span>
+                  )}
+                  {activeTab === tab.label && (
+                    <span className="absolute bottom-0 left-0 h-[2px] w-full bg-dubizzle-red" />
+                  )}
+                </button>
+              ))}
+            </nav>
+          </div>
         </div>
-      </div>
-    </header>
+      </header>
+
+      {/* ── Mobile Menu Drawer ── */}
+      {isMobileMenuOpen && (
+        <div className="fixed inset-0 z-[200] md:hidden">
+          {/* Backdrop */}
+          <div
+            className="absolute inset-0 bg-black/50"
+            onClick={() => setIsMobileMenuOpen(false)}
+          />
+          {/* Drawer panel */}
+          <div className="absolute right-0 top-0 flex h-full w-[290px] flex-col bg-white shadow-2xl">
+            {/* Drawer header */}
+            <div className="flex items-center justify-between border-b border-dubizzle-border px-4 py-3">
+              <Logo width={100} height={24} />
+              <button
+                type="button"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="rounded p-1 text-dubizzle-gray transition-colors hover:text-dubizzle-dark"
+                aria-label="Close menu"
+              >
+                <X size={22} />
+              </button>
+            </div>
+
+            {/* Icon actions */}
+            <div className="flex flex-col gap-1 px-2 py-3">
+              {iconActions.map(({ icon: Icon, label }) => (
+                <button
+                  key={label}
+                  type="button"
+                  className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-dubizzle-dark transition-colors hover:bg-gray-50"
+                >
+                  <Icon size={20} strokeWidth={1.8} className="text-dubizzle-gray" />
+                  <span className="text-[15px] font-semibold">{label}</span>
+                </button>
+              ))}
+            </div>
+
+            <hr className="border-dubizzle-border" />
+
+            {/* Login & Help links */}
+            <div className="flex flex-col gap-1 px-2 py-3">
+              <button
+                type="button"
+                className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-left text-[15px] font-bold text-dubizzle-dark transition-colors hover:bg-gray-50"
+              >
+                Log in or sign up
+              </button>
+              <Link
+                to="/help"
+                className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-[15px] font-semibold text-dubizzle-dark transition-colors hover:bg-gray-50"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                Help Center
+              </Link>
+            </div>
+
+            {/* CTA at bottom */}
+            <div className="mt-auto border-t border-dubizzle-border p-4">
+              <button
+                type="button"
+                className="w-full rounded bg-dubizzle-red py-3 text-[14px] font-bold text-white transition-colors hover:bg-red-700"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                Place Your Ad
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </>
   )
 }

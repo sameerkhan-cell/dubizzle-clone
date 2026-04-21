@@ -186,7 +186,7 @@ export default function HelpCenterPage() {
     <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', fontFamily: 'Inter, Arial, sans-serif', background: '#f5f5f5' }}>
       {/* ── Navbar ── */}
       <header style={{ background: '#fff', borderBottom: '1px solid #e5e5e5' }}>
-        <div style={{ maxWidth: 1100, margin: '0 auto', padding: '0 24px', height: 56, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+        <div style={{ maxWidth: 1100, margin: '0 auto', padding: '0 24px', height: 'auto', minHeight: 56, display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 8 }}>
           <Link to="/">
             <Logo width={110} height={26} />
           </Link>
@@ -437,6 +437,12 @@ export default function HelpCenterPage() {
           .help-grid {
             grid-template-columns: 1fr !important;
           }
+        }
+        @media (max-width: 600px) {
+          .help-footer-inner { flex-direction: column !important; align-items: flex-start !important; gap: 16px !important; }
+          .help-footer-inner nav { flex-wrap: wrap !important; }
+          .help-footer-apps { flex-wrap: wrap !important; }
+          .help-hero h1 { font-size: 24px !important; }
         }
       `}</style>
     </div>

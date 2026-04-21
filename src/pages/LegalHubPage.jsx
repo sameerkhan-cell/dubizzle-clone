@@ -28,7 +28,7 @@ const LegalHubPage = () => {
 
       <main className="flex-1">
         {/* Hero Section */}
-        <section className="bg-white py-12">
+        <section className="legal-hub-hero bg-white py-12">
           <div className="max-w-6xl mx-auto px-4">
             <div className="text-center mb-12">
               <p className="text-lg text-gray-600 uppercase tracking-wide mb-4">Welcome to</p>
@@ -60,7 +60,7 @@ const LegalHubPage = () => {
         {/* Legal Terms Columns */}
         <section className="py-20 bg-gray-50">
           <div className="max-w-6xl mx-auto px-4">
-            <div className="grid md:grid-cols-2 gap-12 items-start">
+            <div className="legal-hub-grid grid md:grid-cols-2 gap-12 items-start">
               {/* Legal Terms Column */}
               <div className="text-center md:text-left">
                 <div className="w-20 h-20 bg-blue-500 rounded-full mx-auto md:ml-0 mb-6 flex items-center justify-center">
@@ -138,9 +138,13 @@ const LegalHubPage = () => {
       {/* Footer */}
       <Footer />
 
-      <style jsx>{`
+      <style>{`
         @media (max-width: 768px) {
-          .grid-cols-2 { grid-template-columns: 1fr !important; }
+          .legal-hub-grid { grid-template-columns: 1fr !important; }
+        }
+        @media (max-width: 480px) {
+          .legal-hub-hero h1 { font-size: 2.5rem !important; }
+          .legal-hub-hero p.text-xl { font-size: 1rem !important; }
         }
       `}</style>
     </div>

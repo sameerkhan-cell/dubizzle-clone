@@ -19,12 +19,14 @@ function EgyptNavbar() {
   const [search, setSearch] = useState('')
   const [locationOpen, setLocationOpen] = useState(false)
   const [locationSearch, setLocationSearch] = useState('')
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   const filteredCities = egyptCities.filter(city =>
     city.toLowerCase().includes(locationSearch.toLowerCase())
   )
 
   return (
+    <>
     <header className="bg-white border-b border-gray-200 sticky top-0 z-50">
       <div className="mx-auto max-w-[1232px] px-4 flex items-center gap-3 h-[60px]">
 
@@ -45,7 +47,7 @@ function EgyptNavbar() {
           </a>
 
           {/* Motors */}
-          <a href="/en/motors/" className="flex items-center gap-1.5 px-3 h-[60px] text-[14px] font-medium text-gray-800 hover:text-[#DE1F26] hover:border-b-2 hover:border-[#DE1F26] transition-colors">
+          <a href="/en/motors/" className="hidden md:flex items-center gap-1.5 px-3 h-[60px] text-[14px] font-medium text-gray-800 hover:text-[#DE1F26] hover:border-b-2 hover:border-[#DE1F26] transition-colors">
             <img src="/assets/vehicles_noinline.f0509d15f4ed1cd4cb243005f067d354.svg" alt="Motors" className="w-5 h-5" onError={(e) => {
               e.target.style.display = 'none'
               e.target.nextSibling.style.display = 'block'
@@ -58,7 +60,7 @@ function EgyptNavbar() {
           </a>
 
           {/* Properties */}
-          <a href="/en/realestate/" className="flex items-center gap-1.5 px-3 h-[60px] text-[14px] font-medium text-gray-800 hover:text-[#DE1F26] hover:border-b-2 hover:border-[#DE1F26] transition-colors">
+          <a href="/en/realestate/" className="hidden md:flex items-center gap-1.5 px-3 h-[60px] text-[14px] font-medium text-gray-800 hover:text-[#DE1F26] hover:border-b-2 hover:border-[#DE1F26] transition-colors">
             <img src="/assets/property-for-rent_noinline.afd1b8bf81720cc538aba324a684f145.svg" alt="Properties" className="w-5 h-5" onError={(e) => {
               e.target.style.display = 'none'
               e.target.nextSibling.style.display = 'block'
@@ -166,7 +168,7 @@ function EgyptNavbar() {
         </div>
 
         {/* Search Bar */}
-        <div className="flex items-center flex-1 max-w-[500px] border border-gray-300 rounded-md overflow-hidden h-[38px]">
+        <div className="flex items-center flex-1 max-w-[160px] sm:max-w-[280px] md:max-w-[500px] border border-gray-300 rounded-md overflow-hidden h-[38px]">
           <input
             type="search"
             value={search}
@@ -187,7 +189,7 @@ function EgyptNavbar() {
         </div>
 
         {/* Right Actions */}
-        <div className="flex items-center gap-3 shrink-0">
+        <div className="hidden md:flex items-center gap-3 shrink-0">
           {/* Arabic language switch */}
           <a
             href="/"
@@ -217,8 +219,66 @@ function EgyptNavbar() {
           </button>
         </div>
 
+          {/* Mobile: compact Post Ad + Hamburger */}
+          <div className="flex md:hidden items-center gap-2 shrink-0">
+            <button
+              aria-label="Post your ad"
+              type="button"
+              className="bg-[#DE1F26] hover:bg-[#c01a20] text-white text-[12px] font-bold px-2.5 py-1.5 rounded transition-colors whitespace-nowrap"
+            >
+              Post Ad
+            </button>
+            <button
+              onClick={() => setMobileMenuOpen(p => !p)}
+              className="p-1.5 text-gray-700 hover:text-[#DE1F26] transition-colors"
+              aria-label="Toggle menu"
+            >
+              {mobileMenuOpen ? (
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M18 6L6 18M6 6l12 12" strokeLinecap="round" />
+                </svg>
+              ) : (
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M3 12h18M3 6h18M3 18h18" strokeLinecap="round" />
+                </svg>
+              )}
+            </button>
+          </div>
+
       </div>
     </header>
+
+    {/* Mobile Drawer */}
+    {mobileMenuOpen && (
+      <div className="fixed inset-0 z-[200] md:hidden">
+        <div className="absolute inset-0 bg-black/50" onClick={() => setMobileMenuOpen(false)} />
+        <div className="absolute right-0 top-0 flex h-full w-[270px] flex-col bg-white shadow-2xl">
+          <div className="flex items-center justify-between border-b border-gray-200 px-4 py-3">
+            <span className="text-[15px] font-bold text-gray-800">Menu</span>
+            <button onClick={() => setMobileMenuOpen(false)} className="p-1 text-gray-500">
+              <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M18 6L6 18M6 6l12 12" strokeLinecap="round" />
+              </svg>
+            </button>
+          </div>
+          <nav className="flex flex-col gap-1 px-2 py-3">
+            <a href="/en/motors/" className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-[15px] font-medium text-gray-800 hover:bg-gray-50" onClick={() => setMobileMenuOpen(false)}>Motors</a>
+            <a href="/en/realestate/" className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-[15px] font-medium text-gray-800 hover:bg-gray-50" onClick={() => setMobileMenuOpen(false)}>Properties</a>
+          </nav>
+          <hr className="border-gray-100" />
+          <div className="flex flex-col gap-1 px-2 py-3">
+            <a href="/" className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-[15px] font-medium text-gray-800 hover:bg-gray-50">العربية</a>
+            <button className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-left text-[15px] font-semibold text-gray-800 hover:bg-gray-50">Login</button>
+          </div>
+          <div className="mt-auto border-t border-gray-100 p-4">
+            <button className="w-full rounded bg-[#DE1F26] py-3 text-[14px] font-bold text-white hover:bg-[#c01a20] transition-colors">
+              Post Your Ad
+            </button>
+          </div>
+        </div>
+      </div>
+    )}
+    </>
   )
 }
 

@@ -426,12 +426,24 @@ function ContactForm() {
 export default function AdvertisingPage() {
   return (
     <div className="min-h-screen bg-white font-sans text-[#222]">
+      {/* Responsive styles for advertising page */}
+      <style>{`
+        @media (max-width: 768px) {
+          .adv-header-right { display: none !important; }
+          .adv-hero-title { font-size: 26px !important; }
+          .adv-hero-desc { font-size: 13px !important; max-width: 90% !important; }
+          .adv-hero { height: 280px !important; }
+        }
+        @media (max-width: 480px) {
+          .adv-hero-title { font-size: 22px !important; }
+        }
+      `}</style>
       <header className="border-b border-[#E6E6E6] bg-white">
         <div className="mx-auto flex h-[76px] max-w-[1232px] items-center justify-between px-5">
           <Link to="/" aria-label="dubizzle home">
             <Logo width={115} height={27} />
           </Link>
-          <div className="flex flex-col items-end justify-center">
+          <div className="adv-header-right flex flex-col items-end justify-center">
             {/* topbar_container */}
             <nav
               aria-label="Top links"
@@ -462,7 +474,7 @@ export default function AdvertisingPage() {
       <div className="mx-auto max-w-[1232px] px-5 pt-4 text-[12px] text-[#8A8A8A]">Home</div>
 
       <main className="pb-0">
-        <section className="relative mt-4 h-[350px] overflow-hidden bg-black">
+        <section className="adv-hero relative mt-4 h-[350px] overflow-hidden bg-black">
           <video
             className="h-full w-full object-cover"
             autoPlay
@@ -480,8 +492,8 @@ export default function AdvertisingPage() {
           </video>
           <div className="absolute inset-0 bg-[rgba(0,0,0,0.5)]" />
           <div className="absolute inset-0 flex flex-col items-center justify-center px-5 text-center text-white">
-            <h1 className="mb-3 text-[36px] font-bold leading-tight">dubizzle for business</h1>
-            <p className="max-w-[500px] text-[14px] leading-[1.5]">
+            <h1 className="adv-hero-title mb-3 text-[36px] font-bold leading-tight">dubizzle for business</h1>
+            <p className="adv-hero-desc max-w-[500px] text-[14px] leading-[1.5]">
               We leverage our amazing traffic, excellent reach and professional tools to help car dealers,
               property agents, and advertisers in the UAE grow their business.
             </p>
