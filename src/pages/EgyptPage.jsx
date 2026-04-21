@@ -6,9 +6,23 @@ import AppDownload from '../components/AppDownload'
 import Footer from '../components/Footer'
 import Hero from '../components/Hero'
 
+const egyptCities = [
+  'Alexandria','Aswan','Asyut','Beheira','Beni Suef','Cairo',
+  'Dakahlia','Damietta','Faiyum','Gharbia','Giza','Ismailia',
+  'Kafr El Sheikh','Luxor','Matruh','Minya','Monufia','New Valley',
+  'North Sinai','Port Said','Qalyubia','Qena','Red Sea','Sharqia',
+  'Sohag','South Sinai','Suez',
+]
+
 /* ─── Custom Egypt Navbar (only used on this page) ─── */
 function EgyptNavbar() {
   const [search, setSearch] = useState('')
+  const [locationOpen, setLocationOpen] = useState(false)
+  const [locationSearch, setLocationSearch] = useState('')
+
+  const filteredCities = egyptCities.filter(city =>
+    city.toLowerCase().includes(locationSearch.toLowerCase())
+  )
 
   return (
     <header className="bg-white border-b border-gray-200 sticky top-0 z-50">
@@ -61,20 +75,94 @@ function EgyptNavbar() {
         <div className="flex-1" />
 
         {/* Location Dropdown */}
-        <div className="flex items-center gap-1.5 border border-gray-300 rounded-md px-3 py-2 cursor-pointer hover:border-gray-400 transition shrink-0 h-[38px]">
-          {/* Red pin icon */}
-          <svg className="w-4 h-4 text-[#DE1F26]" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
-          </svg>
-          <span className="text-[14px] text-gray-800">Egypt</span>
-          {/* Arrow down */}
-          <img src="/assets/iconArrowDown_noinline.ec05eae7013321c193965ef15d4e2174.svg" alt="Select location" className="w-3 h-3" onError={(e) => {
-            e.target.style.display = 'none'
-            e.target.nextSibling.style.display = 'block'
-          }} />
-          <svg className="w-3 h-3 text-gray-500 hidden" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M7 10l5 5 5-5z"/>
-          </svg>
+        <div className="relative shrink-0">
+          {/* Trigger button */}
+          <div
+            onClick={() => setLocationOpen(!locationOpen)}
+            className="flex items-center gap-1.5 border border-gray-300 rounded-md px-3 py-2 cursor-pointer hover:border-gray-400 transition h-[38px] select-none"
+          >
+            <svg className="w-4 h-4 text-[#DE1F26]" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+            </svg>
+            <span className="text-[14px] text-gray-800 min-w-[38px]">Egypt</span>
+            <svg
+              className={`w-4 h-4 text-gray-500 transition-transform duration-200 ${locationOpen ? 'rotate-180' : ''}`}
+              viewBox="0 0 24 24" fill="currentColor"
+            >
+              <path d="M7 10l5 5 5-5z"/>
+            </svg>
+          </div>
+
+          {/* Dropdown Panel */}
+          {locationOpen && (
+            <div className="absolute top-[44px] left-0 w-[280px] bg-white border border-gray-200 rounded-md shadow-xl z-50 overflow-hidden">
+
+              {/* Header row: Egypt + chevron up */}
+              <div
+                onClick={() => setLocationOpen(false)}
+                className="flex items-center justify-between px-4 py-3 border-b border-gray-200 cursor-pointer"
+              >
+                <div className="flex items-center gap-2">
+                  <svg className="w-4 h-4 text-[#DE1F26]" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+                  </svg>
+                  <span className="text-[14px] font-medium text-gray-800">Egypt</span>
+                </div>
+                <svg className="w-5 h-5 text-gray-500 rotate-180" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M7 10l5 5 5-5z"/>
+                </svg>
+              </div>
+
+              {/* Search for location */}
+              <div className="px-3 py-2 border-b border-gray-100">
+                <input
+                  type="text"
+                  placeholder="Search for location"
+                  value={locationSearch}
+                  onChange={(e) => setLocationSearch(e.target.value)}
+                  className="w-full border border-gray-300 rounded px-3 py-2 text-[13px] text-gray-700 placeholder-gray-400 outline-none focus:border-gray-400"
+                  autoFocus
+                />
+              </div>
+
+              {/* Use current location */}
+              <div className="flex items-center gap-2 px-4 py-3 border-b border-gray-100 cursor-pointer hover:bg-gray-50">
+                <svg className="w-5 h-5 text-[#DE1F26]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <circle cx="12" cy="12" r="3"/>
+                  <path d="M12 2v3M12 19v3M2 12h3M19 12h3"/>
+                  <circle cx="12" cy="12" r="8" strokeDasharray="2 2"/>
+                </svg>
+                <span className="text-[14px] font-semibold text-gray-800">Use current location</span>
+              </div>
+
+              {/* Choose location label */}
+              <div className="px-4 pt-3 pb-1">
+                <span className="text-[11px] font-semibold text-gray-400 uppercase tracking-wide">Choose location</span>
+              </div>
+
+              {/* See ads in all Egypt */}
+              <div className="px-4 py-2 cursor-pointer hover:bg-gray-50">
+                <span className="text-[14px] font-medium text-[#DE1F26]">See ads in all Egypt</span>
+              </div>
+
+              {/* City list — scrollable */}
+              <div className="max-h-[240px] overflow-y-auto">
+                {filteredCities.map((city) => (
+                  <div
+                    key={city}
+                    onClick={() => setLocationOpen(false)}
+                    className="flex items-center justify-between px-4 py-2.5 cursor-pointer hover:bg-gray-50 border-t border-gray-100"
+                  >
+                    <span className="text-[14px] text-gray-800">{city}</span>
+                    <svg className="w-4 h-4 text-gray-400" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/>
+                    </svg>
+                  </div>
+                ))}
+              </div>
+
+            </div>
+          )}
         </div>
 
         {/* Search Bar */}

@@ -31,7 +31,7 @@ const footerColumns = [
     title: 'Other Countries',
     links: [
       { label: 'Egypt', to: '/egypt' },
-      { label: 'Bahrain', href: '#' },
+      { label: 'Bahrain', href: '/bahrain' },
       { label: 'Saudi Arabia', href: '#' },
       { label: 'Kuwait', href: '#' },
       { label: 'Oman', href: '#' },

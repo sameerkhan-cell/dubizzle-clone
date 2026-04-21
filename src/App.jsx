@@ -16,6 +16,7 @@ import ContactUs from './components/ContactUs'
 import TermsPage from './pages/TermsPage'
 import HelpCenterPage from './pages/HelpCenterPage'
 import EgyptPage from './pages/EgyptPage'
+import BahrainPage from './pages/BahrainPage'
 
 
 export default function App() {
@@ -38,6 +39,7 @@ export default function App() {
       <Route path="/terms" element={<TermsPage />} />
       <Route path="/help" element={<HelpCenterPage />} />
       <Route path="/egypt" element={<EgyptPage />} />
+      <Route path="/bahrain" element={<BahrainPage />} />
     </Routes>
   )
 }
