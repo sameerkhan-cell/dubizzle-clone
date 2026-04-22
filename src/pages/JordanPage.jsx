@@ -2,6 +2,7 @@ import { useState } from 'react'
 import ListingSection from '../components/ListingSection'
 import AppDownload from '../components/AppDownload'
 import Footer from '../components/Footer'
+import PostAdModal from '../components/PostAdModal'
 
 /* ─── Jordan Cities ─── */
 const jordanCities = ['Amman','Zarqa','Irbid','Aqaba','Madaba','Salt','Jerash','Mafraq','Karak','Tafilah','Maan','Ajloun','Balqa']
@@ -163,7 +164,7 @@ function DubizzleLogo() {
 }
 
 /* ─── Jordan Navbar (custom, only on this page) ─── */
-function JordanNavbar() {
+function JordanNavbar({ onPostAd }) {
   const [search, setSearch] = useState('')
   const [locationOpen, setLocationOpen] = useState(false)
   const [locationSearch, setLocationSearch] = useState('')
@@ -266,7 +267,7 @@ function JordanNavbar() {
           <button aria-label="Login" className="text-[14px] font-semibold text-gray-800 hover:text-[#DE1F26] transition-colors px-1">
             Login
           </button>
-          <button aria-label="Post your ad" type="submit"
+          <button aria-label="Post your ad" type="button" onClick={onPostAd}
             className="bg-[#DE1F26] hover:bg-[#c01a20] text-white text-[14px] font-bold px-4 py-2 rounded transition-colors whitespace-nowrap">
             Post Your Ad
           </button>
@@ -455,10 +456,12 @@ function PopularSearches() {
 
 /* ─── Page Component ─── */
 export default function JordanPage() {
+  const [modalOpen, setModalOpen] = useState(false)
+
   return (
     <div className="min-h-screen bg-[#F5F5F5] font-sans">
       {/* Custom navbar — Jordan only, does NOT affect other pages */}
-      <JordanNavbar />
+      <JordanNavbar onPostAd={() => setModalOpen(true)} />
       <JordanHero />
       <PopularCategories />
       <main className="pb-8 pt-4">
@@ -474,6 +477,12 @@ export default function JordanPage() {
       <PopularSearches />
       <AppDownload />
       <Footer />
+
+      {/* ── Post Ad Modal ── */}
+      <PostAdModal
+        isOpen={modalOpen}
+        onClose={() => setModalOpen(false)}
+      />
     </div>
   )
 }

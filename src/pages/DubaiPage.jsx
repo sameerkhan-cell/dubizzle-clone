@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import Navbar from '../components/Navbar'
 import Hero from '../components/Hero'
 import PromoBanners from '../components/PromoBanners'
@@ -6,6 +7,7 @@ import ListingSection from '../components/ListingSection'
 import VerifiedBanner from '../components/VerifiedBanner'
 import AppDownload from '../components/AppDownload'
 import Footer from '../components/Footer'
+import PostAdModal from '../components/PostAdModal'   // ← NEW
 
 /* ─── Dubai Listing Data ─── */
 
@@ -354,12 +356,23 @@ const sportsListings = [
 ]
 
 export default function DubaiPage() {
+  const [modalOpen, setModalOpen] = useState(false)   // ← NEW
+
   return (
     <div className="min-h-screen bg-[#F5F5F5] font-sans text-dubizzle-dark">
-      <Navbar city="Dubai" />
+
+      {/*
+        Pass onPostAd down to Navbar so the "Post your ad" button can open the modal.
+        Your Navbar should accept an `onPostAd` prop and call it on button click.
+        Example inside Navbar.jsx:
+          <button onClick={onPostAd}>Post your ad</button>
+      */}
+      <Navbar city="Dubai" onPostAd={() => setModalOpen(true)} />
+
       <Hero city="Dubai" />
       <PromoBanners />
       <Categories />
+
       <main className="pb-16 pt-4">
         <ListingSection
           title="Popular in Residential for Rent"
@@ -403,8 +416,15 @@ export default function DubaiPage() {
           url="/classifieds/sports"
         />
       </main>
+
       <AppDownload />
       <Footer />
+
+      {/* ── Post Ad Modal ── */}
+      <PostAdModal
+        isOpen={modalOpen}
+        onClose={() => setModalOpen(false)}
+      />
     </div>
   )
 }

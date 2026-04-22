@@ -66,7 +66,7 @@ const egyptCities = [
   'Cairo',
 ]
 
-export default function Navbar({ city = 'Dubai' }) {
+export default function Navbar({ city = 'Dubai', onPostAd }) {
   const [isScrolled, setIsScrolled] = useState(false)
   const [activeTab, setActiveTab] = useState('Motors')
   const [isCityOpen, setIsCityOpen] = useState(false)
@@ -233,6 +233,7 @@ export default function Navbar({ city = 'Dubai' }) {
               </Link>
               <button
                 type="button"
+                onClick={onPostAd}
                 className="rounded bg-dubizzle-red px-3 py-2 text-[11px] font-bold text-white transition-all hover:bg-red-700 active:scale-[0.98] sm:px-4 sm:text-[13px]"
               >
                 Place Your Ad
@@ -341,7 +342,7 @@ export default function Navbar({ city = 'Dubai' }) {
               <button
                 type="button"
                 className="w-full rounded bg-dubizzle-red py-3 text-[14px] font-bold text-white transition-colors hover:bg-red-700"
-                onClick={() => setIsMobileMenuOpen(false)}
+                onClick={() => { setIsMobileMenuOpen(false); onPostAd?.() }}
               >
                 Place Your Ad
               </button>

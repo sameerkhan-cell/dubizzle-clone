@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import Logo from './Logo'
 import Footer from './Footer'
+import PostAdModal from './PostAdModal'
 
 /* ─── Search Icon ─── */
 const SearchIcon = () => (
@@ -25,94 +26,6 @@ const DiamondIcon = () => (
   </svg>
 )
 
-// /* ─── Phone Icon ─── */
-// const PhoneIcon = () => (
-//   <img
-//     src="https://static.dubizzle.com/frontend-web/static-resources/assets/images/phone-icon.svg"
-//     alt="Phone Icon"
-//     width={64}
-//     height={64}
-//     style={{ display: 'block' }}
-//     onError={(e) => {
-//       e.currentTarget.style.display = 'none'
-//     }}
-//   />
-// )
-
-// /* ─── Call Us Modal ─── */
-// function CallUsModal({ onClose }) {
-//   return (
-//     <>
-//       {/* Backdrop */}
-//       <div
-//         onClick={onClose}
-//         style={{
-//           position: 'fixed', inset: 0,
-//           background: 'rgba(0,0,0,0.5)',
-//           zIndex: 1000,
-//         }}
-//       />
-//       {/* Modal */}
-//       <div style={{
-//         position: 'fixed',
-//         top: '50%', left: '50%',
-//         transform: 'translate(-50%, -50%)',
-//         background: '#fff',
-//         borderRadius: 12,
-//         padding: '36px 40px 32px',
-//         zIndex: 1001,
-//         width: 340,
-//         maxWidth: '90vw',
-//         textAlign: 'center',
-//         boxShadow: '0 24px 48px rgba(0,0,0,0.18)',
-//       }}>
-//         {/* Phone icon */}
-//         <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 16 }}>
-//           <PhoneIcon />
-//         </div>
-
-//         <p style={{ fontSize: 18, fontWeight: 700, color: '#222', margin: '0 0 8px' }}>
-//           Call us to get in touch
-//         </p>
-//         <p style={{ fontSize: 14, color: '#666', margin: '0 0 20px' }}>
-//           9:00 AM to 6:00 PM, Monday to Friday
-//         </p>
-
-//         {/* Phone button */}
-//         <a
-//           href="tel:800-38249953"
-//           style={{
-//             display: 'block',
-//             background: '#E8001C',
-//             color: '#fff',
-//             borderRadius: 6,
-//             padding: '14px 20px',
-//             fontWeight: 700,
-//             fontSize: 16,
-//             textDecoration: 'none',
-//             marginBottom: 16,
-//           }}
-//         >
-//           800-38249953 (dubizzle)
-//         </a>
-
-//         {/* Email */}
-//         <p style={{ fontSize: 14, color: '#555', margin: 0 }}>
-//           Or email us at{' '}
-//           <a
-//             href="mailto:customersupport@dubizzle.com"
-//             target="_blank"
-//             rel="noopener noreferrer"
-//             style={{ color: '#005f96', textDecoration: 'underline' }}
-//           >
-//             customersupport@dubizzle.com
-//           </a>
-//         </p>
-//       </div>
-//     </>
-//   )
-// }
-
 /* ─── Dubai Skyline SVG ─── */
 const DubaiSkyline = () => (
   <svg
@@ -122,143 +35,98 @@ const DubaiSkyline = () => (
     style={{ width: '100%', display: 'block' }}
     preserveAspectRatio="xMidYMax meet"
   >
-    {/* Ground */}
     <rect x="0" y="155" width="1440" height="25" fill="#2a2a2a" />
-
-    {/* Ferris wheel left */}
     <circle cx="80" cy="110" r="45" stroke="#aaa" strokeWidth="2" fill="none" />
     <line x1="80" y1="65" x2="80" y2="155" stroke="#aaa" strokeWidth="2" />
     <line x1="35" y1="110" x2="125" y2="110" stroke="#aaa" strokeWidth="2" />
     <line x1="48" y1="77" x2="112" y2="143" stroke="#aaa" strokeWidth="1.5" />
     <line x1="112" y1="77" x2="48" y2="143" stroke="#aaa" strokeWidth="1.5" />
     <circle cx="80" cy="110" r="8" fill="#aaa" />
-
-    {/* Buildings left cluster */}
     <rect x="140" y="100" width="18" height="55" fill="#bbb" />
     <rect x="162" y="85" width="14" height="70" fill="#c0c0c0" />
     <rect x="180" y="95" width="20" height="60" fill="#b8b8b8" />
     <rect x="204" y="75" width="16" height="80" fill="#c5c5c5" />
     <rect x="224" y="90" width="22" height="65" fill="#b5b5b5" />
-
-    {/* Palm trees */}
     <line x1="260" y1="155" x2="260" y2="105" stroke="#888" strokeWidth="3" />
     <ellipse cx="260" cy="100" rx="20" ry="10" fill="#999" />
     <ellipse cx="248" cy="107" rx="14" ry="6" fill="#999" transform="rotate(-20 248 107)" />
     <ellipse cx="272" cy="107" rx="14" ry="6" fill="#999" transform="rotate(20 272 107)" />
-
-    {/* Burj Al Arab style */}
     <polygon points="300,155 320,30 340,155" fill="#c8c8c8" />
     <rect x="304" y="100" width="32" height="55" fill="#d0d0d0" />
     <rect x="318" y="28" width="4" height="10" fill="#aaa" />
-    {/* Sail lines */}
     <line x1="302" y1="155" x2="320" y2="50" stroke="#aaa" strokeWidth="0.8" />
     <line x1="338" y1="155" x2="320" y2="50" stroke="#aaa" strokeWidth="0.8" />
     <line x1="305" y1="130" x2="335" y2="130" stroke="#aaa" strokeWidth="0.6" />
     <line x1="308" y1="110" x2="332" y2="110" stroke="#aaa" strokeWidth="0.6" />
     <line x1="310" y1="90" x2="330" y2="90" stroke="#aaa" strokeWidth="0.6" />
     <line x1="313" y1="70" x2="327" y2="70" stroke="#aaa" strokeWidth="0.6" />
-
-    {/* More buildings */}
     <rect x="355" y="80" width="18" height="75" fill="#c0c0c0" />
     <rect x="377" y="60" width="14" height="95" fill="#ccc" />
     <rect x="395" y="90" width="20" height="65" fill="#bbb" />
-
-    {/* Oval/egg shaped building (Aldar HQ style) */}
     <ellipse cx="440" cy="110" rx="25" ry="45" fill="#c5c5c5" />
     <rect x="435" y="130" width="10" height="25" fill="#bbb" />
-
-    {/* Palm trees middle */}
     <line x1="475" y1="155" x2="475" y2="105" stroke="#888" strokeWidth="3" />
     <ellipse cx="475" cy="100" rx="20" ry="10" fill="#999" />
     <ellipse cx="463" cy="107" rx="14" ry="6" fill="#999" transform="rotate(-20 463 107)" />
     <ellipse cx="487" cy="107" rx="14" ry="6" fill="#999" transform="rotate(20 487 107)" />
-
-    {/* Mid buildings */}
     <rect x="505" y="70" width="16" height="85" fill="#c8c8c8" />
     <rect x="525" y="50" width="20" height="105" fill="#d0d0d0" />
     <rect x="549" y="80" width="14" height="75" fill="#bbb" />
     <rect x="567" y="65" width="18" height="90" fill="#c5c5c5" />
-
-    {/* Helicopter */}
     <ellipse cx="590" cy="48" rx="12" ry="5" fill="#999" />
     <rect x="578" y="45" width="24" height="6" rx="3" fill="#aaa" />
     <line x1="585" y1="53" x2="582" y2="60" stroke="#999" strokeWidth="1.5" />
     <line x1="595" y1="53" x2="598" y2="60" stroke="#999" strokeWidth="1.5" />
     <line x1="570" y1="47" x2="610" y2="47" stroke="#999" strokeWidth="1" />
-
-    {/* Burj Khalifa style - tallest */}
     <polygon points="630,155 636,10 642,155" fill="#d0d0d0" />
     <rect x="625" y="100" width="22" height="55" fill="#c8c8c8" />
     <rect x="628" y="70" width="16" height="35" fill="#ccc" />
     <rect x="631" y="40" width="10" height="32" fill="#d0d0d0" />
     <line x1="636" y1="10" x2="636" y2="5" stroke="#aaa" strokeWidth="1.5" />
-    {/* Setback lines */}
     <line x1="625" y1="100" x2="647" y2="100" stroke="#bbb" strokeWidth="1" />
     <line x1="628" y1="70" x2="644" y2="70" stroke="#bbb" strokeWidth="1" />
     <line x1="631" y1="40" x2="641" y2="40" stroke="#bbb" strokeWidth="1" />
-
-    {/* Twin towers */}
     <rect x="660" y="65" width="18" height="90" fill="#c5c5c5" />
     <rect x="660" y="62" width="18" height="6" rx="3" fill="#bbb" />
     <rect x="690" y="65" width="18" height="90" fill="#c5c5c5" />
     <rect x="690" y="62" width="18" height="6" rx="3" fill="#bbb" />
     <rect x="669" y="100" width="30" height="6" fill="#bbb" />
-
-    {/* Birds */}
     <path d="M 750 35 Q 754 30 758 35" stroke="#999" strokeWidth="1.5" fill="none" />
     <path d="M 762 28 Q 766 23 770 28" stroke="#999" strokeWidth="1.5" fill="none" />
     <path d="M 756 42 Q 760 37 764 42" stroke="#999" strokeWidth="1.5" fill="none" />
-
-    {/* More mid-right buildings */}
     <rect x="780" y="80" width="20" height="75" fill="#c0c0c0" />
     <rect x="804" y="95" width="16" height="60" fill="#bbb" />
     <rect x="824" y="70" width="22" height="85" fill="#ccc" />
     <rect x="850" y="85" width="18" height="70" fill="#c5c5c5" />
-
-    {/* Palm trees right-center */}
     <line x1="880" y1="155" x2="880" y2="105" stroke="#888" strokeWidth="3" />
     <ellipse cx="880" cy="100" rx="20" ry="10" fill="#999" />
     <ellipse cx="868" cy="107" rx="14" ry="6" fill="#999" transform="rotate(-20 868 107)" />
     <ellipse cx="892" cy="107" rx="14" ry="6" fill="#999" transform="rotate(20 892 107)" />
-
-    {/* Right cluster buildings */}
     <rect x="910" y="75" width="16" height="80" fill="#c8c8c8" />
     <rect x="930" y="55" width="20" height="100" fill="#d0d0d0" />
     <rect x="955" y="85" width="14" height="70" fill="#bbb" />
     <rect x="973" y="65" width="22" height="90" fill="#c0c0c0" />
     <rect x="999" y="90" width="16" height="65" fill="#c5c5c5" />
-
-    {/* Abu Dhabi gate style arch */}
     <rect x="1030" y="90" width="16" height="65" fill="#ccc" />
     <rect x="1076" y="90" width="16" height="65" fill="#ccc" />
     <path d="M 1030 90 Q 1061 50 1092 90" stroke="#ccc" strokeWidth="14" fill="none" />
-
-    {/* More right buildings */}
     <rect x="1110" y="80" width="18" height="75" fill="#c0c0c0" />
     <rect x="1132" y="95" width="14" height="60" fill="#bbb" />
     <rect x="1150" y="70" width="20" height="85" fill="#ccc" />
-
-    {/* Palm trees far right */}
     <line x1="1185" y1="155" x2="1185" y2="105" stroke="#888" strokeWidth="3" />
     <ellipse cx="1185" cy="100" rx="20" ry="10" fill="#999" />
     <ellipse cx="1173" cy="107" rx="14" ry="6" fill="#999" transform="rotate(-20 1173 107)" />
     <ellipse cx="1197" cy="107" rx="14" ry="6" fill="#999" transform="rotate(20 1197 107)" />
-
-    {/* Far right buildings */}
     <rect x="1215" y="85" width="18" height="70" fill="#bbb" />
     <rect x="1237" y="65" width="22" height="90" fill="#c5c5c5" />
     <rect x="1263" y="95" width="16" height="60" fill="#c0c0c0" />
     <rect x="1283" y="75" width="20" height="80" fill="#ccc" />
-
-    {/* Ferris wheel right */}
     <circle cx="1360" cy="110" r="45" stroke="#aaa" strokeWidth="2" fill="none" />
     <line x1="1360" y1="65" x2="1360" y2="155" stroke="#aaa" strokeWidth="2" />
     <line x1="1315" y1="110" x2="1405" y2="110" stroke="#aaa" strokeWidth="2" />
     <line x1="1328" y1="77" x2="1392" y2="143" stroke="#aaa" strokeWidth="1.5" />
     <line x1="1392" y1="77" x2="1328" y2="143" stroke="#aaa" strokeWidth="1.5" />
     <circle cx="1360" cy="110" r="8" fill="#aaa" />
-
-    {/* Oval right */}
     <ellipse cx="1320" cy="110" rx="22" ry="42" fill="#c0c0c0" />
     <rect x="1315" y="132" width="10" height="23" fill="#bbb" />
   </svg>
@@ -286,6 +154,7 @@ export default function ContactUs() {
   const [searchQuery, setSearchQuery] = useState('')
   const [selectedForm, setSelectedForm] = useState('')
   const [showCallModal, setShowCallModal] = useState(true)
+  const [modalOpen, setModalOpen] = useState(false)  // ← PostAdModal state
 
   return (
     <div style={{
@@ -297,9 +166,6 @@ export default function ContactUs() {
       fontSize: 14,
       color: '#3b4245',
     }}>
-
-      {/* ── Call Us Modal ── */}
-      {/* {showCallModal && <CallUsModal onClose={() => setShowCallModal(false)} />} */}
 
       {/* ── Header ── */}
       <header style={{
@@ -322,10 +188,10 @@ export default function ContactUs() {
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#E8001C" strokeWidth="2.5"><polyline points="6 9 12 15 18 9" /></svg>
         </div>
 
-        {/* Place Your Ad */}
-        <a
-          href="https://uae.dubizzle.com/place-an-ad"
-          rel="nofollow"
+        {/* Place Your Ad — header button */}
+        <button
+          type="button"
+          onClick={() => setModalOpen(true)}
           style={{
             background: '#E8001C',
             color: '#fff',
@@ -335,7 +201,6 @@ export default function ContactUs() {
             fontWeight: 700,
             fontSize: 13,
             cursor: 'pointer',
-            textDecoration: 'none',
             display: 'flex',
             alignItems: 'center',
             gap: 6,
@@ -345,7 +210,7 @@ export default function ContactUs() {
         >
           <DiamondIcon />
           Place Your Ad
-        </a>
+        </button>
       </header>
 
       {/* ── Search Hero ── */}
@@ -354,7 +219,6 @@ export default function ContactUs() {
           How can we help you?
         </h1>
 
-        {/* Search bar */}
         <div style={{
           display: 'flex',
           alignItems: 'center',
@@ -475,7 +339,6 @@ export default function ContactUs() {
                 your message to the right deparment. Once you select your issue, you will be able to contact us.
               </p>
 
-              {/* Dropdown */}
               <div style={{ marginBottom: 20 }}>
                 <label style={{ display: 'block', fontWeight: 600, fontSize: 13, color: '#333', marginBottom: 8 }}>
                   How can we help? Select a form that best meets your needs:
@@ -502,7 +365,6 @@ export default function ContactUs() {
                       <option key={opt.value} value={opt.value}>{opt.label}</option>
                     ))}
                   </select>
-                  {/* Custom chevron */}
                   <div style={{
                     position: 'absolute',
                     right: 12,
@@ -515,7 +377,6 @@ export default function ContactUs() {
                 </div>
               </div>
 
-              {/* Mandatory note */}
               <div style={{ fontSize: 12, color: '#666' }}>
                 <span style={{ color: '#E8001C', fontWeight: 700 }}>*</span>
                 {' '}Mandatory fields
@@ -569,7 +430,6 @@ export default function ContactUs() {
 
       {/* ── Simple Footer ── */}
       <div style={{ background: '#f0f0f0', borderTop: '1px solid #ddd' }}>
-        {/* Links row */}
         <div style={{
           display: 'flex',
           alignItems: 'center',
@@ -580,14 +440,12 @@ export default function ContactUs() {
           flexWrap: 'wrap',
           gap: 16,
         }}>
-          {/* Nav links */}
-          <nav style={{ display: 'flex', gap: 24, flexWrap: 'wrap' }}>
+          <nav style={{ display: 'flex', gap: 24, flexWrap: 'wrap', alignItems: 'center' }}>
             {[
               { label: 'Home', href: 'https://uae.dubizzle.com/' },
               { label: 'Terms of Use', href: 'https://uae.dubizzle.com/terms/' },
               { label: 'Privacy Policy', href: 'https://uae.dubizzle.com/privacy/' },
               { label: 'About Us', href: 'https://uae.dubizzle.com/about/' },
-              { label: 'Place Your Ad', href: 'https://uae.dubizzle.com/place-an-ad' },
             ].map((link) => (
               <a
                 key={link.label}
@@ -599,7 +457,23 @@ export default function ContactUs() {
                 {link.label}
               </a>
             ))}
-            {/* Call Us — opens modal */}
+
+            {/* Place Your Ad — footer button */}
+            <button
+              type="button"
+              onClick={() => setModalOpen(true)}
+              style={{
+                background: 'none', border: 'none', padding: 0,
+                color: '#555', fontSize: 13, cursor: 'pointer',
+                fontFamily: 'inherit',
+              }}
+              onMouseEnter={(e) => (e.currentTarget.style.textDecoration = 'underline')}
+              onMouseLeave={(e) => (e.currentTarget.style.textDecoration = 'none')}
+            >
+              Place Your Ad
+            </button>
+
+            {/* Call Us */}
             <button
               type="button"
               onClick={() => setShowCallModal(true)}
@@ -647,22 +521,21 @@ export default function ContactUs() {
       {/* ── Responsive styles ── */}
       <style>{`
         @media (max-width: 768px) {
-          .contact-grid {
-            grid-template-columns: 1fr !important;
-          }
+          .contact-grid { grid-template-columns: 1fr !important; }
         }
         @media (max-width: 540px) {
-          .contact-header {
-            padding: 0 16px !important;
-          }
-          .contact-hero {
-            padding: 28px 16px !important;
-          }
-          .contact-main {
-            padding: 20px 16px !important;
-          }
+          .contact-header { padding: 0 16px !important; }
+          .contact-hero { padding: 28px 16px !important; }
+          .contact-main { padding: 20px 16px !important; }
         }
       `}</style>
+
+      {/* ── Post Ad Modal ── */}
+      <PostAdModal
+        isOpen={modalOpen}
+        onClose={() => setModalOpen(false)}
+      />
+
     </div>
   )
 }

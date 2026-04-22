@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import PostAdModal from './PostAdModal'
 
 /* ─── Dubizzle Logo SVG (full version matching real site) ─── */
 function DubizzleLogo() {
@@ -35,6 +36,7 @@ export default function CountryNavbar({
   const [locationOpen, setLocationOpen] = useState(false)
   const [locationSearch, setLocationSearch] = useState('')
   const [catsOpen, setCatsOpen] = useState(false)
+  const [modalOpen, setModalOpen] = useState(false)
 
   const filteredCities = cities.filter(c =>
     c.toLowerCase().includes(locationSearch.toLowerCase())
@@ -128,7 +130,7 @@ export default function CountryNavbar({
           <button aria-label="Login" className="text-[14px] font-semibold text-gray-800 hover:text-[#DE1F26] transition-colors px-1">
             Login
           </button>
-          <button aria-label="Post your ad" type="submit"
+          <button aria-label="Post your ad" type="button" onClick={() => setModalOpen(true)}
             className="bg-[#DE1F26] hover:bg-[#c01a20] text-white text-[14px] font-bold px-4 py-2 rounded transition-colors whitespace-nowrap">
             Post Your Ad
           </button>
@@ -173,6 +175,8 @@ export default function CountryNavbar({
           )}
         </div>
       </div>
+
+      <PostAdModal isOpen={modalOpen} onClose={() => setModalOpen(false)} />
     </header>
   )
 }

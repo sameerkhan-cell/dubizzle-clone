@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import Logo from './Logo'
 import Footer from './Footer'
+import PostAdModal from './PostAdModal'
 
 /* ─── Icons ─── */
 const SearchIcon = () => (
@@ -63,6 +64,7 @@ const linkStyle = {
 /* ─── Main Page ─── */
 export default function LegalHub() {
   const [searchQuery, setSearchQuery] = useState('')
+  const [modalOpen, setModalOpen] = useState(false)  // ← PostAdModal state
 
   return (
     <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', background: '#fff', fontFamily: "'Segoe UI', Arial, sans-serif" }}>
@@ -83,6 +85,7 @@ export default function LegalHub() {
         </Link>
         <button
           type="button"
+          onClick={() => setModalOpen(true)}
           style={{
             background: '#e00718',
             color: '#fff',
@@ -144,7 +147,6 @@ export default function LegalHub() {
               background: '#fff',
               transition: 'box-shadow 0.2s, border-color 0.2s',
             }}
-            onFocus={() => {}}
             onMouseEnter={(e) => {
               e.currentTarget.style.boxShadow = '0 4px 20px rgba(232,0,28,0.13)'
               e.currentTarget.style.borderColor = '#E8001C'
@@ -308,6 +310,13 @@ export default function LegalHub() {
           }
         }
       `}</style>
+
+      {/* ── Post Ad Modal ── */}
+      <PostAdModal
+        isOpen={modalOpen}
+        onClose={() => setModalOpen(false)}
+      />
+
     </div>
   )
 }

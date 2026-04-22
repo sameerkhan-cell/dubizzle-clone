@@ -1,9 +1,13 @@
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import Logo from '../components/Logo'
 import Footer from '../components/Footer'
+import PostAdModal from '../components/PostAdModal'
 import { Search, Menu } from 'lucide-react'
 
 const LegalHubPage = () => {
+  const [modalOpen, setModalOpen] = useState(false)
+
   return (
     <div className="min-h-screen bg-white">
       {/* Header - matching original simple nav */}
@@ -13,12 +17,12 @@ const LegalHubPage = () => {
             <Logo width={110} height={26} />
           </Link>
           <div className="flex items-center gap-4">
-            <Link 
-              to="/place-ad" 
+            <button 
+              onClick={() => setModalOpen(true)}
               className="text-sm font-semibold text-dubizzle-red hover:text-red-600 px-4 py-2 border border-dubizzle-red rounded hover:bg-red-50 transition-colors"
             >
               Place your ad
-            </Link>
+            </button>
             <button className="md:hidden p-2">
               <Menu size={24} className="text-gray-600" />
             </button>
@@ -137,6 +141,12 @@ const LegalHubPage = () => {
 
       {/* Footer */}
       <Footer />
+
+      {/* ── Post Ad Modal ── */}
+      <PostAdModal
+        isOpen={modalOpen}
+        onClose={() => setModalOpen(false)}
+      />
 
       <style>{`
         @media (max-width: 768px) {

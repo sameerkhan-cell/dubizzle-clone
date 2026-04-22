@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import Navbar from '../components/Navbar'
 import Hero from '../components/Hero'
 import PromoBanners from '../components/PromoBanners'
@@ -6,6 +7,7 @@ import ListingSection from '../components/ListingSection'
 import VerifiedBanner from '../components/VerifiedBanner'
 import AppDownload from '../components/AppDownload'
 import Footer from '../components/Footer'
+import PostAdModal from '../components/PostAdModal'
 
 /* ─── Ras Al Khaimah Listing Data ─── */
 
@@ -354,9 +356,11 @@ const sportsListings = [
 ]
 
 export default function RasAlKhaimahPage() {
+  const [modalOpen, setModalOpen] = useState(false)
+
   return (
     <div className="min-h-screen bg-[#F5F5F5] font-sans text-dubizzle-dark">
-      <Navbar city="Ras Al Khaimah" />
+      <Navbar city="Ras Al Khaimah" onPostAd={() => setModalOpen(true)} />
       <Hero city="Ras Al Khaimah" />
       <PromoBanners />
       <Categories />
@@ -405,6 +409,12 @@ export default function RasAlKhaimahPage() {
       </main>
       <AppDownload />
       <Footer />
+
+      {/* ── Post Ad Modal ── */}
+      <PostAdModal
+        isOpen={modalOpen}
+        onClose={() => setModalOpen(false)}
+      />
     </div>
   )
 }
