@@ -1,9 +1,10 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import {
   Search,
   MapPin,
   ChevronDown,
+  ChevronRight,
   Car,
   Home as HomeIcon,
   Building2,
@@ -20,23 +21,41 @@ import {
 import MobileBottomNav from './MobileBottomNav'
 import Logo from '../components/Logo'
 
-/* ─── Category data (self-contained, does NOT touch desktop Categories.jsx) ─── */
+/* ─── City → route map ─── */
+const cityRoutes = {
+  'Dubai':           '/dubai',
+  'Abu Dhabi':       '/abu-dhabi',
+  'Sharjah':         '/city/sharjah',
+  'Ajman':           '/city/ajman',
+  'Al Ain':          '/city/al-ain',
+  'Ras Al Khaimah':  '/city/ras-al-khaimah',
+  'Fujairah':        '/city/fujairah',
+  'Umm Al Quwain':   '/city/umm-al-quwain',
+  'Egypt':           '/egypt',
+  'Bahrain':         '/bahrain',
+  'Jordan':          '/jordan',
+  'Kuwait':          '/kuwait',
+  'Oman':            '/oman',
+  'Pakistan':        '/pakistan',
+}
+
+/* ─── Category data with navigation paths ─── */
 const mobileCategories = [
-  { title: 'Motors',               icon: Car,         bg: '#FEE2E2', color: '#E8001C' },
-  { title: 'Property\nfor Rent',   icon: HomeIcon,    bg: '#DCFCE7', color: '#16A34A' },
-  { title: 'Property\nfor Sale',   icon: Building2,   bg: '#DCFCE7', color: '#16A34A' },
-  { title: 'Classifieds',          icon: Package,     bg: '#DBEAFE', color: '#2563EB' },
-  { title: 'Jobs',                 icon: Briefcase,   bg: '#DBEAFE', color: '#2563EB' },
-  { title: 'Community',            icon: Users,       bg: '#F3F4F6', color: '#4B5563' },
-  { title: 'Business &\nIndustrial', icon: Factory,   bg: '#F3F4F6', color: '#4B5563' },
-  { title: 'Home\nAppliances',     icon: Tv2,         bg: '#FFF7ED', color: '#EA580C' },
-  { title: 'Furniture\n& Garden',  icon: Armchair,    bg: '#FFF7ED', color: '#EA580C' },
-  { title: 'Mobile\nPhones',       icon: Smartphone,  bg: '#F3E8FF', color: '#9333EA' },
-  { title: 'New Projects',         icon: Star,        bg: '#FEE2E2', color: '#E8001C' },
-  { title: 'Trending',             icon: Flame,       bg: '#FEF3C7', color: '#D97706' },
+  { title: 'Motors',               icon: Car,         bg: '#FEE2E2', color: '#E8001C', slug: 'motors' },
+  { title: 'Property\nfor Rent',   icon: HomeIcon,    bg: '#DCFCE7', color: '#16A34A', slug: 'property-for-rent' },
+  { title: 'Property\nfor Sale',   icon: Building2,   bg: '#DCFCE7', color: '#16A34A', slug: 'property-for-sale' },
+  { title: 'Classifieds',          icon: Package,     bg: '#DBEAFE', color: '#2563EB', slug: 'classifieds' },
+  { title: 'Jobs',                 icon: Briefcase,   bg: '#DBEAFE', color: '#2563EB', slug: 'jobs' },
+  { title: 'Community',            icon: Users,       bg: '#F3F4F6', color: '#4B5563', slug: 'community' },
+  { title: 'Business &\nIndustrial', icon: Factory,   bg: '#F3F4F6', color: '#4B5563', slug: 'business' },
+  { title: 'Home\nAppliances',     icon: Tv2,         bg: '#FFF7ED', color: '#EA580C', slug: 'home-appliances' },
+  { title: 'Furniture\n& Garden',  icon: Armchair,    bg: '#FFF7ED', color: '#EA580C', slug: 'furniture' },
+  { title: 'Mobile\nPhones',       icon: Smartphone,  bg: '#F3E8FF', color: '#9333EA', slug: 'mobiles' },
+  { title: 'New Projects',         icon: Star,        bg: '#FEE2E2', color: '#E8001C', slug: 'new-projects' },
+  { title: 'Trending',             icon: Flame,       bg: '#FEF3C7', color: '#D97706', slug: 'trending' },
 ]
 
-/* ─── Sample featured listings (mobile-only data, does NOT affect desktop) ─── */
+/* ─── Sample featured listings ─── */
 const featuredListings = [
   {
     image: 'https://images.unsplash.com/photo-1503377211516-79ef88fb03b3?auto=format&fit=crop&w=400&q=80',
@@ -44,6 +63,7 @@ const featuredListings = [
     price: 'AED 89,000',
     location: 'Dubai',
     tag: 'FEATURED',
+    category: 'motors',
   },
   {
     image: 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=400&q=80',
@@ -51,6 +71,7 @@ const featuredListings = [
     price: 'AED 200,000',
     location: 'Dubai South',
     tag: 'FEATURED',
+    category: 'property-for-rent',
   },
   {
     image: 'https://images.unsplash.com/photo-1598327105666-5b89351aff97?auto=format&fit=crop&w=400&q=80',
@@ -58,6 +79,7 @@ const featuredListings = [
     price: 'AED 5,200',
     location: 'Dubai',
     tag: null,
+    category: 'mobiles',
   },
   {
     image: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=400&q=80',
@@ -65,6 +87,7 @@ const featuredListings = [
     price: 'AED 95,000',
     location: 'DAMAC Hills',
     tag: 'FEATURED',
+    category: 'property-for-sale',
   },
   {
     image: 'https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=400&q=80',
@@ -72,13 +95,27 @@ const featuredListings = [
     price: 'AED 52,000',
     location: 'Dubai',
     tag: null,
+    category: 'motors',
   },
 ]
+
+/* ─── Quick links per city ─── */
+function getQuickLinks(city, cityRoute) {
+  return [
+    { label: 'Used Cars for Sale',       path: `${cityRoute}?category=motors` },
+    { label: 'Properties for Rent',      path: `${cityRoute}?category=property-for-rent` },
+    { label: 'Apartments for Sale',      path: `${cityRoute}?category=property-for-sale` },
+    { label: `Jobs in ${city}`,          path: `${cityRoute}?category=jobs` },
+    { label: 'Mobile Phones & Tablets',  path: `${cityRoute}?category=mobiles` },
+    { label: 'Furniture & Garden',       path: `${cityRoute}?category=furniture` },
+  ]
+}
 
 /* ─── Component ─── */
 export default function MobileHome({ city = 'Dubai' }) {
   const [searchQuery, setSearchQuery] = useState('')
   const navigate = useNavigate()
+  const cityRoute = cityRoutes[city] || '/dubai'
 
   return (
     <div style={{ background: '#F5F5F5', minHeight: '100vh', paddingBottom: 80, fontFamily: "'Inter', sans-serif" }}>
@@ -94,17 +131,16 @@ export default function MobileHome({ city = 'Dubai' }) {
         top: 0,
         zIndex: 100,
       }}>
-        <Logo width={95} height={22} />
-        <button
-          type="button"
-          onClick={() => navigate('/')}
+        <Link to="/" style={{ display: 'flex', alignItems: 'center' }}>
+          <Logo width={95} height={22} />
+        </Link>
+        <Link
+          to="/"
           style={{
             display: 'flex',
             alignItems: 'center',
             gap: 4,
-            border: 'none',
-            background: 'transparent',
-            cursor: 'pointer',
+            textDecoration: 'none',
             padding: '4px 8px',
             borderRadius: 6,
           }}
@@ -112,7 +148,7 @@ export default function MobileHome({ city = 'Dubai' }) {
           <MapPin size={16} color="#E8001C" />
           <span style={{ fontSize: 14, fontWeight: 600, color: '#333' }}>{city}</span>
           <ChevronDown size={14} color="#888" />
-        </button>
+        </Link>
       </header>
 
       {/* ── Search Bar ── */}
@@ -146,7 +182,7 @@ export default function MobileHome({ city = 'Dubai' }) {
         </div>
       </div>
 
-      {/* ── Browse Categories ── */}
+      {/* ── Browse Categories (all clickable) ── */}
       <section style={{ padding: '20px 16px 12px' }}>
         <h2 style={{ fontSize: 17, fontWeight: 700, color: '#333', marginBottom: 14 }}>
           Browse Categories
@@ -159,9 +195,9 @@ export default function MobileHome({ city = 'Dubai' }) {
           {mobileCategories.map((cat) => {
             const Icon = cat.icon
             return (
-              <button
+              <Link
                 key={cat.title}
-                type="button"
+                to={`${cityRoute}?category=${cat.slug}`}
                 style={{
                   display: 'flex',
                   flexDirection: 'column',
@@ -175,12 +211,15 @@ export default function MobileHome({ city = 'Dubai' }) {
                   cursor: 'pointer',
                   transition: 'transform 0.15s, box-shadow 0.15s',
                   boxShadow: '0 1px 4px rgba(0,0,0,0.04)',
+                  textDecoration: 'none',
                 }}
                 onTouchStart={(e) => {
-                  e.currentTarget.style.transform = 'scale(0.97)'
+                  e.currentTarget.style.transform = 'scale(0.95)'
+                  e.currentTarget.style.boxShadow = '0 2px 8px rgba(0,0,0,0.10)'
                 }}
                 onTouchEnd={(e) => {
                   e.currentTarget.style.transform = 'scale(1)'
+                  e.currentTarget.style.boxShadow = '0 1px 4px rgba(0,0,0,0.04)'
                 }}
               >
                 <div style={{
@@ -204,13 +243,13 @@ export default function MobileHome({ city = 'Dubai' }) {
                 }}>
                   {cat.title}
                 </span>
-              </button>
+              </Link>
             )
           })}
         </div>
       </section>
 
-      {/* ── Featured Listings ── */}
+      {/* ── Featured Listings (all clickable) ── */}
       <section style={{ padding: '8px 0 16px' }}>
         <div style={{
           display: 'flex',
@@ -222,9 +261,12 @@ export default function MobileHome({ city = 'Dubai' }) {
           <h2 style={{ fontSize: 17, fontWeight: 700, color: '#333' }}>
             Featured
           </h2>
-          <span style={{ fontSize: 13, fontWeight: 600, color: '#E8001C', cursor: 'pointer' }}>
+          <Link
+            to={`${cityRoute}?category=featured`}
+            style={{ fontSize: 13, fontWeight: 600, color: '#E8001C', textDecoration: 'none' }}
+          >
             View all
-          </span>
+          </Link>
         </div>
 
         <div
@@ -241,8 +283,9 @@ export default function MobileHome({ city = 'Dubai' }) {
           className="scrollbar-hide"
         >
           {featuredListings.map((item, i) => (
-            <div
+            <Link
               key={i}
+              to={`${cityRoute}?category=${item.category}`}
               style={{
                 flex: '0 0 200px',
                 scrollSnapAlign: 'start',
@@ -251,7 +294,11 @@ export default function MobileHome({ city = 'Dubai' }) {
                 overflow: 'hidden',
                 border: '1px solid #F0F0F0',
                 boxShadow: '0 1px 6px rgba(0,0,0,0.05)',
+                textDecoration: 'none',
+                transition: 'transform 0.15s',
               }}
+              onTouchStart={(e) => { e.currentTarget.style.transform = 'scale(0.97)' }}
+              onTouchEnd={(e) => { e.currentTarget.style.transform = 'scale(1)' }}
             >
               <div style={{ position: 'relative' }}>
                 <img
@@ -295,26 +342,20 @@ export default function MobileHome({ city = 'Dubai' }) {
                   {item.location}
                 </p>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       </section>
 
-      {/* ── Quick Links ── */}
+      {/* ── Popular Quick Links (all clickable) ── */}
       <section style={{ padding: '8px 16px 20px' }}>
         <h2 style={{ fontSize: 17, fontWeight: 700, color: '#333', marginBottom: 12 }}>
           Popular in {city}
         </h2>
-        {[
-          'Used Cars for Sale',
-          'Properties for Rent',
-          'Apartments for Sale',
-          'Jobs in ' + city,
-          'Mobile Phones & Tablets',
-          'Furniture & Garden',
-        ].map((link) => (
-          <div
-            key={link}
+        {getQuickLinks(city, cityRoute).map((link) => (
+          <Link
+            key={link.label}
+            to={link.path}
             style={{
               background: '#fff',
               borderRadius: 10,
@@ -325,11 +366,15 @@ export default function MobileHome({ city = 'Dubai' }) {
               justifyContent: 'space-between',
               border: '1px solid #F0F0F0',
               cursor: 'pointer',
+              textDecoration: 'none',
+              transition: 'background 0.15s',
             }}
+            onTouchStart={(e) => { e.currentTarget.style.background = '#F9F9F9' }}
+            onTouchEnd={(e) => { e.currentTarget.style.background = '#fff' }}
           >
-            <span style={{ fontSize: 14, fontWeight: 500, color: '#333' }}>{link}</span>
-            <ChevronDown size={16} color="#ccc" style={{ transform: 'rotate(-90deg)' }} />
-          </div>
+            <span style={{ fontSize: 14, fontWeight: 500, color: '#333' }}>{link.label}</span>
+            <ChevronRight size={16} color="#ccc" />
+          </Link>
         ))}
       </section>
 
