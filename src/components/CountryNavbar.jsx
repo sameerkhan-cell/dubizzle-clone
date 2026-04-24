@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 import PostAdModal from './PostAdModal'
 
 /* ─── Dubizzle Logo SVG (full version matching real site) ─── */
@@ -127,9 +128,9 @@ export default function CountryNavbar({
             style={{ minWidth: '4.1rem', maxWidth: '5.7rem' }}>
             {langLabel}
           </a>
-          <button aria-label="Login" className="text-[14px] font-semibold text-gray-800 hover:text-[#DE1F26] transition-colors px-1">
+          <Link to="/login" aria-label="Login" className="text-[14px] font-semibold text-gray-800 hover:text-[#DE1F26] transition-colors px-1">
             Login
-          </button>
+          </Link>
           <button aria-label="Post your ad" type="button" onClick={() => setModalOpen(true)}
             className="bg-[#DE1F26] hover:bg-[#c01a20] text-white text-[14px] font-bold px-4 py-2 rounded transition-colors whitespace-nowrap">
             Post Your Ad

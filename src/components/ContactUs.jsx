@@ -4,37 +4,25 @@ import Logo from './Logo'
 import Footer from './Footer'
 import PostAdModal from './PostAdModal'
 
-/* ─── Search Icon ─── */
 const SearchIcon = () => (
   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#E8001C" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-    <circle cx="11" cy="11" r="8" />
-    <line x1="21" y1="21" x2="16.65" y2="16.65" />
+    <circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" />
   </svg>
 )
-
-/* ─── Chevron Left ─── */
 const ChevronLeft = () => (
   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
     <polyline points="15 18 9 12 15 6" />
   </svg>
 )
-
-/* ─── Diamond Icon ─── */
 const DiamondIcon = () => (
   <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
     <polygon points="12 2 22 8.5 22 15.5 12 22 2 15.5 2 8.5 12 2" />
   </svg>
 )
 
-/* ─── Dubai Skyline SVG ─── */
 const DubaiSkyline = () => (
-  <svg
-    viewBox="0 0 1440 180"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-    style={{ width: '100%', display: 'block' }}
-    preserveAspectRatio="xMidYMax meet"
-  >
+  <svg viewBox="0 0 1440 180" fill="none" xmlns="http://www.w3.org/2000/svg"
+    style={{ width: '100%', display: 'block' }} preserveAspectRatio="xMidYMax meet">
     <rect x="0" y="155" width="1440" height="25" fill="#2a2a2a" />
     <circle cx="80" cy="110" r="45" stroke="#aaa" strokeWidth="2" fill="none" />
     <line x1="80" y1="65" x2="80" y2="155" stroke="#aaa" strokeWidth="2" />
@@ -53,13 +41,6 @@ const DubaiSkyline = () => (
     <ellipse cx="272" cy="107" rx="14" ry="6" fill="#999" transform="rotate(20 272 107)" />
     <polygon points="300,155 320,30 340,155" fill="#c8c8c8" />
     <rect x="304" y="100" width="32" height="55" fill="#d0d0d0" />
-    <rect x="318" y="28" width="4" height="10" fill="#aaa" />
-    <line x1="302" y1="155" x2="320" y2="50" stroke="#aaa" strokeWidth="0.8" />
-    <line x1="338" y1="155" x2="320" y2="50" stroke="#aaa" strokeWidth="0.8" />
-    <line x1="305" y1="130" x2="335" y2="130" stroke="#aaa" strokeWidth="0.6" />
-    <line x1="308" y1="110" x2="332" y2="110" stroke="#aaa" strokeWidth="0.6" />
-    <line x1="310" y1="90" x2="330" y2="90" stroke="#aaa" strokeWidth="0.6" />
-    <line x1="313" y1="70" x2="327" y2="70" stroke="#aaa" strokeWidth="0.6" />
     <rect x="355" y="80" width="18" height="75" fill="#c0c0c0" />
     <rect x="377" y="60" width="14" height="95" fill="#ccc" />
     <rect x="395" y="90" width="20" height="65" fill="#bbb" />
@@ -67,72 +48,38 @@ const DubaiSkyline = () => (
     <rect x="435" y="130" width="10" height="25" fill="#bbb" />
     <line x1="475" y1="155" x2="475" y2="105" stroke="#888" strokeWidth="3" />
     <ellipse cx="475" cy="100" rx="20" ry="10" fill="#999" />
-    <ellipse cx="463" cy="107" rx="14" ry="6" fill="#999" transform="rotate(-20 463 107)" />
-    <ellipse cx="487" cy="107" rx="14" ry="6" fill="#999" transform="rotate(20 487 107)" />
     <rect x="505" y="70" width="16" height="85" fill="#c8c8c8" />
     <rect x="525" y="50" width="20" height="105" fill="#d0d0d0" />
     <rect x="549" y="80" width="14" height="75" fill="#bbb" />
     <rect x="567" y="65" width="18" height="90" fill="#c5c5c5" />
-    <ellipse cx="590" cy="48" rx="12" ry="5" fill="#999" />
-    <rect x="578" y="45" width="24" height="6" rx="3" fill="#aaa" />
-    <line x1="585" y1="53" x2="582" y2="60" stroke="#999" strokeWidth="1.5" />
-    <line x1="595" y1="53" x2="598" y2="60" stroke="#999" strokeWidth="1.5" />
-    <line x1="570" y1="47" x2="610" y2="47" stroke="#999" strokeWidth="1" />
     <polygon points="630,155 636,10 642,155" fill="#d0d0d0" />
     <rect x="625" y="100" width="22" height="55" fill="#c8c8c8" />
     <rect x="628" y="70" width="16" height="35" fill="#ccc" />
     <rect x="631" y="40" width="10" height="32" fill="#d0d0d0" />
-    <line x1="636" y1="10" x2="636" y2="5" stroke="#aaa" strokeWidth="1.5" />
-    <line x1="625" y1="100" x2="647" y2="100" stroke="#bbb" strokeWidth="1" />
-    <line x1="628" y1="70" x2="644" y2="70" stroke="#bbb" strokeWidth="1" />
-    <line x1="631" y1="40" x2="641" y2="40" stroke="#bbb" strokeWidth="1" />
     <rect x="660" y="65" width="18" height="90" fill="#c5c5c5" />
-    <rect x="660" y="62" width="18" height="6" rx="3" fill="#bbb" />
     <rect x="690" y="65" width="18" height="90" fill="#c5c5c5" />
-    <rect x="690" y="62" width="18" height="6" rx="3" fill="#bbb" />
     <rect x="669" y="100" width="30" height="6" fill="#bbb" />
-    <path d="M 750 35 Q 754 30 758 35" stroke="#999" strokeWidth="1.5" fill="none" />
-    <path d="M 762 28 Q 766 23 770 28" stroke="#999" strokeWidth="1.5" fill="none" />
-    <path d="M 756 42 Q 760 37 764 42" stroke="#999" strokeWidth="1.5" fill="none" />
     <rect x="780" y="80" width="20" height="75" fill="#c0c0c0" />
-    <rect x="804" y="95" width="16" height="60" fill="#bbb" />
     <rect x="824" y="70" width="22" height="85" fill="#ccc" />
     <rect x="850" y="85" width="18" height="70" fill="#c5c5c5" />
     <line x1="880" y1="155" x2="880" y2="105" stroke="#888" strokeWidth="3" />
     <ellipse cx="880" cy="100" rx="20" ry="10" fill="#999" />
-    <ellipse cx="868" cy="107" rx="14" ry="6" fill="#999" transform="rotate(-20 868 107)" />
-    <ellipse cx="892" cy="107" rx="14" ry="6" fill="#999" transform="rotate(20 892 107)" />
-    <rect x="910" y="75" width="16" height="80" fill="#c8c8c8" />
     <rect x="930" y="55" width="20" height="100" fill="#d0d0d0" />
-    <rect x="955" y="85" width="14" height="70" fill="#bbb" />
     <rect x="973" y="65" width="22" height="90" fill="#c0c0c0" />
-    <rect x="999" y="90" width="16" height="65" fill="#c5c5c5" />
     <rect x="1030" y="90" width="16" height="65" fill="#ccc" />
     <rect x="1076" y="90" width="16" height="65" fill="#ccc" />
     <path d="M 1030 90 Q 1061 50 1092 90" stroke="#ccc" strokeWidth="14" fill="none" />
-    <rect x="1110" y="80" width="18" height="75" fill="#c0c0c0" />
-    <rect x="1132" y="95" width="14" height="60" fill="#bbb" />
     <rect x="1150" y="70" width="20" height="85" fill="#ccc" />
-    <line x1="1185" y1="155" x2="1185" y2="105" stroke="#888" strokeWidth="3" />
-    <ellipse cx="1185" cy="100" rx="20" ry="10" fill="#999" />
-    <ellipse cx="1173" cy="107" rx="14" ry="6" fill="#999" transform="rotate(-20 1173 107)" />
-    <ellipse cx="1197" cy="107" rx="14" ry="6" fill="#999" transform="rotate(20 1197 107)" />
-    <rect x="1215" y="85" width="18" height="70" fill="#bbb" />
     <rect x="1237" y="65" width="22" height="90" fill="#c5c5c5" />
-    <rect x="1263" y="95" width="16" height="60" fill="#c0c0c0" />
-    <rect x="1283" y="75" width="20" height="80" fill="#ccc" />
     <circle cx="1360" cy="110" r="45" stroke="#aaa" strokeWidth="2" fill="none" />
     <line x1="1360" y1="65" x2="1360" y2="155" stroke="#aaa" strokeWidth="2" />
     <line x1="1315" y1="110" x2="1405" y2="110" stroke="#aaa" strokeWidth="2" />
     <line x1="1328" y1="77" x2="1392" y2="143" stroke="#aaa" strokeWidth="1.5" />
     <line x1="1392" y1="77" x2="1328" y2="143" stroke="#aaa" strokeWidth="1.5" />
     <circle cx="1360" cy="110" r="8" fill="#aaa" />
-    <ellipse cx="1320" cy="110" rx="22" ry="42" fill="#c0c0c0" />
-    <rect x="1315" y="132" width="10" height="23" fill="#bbb" />
   </svg>
 )
 
-/* ─── Form options ─── */
 const formOptions = [
   { value: '', label: '-' },
   { value: 'customer-support', label: 'Customer Support' },
@@ -149,272 +96,113 @@ const trendingArticles = [
   'How do I report a suspicious listing?',
 ]
 
-/* ─── Main Component ─── */
 export default function ContactUs() {
   const [searchQuery, setSearchQuery] = useState('')
   const [selectedForm, setSelectedForm] = useState('')
   const [showCallModal, setShowCallModal] = useState(true)
-  const [modalOpen, setModalOpen] = useState(false)  // ← PostAdModal state
+  const [modalOpen, setModalOpen] = useState(false)
 
   return (
-    <div style={{
-      minHeight: '100vh',
-      display: 'flex',
-      flexDirection: 'column',
-      background: '#fff',
-      fontFamily: "Arial, 'Helvetica Neue', Helvetica, sans-serif",
-      fontSize: 14,
-      color: '#3b4245',
-    }}>
-
+    <div className="cu-page">
       {/* ── Header ── */}
-      <header style={{
-        background: '#fff',
-        borderBottom: '3px solid #E8001C',
-        padding: '0 40px',
-        height: 60,
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        flexShrink: 0,
-      }}>
-        <Link to="/" aria-label="dubizzle home">
-          <Logo width={120} height={28} />
-        </Link>
-
-        {/* Language selector */}
-        <div style={{ color: '#E8001C', fontSize: 13, fontWeight: 600, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 4 }}>
-          English (United States)
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#E8001C" strokeWidth="2.5"><polyline points="6 9 12 15 18 9" /></svg>
+      <header className="cu-header">
+        <div className="cu-header-left">
+          <Link to="/" aria-label="dubizzle home">
+            <Logo width={110} height={26} />
+          </Link>
         </div>
-
-        {/* Place Your Ad — header button */}
-        <button
-          type="button"
-          onClick={() => setModalOpen(true)}
-          style={{
-            background: '#E8001C',
-            color: '#fff',
-            border: 'none',
-            borderRadius: 4,
-            padding: '10px 20px',
-            fontWeight: 700,
-            fontSize: 13,
-            cursor: 'pointer',
-            display: 'flex',
-            alignItems: 'center',
-            gap: 6,
-            letterSpacing: 0.5,
-            textTransform: 'uppercase',
-          }}
-        >
-          <DiamondIcon />
-          Place Your Ad
-        </button>
+        <div className="cu-header-right">
+          <div className="cu-header-lang">
+            English (United States)
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#E8001C" strokeWidth="2.5">
+              <polyline points="6 9 12 15 18 9" />
+            </svg>
+          </div>
+          <button type="button" onClick={() => setModalOpen(true)} className="cu-header-btn">
+            <DiamondIcon />
+            <span className="cu-btn-label">Place Your Ad</span>
+          </button>
+        </div>
       </header>
 
       {/* ── Search Hero ── */}
-      <div style={{ background: '#f2f2f2', padding: '40px 20px 36px', textAlign: 'center' }}>
-        <h1 style={{ fontSize: 28, fontWeight: 400, color: '#555', marginBottom: 24 }}>
-          How can we help you?
-        </h1>
-
-        <div style={{
-          display: 'flex',
-          alignItems: 'center',
-          maxWidth: 600,
-          margin: '0 auto',
-          background: '#fff',
-          border: '1px solid #ddd',
-          borderRadius: 4,
-          overflow: 'hidden',
-          boxShadow: '0 1px 4px rgba(0,0,0,0.08)',
-        }}>
+      <div className="cu-hero">
+        <h1 className="cu-hero-title">How can we help you?</h1>
+        <div className="cu-search-box">
           <input
             type="search"
             placeholder="Search our articles"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            style={{
-              flex: 1,
-              border: 'none',
-              outline: 'none',
-              padding: '13px 16px',
-              fontSize: 15,
-              color: '#333',
-              background: 'transparent',
-              fontFamily: 'inherit',
-            }}
+            className="cu-search-input"
           />
-          <button
-            type="button"
-            style={{
-              background: 'transparent',
-              border: 'none',
-              padding: '0 16px',
-              cursor: 'pointer',
-              display: 'flex',
-              alignItems: 'center',
-            }}
-          >
-            <SearchIcon />
-          </button>
+          <button type="button" className="cu-search-btn"><SearchIcon /></button>
         </div>
       </div>
 
       {/* ── Breadcrumbs ── */}
-      <div style={{ background: '#fff', borderBottom: '1px solid #e5e5e5' }}>
-        <div style={{ maxWidth: 1100, margin: '0 auto', padding: '0 40px' }}>
-          <ol style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: 0,
-            listStyle: 'none',
-            padding: '12px 0',
-            margin: 0,
-          }}>
+      <div className="cu-breadcrumb-bg">
+        <div className="cu-wrap">
+          <ol className="cu-breadcrumb">
             <li>
-              <Link
-                to="/help"
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: 4,
-                  color: '#555',
-                  textDecoration: 'none',
-                  fontSize: 13,
-                  border: '1px solid #ddd',
-                  borderRadius: 3,
-                  padding: '5px 12px',
-                }}
-              >
-                <ChevronLeft />
-                Help Center
+              <Link to="/help" className="cu-bc-link">
+                <ChevronLeft /> Help Center
               </Link>
             </li>
-            <li style={{ margin: '0 8px', color: '#aaa', fontSize: 13 }}></li>
-            <li>
-              <span style={{
-                fontSize: 13,
-                color: '#fff',
-                background: '#555',
-                borderRadius: 3,
-                padding: '5px 14px',
-                fontWeight: 600,
-              }}>
-                Submit a request
-              </span>
-            </li>
+            <li className="cu-bc-sep">›</li>
+            <li><span className="cu-bc-active">Submit a request</span></li>
           </ol>
         </div>
       </div>
 
       {/* ── Main Content ── */}
-      <div style={{ flex: 1, background: '#f7f7f7' }}>
-        <div style={{
-          maxWidth: 1100,
-          margin: '0 auto',
-          padding: '32px 40px',
-          display: 'grid',
-          gridTemplateColumns: '1fr 300px',
-          gap: 24,
-          alignItems: 'start',
-        }}>
-
-          {/* Left: Form */}
-          <div>
-            <h1 style={{ fontSize: 22, fontWeight: 700, color: '#2a2a2a', margin: '0 0 4px' }}>
-              Help us help you faster!
-            </h1>
-            <hr style={{ border: 'none', borderTop: '1px solid #e0e0e0', margin: '12px 0 24px' }} />
-
-            <div style={{
-              background: '#fff',
-              border: '1px solid #e0e0e0',
-              borderRadius: 4,
-              padding: '24px 28px 20px',
-            }}>
-              <p style={{ color: '#555', fontSize: 13, lineHeight: 1.6, margin: '0 0 20px' }}>
+      <div className="cu-main-bg">
+        <div className="cu-wrap cu-grid">
+          {/* Form */}
+          <div className="cu-form-col">
+            <h1 className="cu-form-title">Help us help you faster!</h1>
+            <hr className="cu-form-hr" />
+            <div className="cu-card">
+              <p className="cu-form-desc">
                 Accurately selecting your specific issue from the drop-down lists below will enable us to direct
-                your message to the right deparment. Once you select your issue, you will be able to contact us.
+                your message to the right department. Once you select your issue, you will be able to contact us.
               </p>
-
-              <div style={{ marginBottom: 20 }}>
-                <label style={{ display: 'block', fontWeight: 600, fontSize: 13, color: '#333', marginBottom: 8 }}>
+              <div className="cu-form-group">
+                <label className="cu-form-label">
                   How can we help? Select a form that best meets your needs:
                 </label>
-                <div style={{ position: 'relative' }}>
-                  <select
-                    value={selectedForm}
-                    onChange={(e) => setSelectedForm(e.target.value)}
-                    style={{
-                      width: '100%',
-                      padding: '10px 36px 10px 12px',
-                      fontSize: 14,
-                      color: '#333',
-                      border: '1px solid #ccc',
-                      borderRadius: 4,
-                      background: '#fff',
-                      appearance: 'none',
-                      cursor: 'pointer',
-                      fontFamily: 'inherit',
-                      outline: 'none',
-                    }}
-                  >
+                <div className="cu-select-wrap">
+                  <select value={selectedForm} onChange={(e) => setSelectedForm(e.target.value)} className="cu-select">
                     {formOptions.map((opt) => (
                       <option key={opt.value} value={opt.value}>{opt.label}</option>
                     ))}
                   </select>
-                  <div style={{
-                    position: 'absolute',
-                    right: 12,
-                    top: '50%',
-                    transform: 'translateY(-50%)',
-                    pointerEvents: 'none',
-                  }}>
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#555" strokeWidth="2.5"><polyline points="6 9 12 15 18 9" /></svg>
+                  <div className="cu-select-icon">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#555" strokeWidth="2.5">
+                      <polyline points="6 9 12 15 18 9" />
+                    </svg>
                   </div>
                 </div>
               </div>
-
-              <div style={{ fontSize: 12, color: '#666' }}>
-                <span style={{ color: '#E8001C', fontWeight: 700 }}>*</span>
-                {' '}Mandatory fields
+              <div className="cu-form-hint">
+                <span className="cu-required">*</span> Mandatory fields
               </div>
             </div>
           </div>
 
-          {/* Right: Trending Articles */}
-          <div>
-            <div style={{
-              border: '1px solid #e0e0e0',
-              borderRadius: 4,
-              overflow: 'hidden',
-            }}>
-              <div style={{
-                background: '#fff',
-                padding: '14px 20px',
-                borderBottom: '1px solid #e0e0e0',
-              }}>
-                <h4 style={{ margin: 0, fontSize: 14, fontWeight: 700, color: '#333' }}>Trending articles</h4>
+          {/* Trending Articles */}
+          <div className="cu-sidebar-col">
+            <div className="cu-trending">
+              <div className="cu-trending-header">
+                <h4 className="cu-trending-title">Trending articles</h4>
               </div>
-              <div style={{ background: '#f5f5f5', padding: '12px 20px' }}>
+              <div className="cu-trending-body">
                 {trendingArticles.map((article) => (
-                  <div key={article} style={{ padding: '6px 0', borderBottom: '1px solid #eee' }}>
-                    <a
-                      href="#"
-                      style={{
-                        color: '#005f96',
-                        textDecoration: 'none',
-                        fontSize: 13,
-                        lineHeight: 1.4,
-                        display: 'block',
-                      }}
+                  <div key={article} className="cu-trending-item">
+                    <a href="#" className="cu-trending-link"
                       onMouseEnter={(e) => (e.currentTarget.style.textDecoration = 'underline')}
                       onMouseLeave={(e) => (e.currentTarget.style.textDecoration = 'none')}
-                    >
-                      {article}
-                    </a>
+                    >{article}</a>
                   </div>
                 ))}
               </div>
@@ -423,119 +211,253 @@ export default function ContactUs() {
         </div>
       </div>
 
-      {/* ── Dubai Skyline ── */}
-      <div style={{ background: '#f7f7f7', lineHeight: 0, marginTop: 'auto' }}>
+      {/* ── Skyline ── */}
+      <div className="cu-skyline-bg">
         <DubaiSkyline />
       </div>
 
-      {/* ── Simple Footer ── */}
-      <div style={{ background: '#f0f0f0', borderTop: '1px solid #ddd' }}>
-        <div style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          maxWidth: 1100,
-          margin: '0 auto',
-          padding: '16px 40px',
-          flexWrap: 'wrap',
-          gap: 16,
-        }}>
-          <nav style={{ display: 'flex', gap: 24, flexWrap: 'wrap', alignItems: 'center' }}>
+      {/* ── Footer ── */}
+      <div className="cu-footer-bg">
+        <div className="cu-footer-row">
+          <nav className="cu-footer-nav">
             {[
               { label: 'Home', href: 'https://uae.dubizzle.com/' },
               { label: 'Terms of Use', href: 'https://uae.dubizzle.com/terms/' },
               { label: 'Privacy Policy', href: 'https://uae.dubizzle.com/privacy/' },
               { label: 'About Us', href: 'https://uae.dubizzle.com/about/' },
             ].map((link) => (
-              <a
-                key={link.label}
-                href={link.href}
-                style={{ color: '#555', textDecoration: 'none', fontSize: 13 }}
+              <a key={link.label} href={link.href} className="cu-footer-link"
                 onMouseEnter={(e) => (e.currentTarget.style.textDecoration = 'underline')}
                 onMouseLeave={(e) => (e.currentTarget.style.textDecoration = 'none')}
-              >
-                {link.label}
-              </a>
+              >{link.label}</a>
             ))}
-
-            {/* Place Your Ad — footer button */}
-            <button
-              type="button"
-              onClick={() => setModalOpen(true)}
-              style={{
-                background: 'none', border: 'none', padding: 0,
-                color: '#555', fontSize: 13, cursor: 'pointer',
-                fontFamily: 'inherit',
-              }}
+            <button type="button" onClick={() => setModalOpen(true)} className="cu-footer-btn"
               onMouseEnter={(e) => (e.currentTarget.style.textDecoration = 'underline')}
               onMouseLeave={(e) => (e.currentTarget.style.textDecoration = 'none')}
-            >
-              Place Your Ad
-            </button>
-
-            {/* Call Us */}
-            <button
-              type="button"
-              onClick={() => setShowCallModal(true)}
-              style={{
-                background: 'none', border: 'none', padding: 0,
-                color: '#555', fontSize: 13, cursor: 'pointer',
-                textDecoration: 'none', fontFamily: 'inherit',
-              }}
+            >Place Your Ad</button>
+            <button type="button" onClick={() => setShowCallModal(true)} className="cu-footer-btn"
               onMouseEnter={(e) => (e.currentTarget.style.textDecoration = 'underline')}
               onMouseLeave={(e) => (e.currentTarget.style.textDecoration = 'none')}
-            >
-              Call Us
-            </button>
+            >Call Us</button>
           </nav>
-
-          {/* App store badges */}
-          <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
+          <div className="cu-badges">
             <a href="https://play.google.com/store/apps/details?id=com.dubizzle.horizontal&hl=en" target="_blank" rel="noopener noreferrer">
-              <img
-                src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/78/Google_Play_Store_badge_EN.svg/320px-Google_Play_Store_badge_EN.svg.png"
-                alt="Get it on Google Play"
-                height="36"
-                style={{ display: 'block' }}
-              />
+              <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/78/Google_Play_Store_badge_EN.svg/320px-Google_Play_Store_badge_EN.svg.png"
+                alt="Google Play" className="cu-badge-img" />
             </a>
             <a href="https://itunes.apple.com/app/apple-store/id892172848" target="_blank" rel="noopener noreferrer">
-              <img
-                src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Download_on_the_App_Store_Badge.svg/320px-Download_on_the_App_Store_Badge.svg.png"
-                alt="Download on the App Store"
-                height="36"
-                style={{ display: 'block' }}
-              />
+              <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Download_on_the_App_Store_Badge.svg/320px-Download_on_the_App_Store_Badge.svg.png"
+                alt="App Store" className="cu-badge-img" />
             </a>
           </div>
         </div>
-
-        {/* Copyright bar */}
-        <div style={{ background: '#E8001C', padding: '10px 40px' }}>
-          <p style={{ color: '#fff', fontSize: 13, textAlign: 'center', margin: 0 }}>
+        <div className="cu-copyright-bg">
+          <p className="cu-copyright-text">
             © dubizzle.com 2026, All Rights Reserved.
           </p>
         </div>
       </div>
 
-      {/* ── Responsive styles ── */}
       <style>{`
-        @media (max-width: 768px) {
-          .contact-grid { grid-template-columns: 1fr !important; }
+        .cu-page {
+          min-height: 100vh; display: flex; flex-direction: column;
+          background: #fff; font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;
+          font-size: 14px; color: #3b4245;
         }
-        @media (max-width: 540px) {
-          .contact-header { padding: 0 16px !important; }
-          .contact-hero { padding: 28px 16px !important; }
-          .contact-main { padding: 20px 16px !important; }
+
+        .cu-wrap {
+          max-width: 1100px; margin: 0 auto;
+          padding: 0 16px; box-sizing: border-box; width: 100%;
         }
+
+        /* HEADER */
+        .cu-header {
+          background: #fff; border-bottom: 3px solid #E8001C;
+          box-sizing: border-box; width: 100%;
+          display: flex; flex-direction: column; align-items: stretch;
+          padding: 0;
+        }
+        .cu-header-left {
+          display: flex; align-items: center; justify-content: center;
+          padding: 10px 16px; min-height: 48px;
+        }
+        .cu-header-right {
+          display: flex; align-items: center; justify-content: flex-end;
+          gap: 10px; padding: 6px 16px 8px;
+          border-top: 1px solid #f0f0f0;
+        }
+        .cu-header-lang {
+          color: #E8001C; font-size: 12px; font-weight: 600;
+          cursor: pointer; display: flex; align-items: center; gap: 3px;
+          white-space: nowrap;
+        }
+        .cu-header-btn {
+          background: #E8001C; color: #fff; border: none;
+          border-radius: 4px; padding: 7px 10px; font-weight: 700;
+          font-size: 11px; cursor: pointer; letter-spacing: 0.5px;
+          text-transform: uppercase; display: flex; align-items: center; gap: 5px;
+          white-space: nowrap; flex-shrink: 0;
+        }
+        @media (min-width: 600px) {
+          .cu-header {
+            flex-direction: row; align-items: center;
+            justify-content: space-between; padding: 0 24px; min-height: 56px;
+          }
+          .cu-header-left {
+            justify-content: flex-start; padding: 0; border: none; min-height: auto;
+          }
+          .cu-header-right {
+            border: none; padding: 0;
+          }
+          .cu-header-btn { font-size: 13px; padding: 10px 18px; }
+        }
+        @media (min-width: 1000px) {
+          .cu-header { padding: 0 40px; }
+        }
+
+        /* HERO */
+        .cu-hero {
+          background: #f2f2f2; padding: 24px 16px 20px; text-align: center;
+        }
+        .cu-hero-title {
+          font-size: 20px; font-weight: 400; color: #555; margin: 0 0 16px;
+        }
+        .cu-search-box {
+          display: flex; align-items: center;
+          max-width: 580px; margin: 0 auto;
+          background: #fff; border: 1px solid #ddd;
+          border-radius: 4px; overflow: hidden;
+          box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+        }
+        .cu-search-input {
+          flex: 1; border: none; outline: none;
+          padding: 11px 12px;
+          color: #333; background: transparent; min-width: 0;
+          font-family: inherit; width: 100%;
+          font-size: 16px;
+        }
+        .cu-search-btn {
+          background: transparent; border: none; padding: 0 12px;
+          cursor: pointer; display: flex; align-items: center; flex-shrink: 0;
+        }
+        @media (min-width: 600px) {
+          .cu-hero { padding: 40px 20px 36px; }
+          .cu-hero-title { font-size: 28px; margin-bottom: 24px; }
+          .cu-search-input { padding: 13px 16px; }
+          .cu-search-btn { padding: 0 16px; }
+        }
+
+        /* BREADCRUMB */
+        .cu-breadcrumb-bg { background: #fff; border-bottom: 1px solid #e5e5e5; }
+        .cu-breadcrumb {
+          display: flex; align-items: center; flex-wrap: nowrap;
+          list-style: none; padding: 10px 0; margin: 0; gap: 6px;
+          overflow-x: auto; -webkit-overflow-scrolling: touch;
+        }
+        .cu-bc-link {
+          display: flex; align-items: center; gap: 4px;
+          color: #555; text-decoration: none; font-size: 12px;
+          white-space: nowrap;
+        }
+        .cu-bc-link:hover { text-decoration: underline; }
+        .cu-bc-sep { color: #aaa; font-size: 13px; flex-shrink: 0; }
+        .cu-bc-active {
+          font-size: 12px; color: #fff; background: #666;
+          border-radius: 3px; padding: 3px 8px; font-weight: 600;
+          white-space: nowrap;
+        }
+
+        /* MAIN CONTENT */
+        .cu-main-bg { flex: 1; background: #f7f7f7; overflow: hidden; }
+        .cu-grid {
+          display: grid; grid-template-columns: 1fr;
+          grid-template-areas: "form" "sidebar";
+          gap: 20px; padding-top: 20px; padding-bottom: 24px;
+          align-items: start; width: 100%; box-sizing: border-box;
+        }
+        .cu-form-col { grid-area: form; min-width: 0; overflow: hidden; }
+        .cu-sidebar-col { grid-area: sidebar; min-width: 0; overflow: hidden; }
+        @media (min-width: 700px) {
+          .cu-grid {
+            grid-template-columns: 1fr 260px;
+            grid-template-areas: "form sidebar";
+            gap: 24px; padding-top: 32px; padding-bottom: 32px;
+          }
+        }
+        @media (min-width: 900px) {
+          .cu-grid { grid-template-columns: 1fr 300px; }
+        }
+
+        /* FORM */
+        .cu-form-title { font-size: 20px; font-weight: 700; color: #2a2a2a; margin: 0 0 4px; }
+        .cu-form-hr { border: none; border-top: 1px solid #e0e0e0; margin: 12px 0 20px; }
+        .cu-card {
+          background: #fff; border: 1px solid #e0e0e0;
+          border-radius: 4px; padding: 16px; box-sizing: border-box; width: 100%;
+        }
+        @media (min-width: 600px) {
+          .cu-card { padding: 24px 28px 20px; }
+        }
+        .cu-form-desc { color: #555; font-size: 13px; line-height: 1.6; margin: 0 0 20px; }
+        .cu-form-group { margin-bottom: 20px; }
+        .cu-form-label { display: block; font-weight: 600; font-size: 13px; color: #333; margin-bottom: 8px; }
+        .cu-select-wrap { position: relative; }
+        .cu-select {
+          width: 100%; padding: 10px 36px 10px 12px;
+          color: #333; border: 1px solid #ccc;
+          border-radius: 4px; background: #fff;
+          appearance: none; -webkit-appearance: none;
+          cursor: pointer; font-family: inherit; outline: none;
+          box-sizing: border-box; font-size: 16px;
+        }
+        @media (min-width: 600px) {
+          .cu-select { font-size: 14px; }
+        }
+        .cu-select-icon { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); pointer-events: none; }
+        .cu-form-hint { font-size: 12px; color: #666; }
+        .cu-required { color: #E8001C; font-weight: 700; }
+
+        /* TRENDING */
+        .cu-trending { border: 1px solid #e0e0e0; border-radius: 4px; overflow: hidden; }
+        .cu-trending-header { background: #fff; padding: 14px 20px; border-bottom: 1px solid #e0e0e0; }
+        .cu-trending-title { margin: 0; font-size: 14px; font-weight: 700; color: #333; }
+        .cu-trending-body { background: #f5f5f5; padding: 12px 20px; }
+        .cu-trending-item { padding: 6px 0; border-bottom: 1px solid #eee; }
+        .cu-trending-item:last-child { border-bottom: none; }
+        .cu-trending-link { color: #005f96; text-decoration: none; font-size: 13px; line-height: 1.4; display: block; }
+
+        /* SKYLINE */
+        .cu-skyline-bg { background: #f7f7f7; line-height: 0; margin-top: auto; }
+
+        /* FOOTER */
+        .cu-footer-bg { background: #f0f0f0; border-top: 1px solid #ddd; }
+        .cu-footer-row {
+          display: flex; flex-direction: column;
+          max-width: 1100px; margin: 0 auto;
+          padding: 16px; gap: 16px; box-sizing: border-box;
+        }
+        @media (min-width: 600px) {
+          .cu-footer-row {
+            flex-direction: row; align-items: center;
+            justify-content: space-between; padding: 16px 24px;
+          }
+        }
+        @media (min-width: 1000px) {
+          .cu-footer-row { padding: 16px 40px; }
+        }
+        .cu-footer-nav { display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: center; }
+        .cu-footer-link { color: #555; text-decoration: none; font-size: 13px; }
+        .cu-footer-btn { background: none; border: none; padding: 0; color: #555; font-size: 13px; cursor: pointer; font-family: inherit; }
+        .cu-badges { display: flex; gap: 10px; align-items: center; flex-shrink: 0; }
+        .cu-badge-img { height: 32px; display: block; }
+        @media (min-width: 600px) {
+          .cu-badge-img { height: 36px; }
+        }
+        .cu-copyright-bg { background: #E8001C; padding: 10px 20px; }
+        .cu-copyright-text { color: #fff; font-size: 13px; text-align: center; margin: 0; }
       `}</style>
 
-      {/* ── Post Ad Modal ── */}
-      <PostAdModal
-        isOpen={modalOpen}
-        onClose={() => setModalOpen(false)}
-      />
-
+      <PostAdModal isOpen={modalOpen} onClose={() => setModalOpen(false)} />
     </div>
   )
 }

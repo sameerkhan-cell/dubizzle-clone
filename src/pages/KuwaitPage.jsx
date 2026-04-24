@@ -264,9 +264,9 @@ function KuwaitNavbar({ onPostAd }) {
             style={{ minWidth: '4.1rem', maxWidth: '5.7rem' }}>
             العربية
           </a>
-          <button aria-label="Login" className="text-[14px] font-semibold text-gray-800 hover:text-[#DE1F26] transition-colors px-1">
+          <a href="/login" aria-label="Login" className="text-[14px] font-semibold text-gray-800 hover:text-[#DE1F26] transition-colors px-1">
             Login
-          </button>
+          </a>
           <button aria-label="Post your ad" type="button" onClick={onPostAd}
             className="bg-[#DE1F26] hover:bg-[#c01a20] text-white text-[14px] font-bold px-4 py-2 rounded transition-colors whitespace-nowrap">
             Post Your Ad

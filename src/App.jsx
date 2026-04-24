@@ -21,17 +21,29 @@ import JordanPage from './pages/JordanPage'
 import KuwaitPage from './pages/KuwaitPage'
 import OmanPage from './pages/OmanPage'
 import PakistanPage from './pages/PakistanPage'
+import LoginPage from './pages/LoginPage'
+import ProtectedActionPage from './pages/ProtectedActionPage'
+import ProductDetailPage from './pages/ProductDetailPage'
+import PropertyPage from './pages/PropertyPage'
+import MotorsPage from './pages/MotorsPage'
+import JobsPage from './pages/JobsPage'
+import ClassifiedsPage from './pages/ClassifiedsPage'
+import FurniturePage from './pages/FurniturePage'
+import MobilesPage from './pages/MobilesPage'
+import CommunityPage from './pages/CommunityPage'
 
 /* ── Mobile layout (additive — zero impact on desktop) ── */
 import ResponsivePage from './mobile/ResponsivePage'
 import MobileHome from './mobile/MobileHome'
+import MobileSearch from './mobile/MobileSearch'
+import MobileMenu from './mobile/MobileMenu'
 
 
 export default function App() {
   return (
     <Routes>
-      {/* Homepage — renders LandingPage on all devices */}
-      <Route path="/" element={<LandingPage />} />
+      {/* Homepage */}
+      <Route path="/" element={<ResponsivePage desktop={<LandingPage />} mobile={<MobileHome />} />} />
 
       {/* UAE city pages: mobile → MobileHome, desktop → existing page */}
       <Route path="/dubai" element={<ResponsivePage desktop={<DubaiPage />} mobile={<MobileHome city="Dubai" />} />} />
@@ -59,6 +71,26 @@ export default function App() {
       <Route path="/contact-us" element={<ContactUs />} />
       <Route path="/terms" element={<TermsPage />} />
       <Route path="/help" element={<HelpCenterPage />} />
+      <Route path="/login" element={<LoginPage />} />
+      <Route path="/property" element={<ResponsivePage desktop={<PropertyPage />} mobile={<MobileHome />} />} />
+      <Route path="/motors" element={<ResponsivePage desktop={<MotorsPage />} mobile={<MobileHome />} />} />
+      <Route path="/jobs" element={<ResponsivePage desktop={<JobsPage />} mobile={<MobileHome />} />} />
+      <Route path="/classifieds" element={<ResponsivePage desktop={<ClassifiedsPage />} mobile={<MobileHome />} />} />
+      <Route path="/furniture-and-garden" element={<ResponsivePage desktop={<FurniturePage />} mobile={<MobileHome />} />} />
+      <Route path="/mobiles-and-tablets" element={<ResponsivePage desktop={<MobilesPage />} mobile={<MobileHome />} />} />
+      <Route path="/community" element={<ResponsivePage desktop={<CommunityPage />} mobile={<MobileHome />} />} />
+
+      {/* Protected Action Prompts */}
+      <Route path="/notifications" element={<ProtectedActionPage />} />
+      <Route path="/favourites" element={<ProtectedActionPage />} />
+      <Route path="/chats" element={<ProtectedActionPage />} />
+      <Route path="/my-ads" element={<ProtectedActionPage />} />
+
+      {/* Product Detail Page */}
+      <Route path="/item/:id" element={<ProductDetailPage />} />
+      {/* Mobile Pages */}
+      <Route path="/mobile-search" element={<MobileSearch />} />
+      <Route path="/mobile-menu" element={<MobileMenu />} />
     </Routes>
   )
 }

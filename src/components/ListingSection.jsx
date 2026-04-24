@@ -1,5 +1,6 @@
 import { useState, useRef } from 'react'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
+import { Link } from 'react-router-dom'
 
 export default function ListingSection({ title, url = '#', listings }) {
     const scrollRef = useRef(null)
@@ -42,8 +43,9 @@ export default function ListingSection({ title, url = '#', listings }) {
                     className="scrollbar-hide flex snap-x snap-mandatory gap-4 overflow-x-auto pb-4"
                 >
                     {listings.map((listing, i) => (
-                        <div
+                        <Link
                             key={i}
+                            to={`/item/${listing.id}`}
                             className="flex w-[260px] shrink-0 snap-start flex-col overflow-hidden rounded-lg border border-[#E0E0E0] bg-white transition-shadow hover:shadow-card-hover sm:w-[240px] md:w-[260px] lg:w-[280px]"
                         >
                             <div className="relative">
@@ -74,7 +76,7 @@ export default function ListingSection({ title, url = '#', listings }) {
                                     {listing.location}
                                 </div>
                             </div>
-                        </div>
+                        </Link>
                     ))}
                 </div>
 

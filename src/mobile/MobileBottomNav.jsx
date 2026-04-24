@@ -10,25 +10,31 @@ import {
 
 const tabs = [
   { id: 'home',   label: 'Home',   icon: Home,           path: '/' },
-  { id: 'search', label: 'Search', icon: Search,         path: null },
-  { id: 'add',    label: 'Place Ad', icon: PlusCircle,   path: null },
-  { id: 'chat',   label: 'Chat',   icon: MessageCircle,  path: null },
-  { id: 'menu',   label: 'Menu',   icon: User,           path: null },
+  { id: 'search', label: 'Search', icon: Search,         path: '/mobile-search' },
+  { id: 'add',    label: 'Place Ad', icon: PlusCircle,   path: '/login' },
+  { id: 'chat',   label: 'Chat',   icon: MessageCircle,  path: '/login' },
+  { id: 'menu',   label: 'Menu',   icon: User,           path: '/mobile-menu' },
 ]
 
 export default function MobileBottomNav() {
   const navigate = useNavigate()
   const location = useLocation()
 
-  const activeId =
+  let activeId = null;
+  if (location.pathname === '/mobile-search') {
+    activeId = 'search'
+  } else if (location.pathname === '/mobile-menu') {
+    activeId = 'menu'
+  } else if (
     location.pathname === '/' ||
     location.pathname.startsWith('/dubai') ||
     location.pathname.startsWith('/abu-dhabi') ||
     location.pathname.startsWith('/city/') ||
     location.pathname.startsWith('/egypt') ||
     location.pathname.startsWith('/bahrain')
-      ? 'home'
-      : null
+  ) {
+    activeId = 'home'
+  }
 
   return (
     <nav
@@ -80,24 +86,27 @@ export default function MobileBottomNav() {
               /* ── Prominent center "Place Ad" button ── */
               <div
                 style={{
-                  width: 50,
-                  height: 50,
+                  width: 46,
+                  height: 46,
                   borderRadius: '50%',
                   background: '#E8001C',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  marginTop: -18,
+                  marginTop: -24,
+                  marginBottom: 4,
                   boxShadow: '0 4px 14px rgba(232,0,28,0.35)',
+                  border: '3px solid #fff'
                 }}
               >
-                <Icon size={26} color="#fff" strokeWidth={2.2} />
+                <Icon size={24} color="#fff" strokeWidth={2.5} />
               </div>
             ) : (
               <Icon
                 size={22}
                 strokeWidth={1.8}
                 color={isActive ? '#E8001C' : '#888888'}
+                style={{ marginBottom: 4 }}
               />
             )}
             <span
@@ -106,7 +115,6 @@ export default function MobileBottomNav() {
                 fontWeight: isActive ? 700 : 500,
                 color: isCenter ? '#E8001C' : isActive ? '#E8001C' : '#888888',
                 lineHeight: 1,
-                marginTop: isCenter ? 2 : 0,
               }}
             >
               {tab.label}

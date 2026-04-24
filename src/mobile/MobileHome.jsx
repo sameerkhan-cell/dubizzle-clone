@@ -4,22 +4,19 @@ import {
   Search,
   MapPin,
   ChevronDown,
-  ChevronRight,
   Car,
   Home as HomeIcon,
   Building2,
   Package,
   Briefcase,
   Users,
-  Factory,
-  Tv2,
   Armchair,
-  Smartphone,
   Star,
-  Flame,
+  Settings2
 } from 'lucide-react'
 import MobileBottomNav from './MobileBottomNav'
 import Logo from '../components/Logo'
+import { getProductsByCategory } from '../data/mockProducts'
 
 /* ─── City → route map ─── */
 const cityRoutes = {
@@ -39,206 +36,187 @@ const cityRoutes = {
   'Pakistan':        '/pakistan',
 }
 
-/* ─── Category data with navigation paths ─── */
+/* ─── Category data with navigation paths (3x3 grid) ─── */
 const mobileCategories = [
-  { title: 'Motors',               icon: Car,         bg: '#FEE2E2', color: '#E8001C', slug: 'motors' },
-  { title: 'Property\nfor Rent',   icon: HomeIcon,    bg: '#DCFCE7', color: '#16A34A', slug: 'property-for-rent' },
-  { title: 'Property\nfor Sale',   icon: Building2,   bg: '#DCFCE7', color: '#16A34A', slug: 'property-for-sale' },
-  { title: 'Classifieds',          icon: Package,     bg: '#DBEAFE', color: '#2563EB', slug: 'classifieds' },
-  { title: 'Jobs',                 icon: Briefcase,   bg: '#DBEAFE', color: '#2563EB', slug: 'jobs' },
-  { title: 'Community',            icon: Users,       bg: '#F3F4F6', color: '#4B5563', slug: 'community' },
-  { title: 'Business &\nIndustrial', icon: Factory,   bg: '#F3F4F6', color: '#4B5563', slug: 'business' },
-  { title: 'Home\nAppliances',     icon: Tv2,         bg: '#FFF7ED', color: '#EA580C', slug: 'home-appliances' },
-  { title: 'Furniture\n& Garden',  icon: Armchair,    bg: '#FFF7ED', color: '#EA580C', slug: 'furniture' },
-  { title: 'Mobile\nPhones',       icon: Smartphone,  bg: '#F3E8FF', color: '#9333EA', slug: 'mobiles' },
-  { title: 'New Projects',         icon: Star,        bg: '#FEE2E2', color: '#E8001C', slug: 'new-projects' },
-  { title: 'Trending',             icon: Flame,       bg: '#FEF3C7', color: '#D97706', slug: 'trending' },
+  { title: 'Property for Rent',    icon: HomeIcon,    color: '#E8001C', slug: 'property' },
+  { title: 'Property for Sale',    icon: Building2,   color: '#E8001C', slug: 'property' },
+  { title: 'Off-Plan Properties',  icon: Star,        color: '#E8001C', slug: 'property' },
+  { title: 'Rooms For Rent',       icon: HomeIcon,    color: '#E8001C', slug: 'property' },
+  { title: 'Motors',               icon: Car,         color: '#E8001C', slug: 'motors' },
+  { title: 'Jobs',                 icon: Briefcase,   color: '#E8001C', slug: 'jobs' },
+  { title: 'Classifieds',          icon: Package,     color: '#E8001C', slug: 'classifieds' },
+  { title: 'Furniture, Home &\nGarden', icon: Armchair, color: '#E8001C', slug: 'furniture-and-garden' },
+  { title: 'Community',            icon: Users,       color: '#E8001C', slug: 'community' },
 ]
 
-/* ─── Sample featured listings ─── */
-const featuredListings = [
-  {
-    image: 'https://images.unsplash.com/photo-1503377211516-79ef88fb03b3?auto=format&fit=crop&w=400&q=80',
-    title: 'Porsche Panamera 4S',
-    price: 'AED 89,000',
-    location: 'Dubai',
-    tag: 'FEATURED',
-    category: 'motors',
-  },
-  {
-    image: 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=400&q=80',
-    title: '3 Bed 4 Bath Apartment',
-    price: 'AED 200,000',
-    location: 'Dubai South',
-    tag: 'FEATURED',
-    category: 'property-for-rent',
-  },
-  {
-    image: 'https://images.unsplash.com/photo-1598327105666-5b89351aff97?auto=format&fit=crop&w=400&q=80',
-    title: 'Samsung Z Fold 7',
-    price: 'AED 5,200',
-    location: 'Dubai',
-    tag: null,
-    category: 'mobiles',
-  },
-  {
-    image: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=400&q=80',
-    title: '3 Bed Townhouse',
-    price: 'AED 95,000',
-    location: 'DAMAC Hills',
-    tag: 'FEATURED',
-    category: 'property-for-sale',
-  },
-  {
-    image: 'https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=400&q=80',
-    title: 'Hyundai Elantra GLX',
-    price: 'AED 52,000',
-    location: 'Dubai',
-    tag: null,
-    category: 'motors',
-  },
-]
-
-/* ─── Quick links per city ─── */
-function getQuickLinks(city, cityRoute) {
-  return [
-    { label: 'Used Cars for Sale',       path: `${cityRoute}?category=motors` },
-    { label: 'Properties for Rent',      path: `${cityRoute}?category=property-for-rent` },
-    { label: 'Apartments for Sale',      path: `${cityRoute}?category=property-for-sale` },
-    { label: `Jobs in ${city}`,          path: `${cityRoute}?category=jobs` },
-    { label: 'Mobile Phones & Tablets',  path: `${cityRoute}?category=mobiles` },
-    { label: 'Furniture & Garden',       path: `${cityRoute}?category=furniture` },
-  ]
-}
-
-/* ─── Component ─── */
 export default function MobileHome({ city = 'Dubai' }) {
-  const [searchQuery, setSearchQuery] = useState('')
   const navigate = useNavigate()
   const cityRoute = cityRoutes[city] || '/dubai'
 
+  // Data fetching for carousels
+  const motors = getProductsByCategory('car')
+  const furniture = getProductsByCategory('furn')
+  const propertySale = getProductsByCategory('sale')
+  const computers = getProductsByCategory('comp')
+  const mobiles = getProductsByCategory('mob')
+  const rooms = getProductsByCategory('room')
+  const sports = getProductsByCategory('sport')
+
+  const renderCarousel = (title, items) => {
+    if (!items || items.length === 0) return null;
+    return (
+      <section style={{ padding: '16px 0 8px' }}>
+        <div style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          padding: '0 16px',
+          marginBottom: 12,
+        }}>
+          <h2 style={{ fontSize: 16, fontWeight: 700, color: '#222' }}>
+            {title}
+          </h2>
+          <Link
+            to={`/`}
+            style={{ color: '#888' }}
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M5 12h14m-7-7 7 7-7 7"/></svg>
+          </Link>
+        </div>
+
+        <div
+          style={{
+            display: 'flex',
+            gap: 12,
+            overflowX: 'auto',
+            paddingLeft: 16,
+            paddingRight: 16,
+            paddingBottom: 8,
+            scrollSnapType: 'x mandatory',
+            WebkitOverflowScrolling: 'touch',
+          }}
+          className="scrollbar-hide"
+        >
+          {items.map((item, i) => (
+            <Link
+              key={item.id}
+              to={`/item/${item.id}`}
+              style={{
+                flex: '0 0 calc(50% - 6px)',
+                scrollSnapAlign: 'start',
+                textDecoration: 'none',
+              }}
+            >
+              <div style={{ borderRadius: 8, overflow: 'hidden', marginBottom: 8, height: 120 }}>
+                <img
+                  src={item.image}
+                  alt={item.title}
+                  style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                />
+              </div>
+              <div>
+                <p style={{ fontSize: 14, fontWeight: 700, color: '#E8001C', margin: '0 0 4px' }}>
+                  {item.price}
+                </p>
+                <p style={{
+                  fontSize: 13,
+                  fontWeight: 600,
+                  color: '#222',
+                  margin: '0 0 4px',
+                  display: '-webkit-box',
+                  WebkitLineClamp: 2,
+                  WebkitBoxOrient: 'vertical',
+                  overflow: 'hidden',
+                  lineHeight: '1.2'
+                }}>
+                  {item.title}
+                </p>
+                <p style={{ fontSize: 12, color: '#888', margin: 0, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                  {item.details}
+                </p>
+              </div>
+            </Link>
+          ))}
+        </div>
+      </section>
+    )
+  }
+
   return (
-    <div style={{ background: '#F5F5F5', minHeight: '100vh', paddingBottom: 80, fontFamily: "'Inter', sans-serif" }}>
+    <div style={{ background: '#fff', minHeight: '100vh', paddingBottom: 80, fontFamily: "'Inter', sans-serif" }}>
       {/* ── Header ── */}
       <header style={{
         background: '#fff',
         padding: '12px 16px',
         display: 'flex',
         alignItems: 'center',
-        justifyContent: 'space-between',
-        borderBottom: '1px solid #E0E0E0',
-        position: 'sticky',
-        top: 0,
-        zIndex: 100,
+        justifyContent: 'center',
+        position: 'relative',
       }}>
-        <Link to="/" style={{ display: 'flex', alignItems: 'center' }}>
-          <Logo width={95} height={22} />
-        </Link>
-        <Link
-          to="/"
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: 4,
-            textDecoration: 'none',
-            padding: '4px 8px',
-            borderRadius: 6,
-          }}
-        >
-          <MapPin size={16} color="#E8001C" />
-          <span style={{ fontSize: 14, fontWeight: 600, color: '#333' }}>{city}</span>
-          <ChevronDown size={14} color="#888" />
-        </Link>
+        <Logo width={100} height={24} />
       </header>
 
       {/* ── Search Bar ── */}
-      <div style={{ padding: '12px 16px 8px', background: '#fff' }}>
+      <div style={{ padding: '8px 16px', background: '#fff' }}>
         <div style={{
           display: 'flex',
           alignItems: 'center',
           gap: 10,
-          background: '#F5F5F5',
-          borderRadius: 10,
-          padding: '0 14px',
-          height: 44,
-          border: '1px solid #E8E8E8',
-        }}>
-          <Search size={18} color="#999" strokeWidth={2} />
-          <input
-            type="text"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Search for anything..."
-            style={{
-              flex: 1,
-              border: 'none',
-              background: 'transparent',
-              outline: 'none',
-              fontSize: 15,
-              color: '#333',
-              fontFamily: 'inherit',
-            }}
-          />
+          background: '#fff',
+          borderRadius: 8,
+          border: '1px solid #E0E0E0',
+          padding: '8px 12px',
+        }} onClick={() => navigate('/mobile-search')}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <div style={{ background: '#E8001C', padding: 4, borderRadius: 4 }}>
+              <Settings2 size={16} color="#fff" />
+            </div>
+          </div>
+          <div style={{
+            flex: 1,
+            fontSize: 14,
+            color: '#888',
+          }}>
+            Search for anything
+          </div>
+          <Search size={18} color="#888" />
         </div>
       </div>
 
-      {/* ── Browse Categories (all clickable) ── */}
-      <section style={{ padding: '20px 16px 12px' }}>
-        <h2 style={{ fontSize: 17, fontWeight: 700, color: '#333', marginBottom: 14 }}>
-          Browse Categories
-        </h2>
+      {/* ── Browse Categories (3x3 grid) ── */}
+      <section style={{ padding: '16px 16px' }}>
         <div style={{
           display: 'grid',
           gridTemplateColumns: 'repeat(3, 1fr)',
-          gap: 10,
+          gap: '12px',
         }}>
           {mobileCategories.map((cat) => {
             const Icon = cat.icon
             return (
               <Link
                 key={cat.title}
-                to={`${cityRoute}?category=${cat.slug}`}
+                to={`/${cat.slug}`}
                 style={{
                   display: 'flex',
                   flexDirection: 'column',
                   alignItems: 'center',
                   justifyContent: 'center',
                   gap: 8,
-                  padding: '16px 6px 14px',
-                  background: '#fff',
+                  padding: '16px 8px',
+                  background: '#FDFDFD',
                   borderRadius: 12,
                   border: '1px solid #F0F0F0',
-                  cursor: 'pointer',
-                  transition: 'transform 0.15s, box-shadow 0.15s',
-                  boxShadow: '0 1px 4px rgba(0,0,0,0.04)',
                   textDecoration: 'none',
-                }}
-                onTouchStart={(e) => {
-                  e.currentTarget.style.transform = 'scale(0.95)'
-                  e.currentTarget.style.boxShadow = '0 2px 8px rgba(0,0,0,0.10)'
-                }}
-                onTouchEnd={(e) => {
-                  e.currentTarget.style.transform = 'scale(1)'
-                  e.currentTarget.style.boxShadow = '0 1px 4px rgba(0,0,0,0.04)'
+                  boxShadow: '0 2px 8px rgba(0,0,0,0.02)',
                 }}
               >
-                <div style={{
-                  width: 44,
-                  height: 44,
-                  borderRadius: 12,
-                  background: cat.bg,
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}>
-                  <Icon size={22} color={cat.color} strokeWidth={2} />
-                </div>
+                <Icon size={24} color={cat.color} strokeWidth={1.5} />
                 <span style={{
                   fontSize: 11,
-                  fontWeight: 600,
-                  color: '#444',
+                  fontWeight: 700,
+                  color: '#222',
                   textAlign: 'center',
-                  lineHeight: 1.3,
+                  lineHeight: 1.2,
                   whiteSpace: 'pre-line',
                 }}>
                   {cat.title}
@@ -249,134 +227,77 @@ export default function MobileHome({ city = 'Dubai' }) {
         </div>
       </section>
 
-      {/* ── Featured Listings (all clickable) ── */}
-      <section style={{ padding: '8px 0 16px' }}>
+      {/* ── TruEstimate Banner ── */}
+      <div style={{ padding: '0 16px 16px' }}>
         <div style={{
+          background: '#fff',
+          border: '1px solid #FEE2E2',
+          borderRadius: 12,
+          padding: '16px',
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          position: 'relative',
+          overflow: 'hidden'
+        }}>
+          <div style={{ zIndex: 2 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 4 }}>
+              <h3 style={{ fontSize: 16, fontWeight: 700, color: '#222' }}>TruEstimate™</h3>
+              <span style={{ background: '#E8001C', color: '#fff', fontSize: 10, fontWeight: 700, padding: '2px 6px', borderRadius: 4 }}>NEW</span>
+            </div>
+            <p style={{ fontSize: 12, color: '#666', marginBottom: 12 }}>Learn your property's<br/>value today</p>
+            <button style={{ color: '#E8001C', fontSize: 12, fontWeight: 700, display: 'flex', alignItems: 'center', gap: 4, background: 'none', border: 'none', padding: 0 }}>
+              Get Your TruEstimate™ <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M5 12h14m-7-7 7 7-7 7"/></svg>
+            </button>
+          </div>
+          <img 
+            src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=200&q=80" 
+            alt="Buildings" 
+            style={{ width: 100, height: 80, objectFit: 'cover', opacity: 0.8, borderRadius: 8, zIndex: 1 }}
+          />
+        </div>
+      </div>
+
+      {/* ── Get Verified Banner ── */}
+      <div style={{ padding: '0 16px 16px' }}>
+        <div style={{
+          background: '#1A73E8',
+          borderRadius: 12,
+          padding: '16px',
           display: 'flex',
           alignItems: 'center',
-          justifyContent: 'space-between',
-          padding: '0 16px',
-          marginBottom: 12,
+          gap: 16,
         }}>
-          <h2 style={{ fontSize: 17, fontWeight: 700, color: '#333' }}>
-            Featured
-          </h2>
-          <Link
-            to={`${cityRoute}?category=featured`}
-            style={{ fontSize: 13, fontWeight: 600, color: '#E8001C', textDecoration: 'none' }}
-          >
-            View all
-          </Link>
-        </div>
-
-        <div
-          style={{
+          <div style={{
+            width: 48,
+            height: 48,
+            borderRadius: '50%',
+            border: '2px solid #fff',
             display: 'flex',
-            gap: 10,
-            overflowX: 'auto',
-            paddingLeft: 16,
-            paddingRight: 16,
-            paddingBottom: 4,
-            scrollSnapType: 'x mandatory',
-            WebkitOverflowScrolling: 'touch',
-          }}
-          className="scrollbar-hide"
-        >
-          {featuredListings.map((item, i) => (
-            <Link
-              key={i}
-              to={`${cityRoute}?category=${item.category}`}
-              style={{
-                flex: '0 0 200px',
-                scrollSnapAlign: 'start',
-                background: '#fff',
-                borderRadius: 12,
-                overflow: 'hidden',
-                border: '1px solid #F0F0F0',
-                boxShadow: '0 1px 6px rgba(0,0,0,0.05)',
-                textDecoration: 'none',
-                transition: 'transform 0.15s',
-              }}
-              onTouchStart={(e) => { e.currentTarget.style.transform = 'scale(0.97)' }}
-              onTouchEnd={(e) => { e.currentTarget.style.transform = 'scale(1)' }}
-            >
-              <div style={{ position: 'relative' }}>
-                <img
-                  src={item.image}
-                  alt={item.title}
-                  style={{ width: '100%', height: 130, objectFit: 'cover', display: 'block' }}
-                />
-                {item.tag && (
-                  <span style={{
-                    position: 'absolute',
-                    top: 8,
-                    left: 8,
-                    background: '#E8001C',
-                    color: '#fff',
-                    fontSize: 9,
-                    fontWeight: 700,
-                    padding: '3px 6px',
-                    borderRadius: 4,
-                    letterSpacing: '0.02em',
-                  }}>
-                    {item.tag}
-                  </span>
-                )}
-              </div>
-              <div style={{ padding: '10px 12px 12px' }}>
-                <p style={{ fontSize: 15, fontWeight: 700, color: '#E8001C', margin: '0 0 4px' }}>
-                  {item.price}
-                </p>
-                <p style={{
-                  fontSize: 13,
-                  fontWeight: 600,
-                  color: '#333',
-                  margin: '0 0 4px',
-                  overflow: 'hidden',
-                  textOverflow: 'ellipsis',
-                  whiteSpace: 'nowrap',
-                }}>
-                  {item.title}
-                </p>
-                <p style={{ fontSize: 11, color: '#888', margin: 0 }}>
-                  {item.location}
-                </p>
-              </div>
-            </Link>
-          ))}
+            alignItems: 'center',
+            justifyContent: 'center',
+            background: 'rgba(255,255,255,0.2)'
+          }}>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>
+          </div>
+          <div>
+            <h3 style={{ fontSize: 14, fontWeight: 700, color: '#fff', marginBottom: 2 }}>Verify your account</h3>
+            <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.8)', marginBottom: 8 }}>Get more visibility<br/>Enhance your credibility</p>
+            <button style={{ background: '#fff', color: '#1A73E8', border: 'none', borderRadius: 4, padding: '4px 12px', fontSize: 12, fontWeight: 700 }}>
+              Get Verified
+            </button>
+          </div>
         </div>
-      </section>
+      </div>
 
-      {/* ── Popular Quick Links (all clickable) ── */}
-      <section style={{ padding: '8px 16px 20px' }}>
-        <h2 style={{ fontSize: 17, fontWeight: 700, color: '#333', marginBottom: 12 }}>
-          Popular in {city}
-        </h2>
-        {getQuickLinks(city, cityRoute).map((link) => (
-          <Link
-            key={link.label}
-            to={link.path}
-            style={{
-              background: '#fff',
-              borderRadius: 10,
-              padding: '13px 16px',
-              marginBottom: 6,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              border: '1px solid #F0F0F0',
-              cursor: 'pointer',
-              textDecoration: 'none',
-              transition: 'background 0.15s',
-            }}
-            onTouchStart={(e) => { e.currentTarget.style.background = '#F9F9F9' }}
-            onTouchEnd={(e) => { e.currentTarget.style.background = '#fff' }}
-          >
-            <span style={{ fontSize: 14, fontWeight: 500, color: '#333' }}>{link.label}</span>
-            <ChevronRight size={16} color="#ccc" />
-          </Link>
-        ))}
-      </section>
+      {/* ── Carousels ── */}
+      {renderCarousel('Popular in Cars', motors)}
+      {renderCarousel('Popular in Furniture & Garden', furniture)}
+      {renderCarousel('Popular in Residential for Sale', propertySale)}
+      {renderCarousel('Popular in Computers & Networking', computers)}
+      {renderCarousel('Popular in Mobile Phones & Tablets', mobiles)}
+      {renderCarousel('Popular in Rooms for Rent', rooms)}
+      {renderCarousel('Popular in Sports Equipment', sports)}
 
       {/* ── Bottom Nav ── */}
       <MobileBottomNav />

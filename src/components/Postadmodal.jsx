@@ -9,7 +9,7 @@ import { useState, useEffect, useRef } from 'react'
 ───────────────────────────────────────────── */
 
 export default function PostAdModal({ isOpen, onClose }) {
-  const [step, setStep] = useState(1)
+  const [step, setStep] = useState(2)
   const [phone, setPhone] = useState('')
   const [previews, setPreviews] = useState([])
   const [visible, setVisible] = useState(false)
@@ -18,7 +18,7 @@ export default function PostAdModal({ isOpen, onClose }) {
   /* animate in/out */
   useEffect(() => {
     if (isOpen) {
-      setStep(1)
+      setStep(2)
       setPhone('')
       setPreviews([])
       requestAnimationFrame(() => setVisible(true))
@@ -67,7 +67,7 @@ export default function PostAdModal({ isOpen, onClose }) {
           borderRadius: 16,
           width: '100%',
           maxWidth: step === 3 ? 520 : 400,
-          padding: step === 4 ? '40px 28px' : '32px 28px 28px',
+          padding: step === 4 ? '40px 28px' : '28px 28px 24px',
           position: 'relative',
           boxShadow: '0 8px 48px rgba(0,0,0,0.18)',
           transform: visible ? 'translateY(0) scale(1)' : 'translateY(16px) scale(0.97)',
@@ -82,10 +82,10 @@ export default function PostAdModal({ isOpen, onClose }) {
           <button onClick={handleClose} style={styles.closeBtn}>✕</button>
         )}
 
-        {/* Step dots */}
+        {/* Step dots - 2 steps: Phone + Post Ad */}
         {step !== 4 && (
           <div style={styles.stepRow}>
-            {[1, 2, 3].map((s) => (
+            {[2, 3].map((s) => (
               <div
                 key={s}
                 style={{
@@ -99,7 +99,6 @@ export default function PostAdModal({ isOpen, onClose }) {
           </div>
         )}
 
-        {step === 1 && <LoginStep onNext={() => setStep(2)} />}
         {step === 2 && (
           <PhoneStep
             phone={phone}
@@ -122,47 +121,197 @@ export default function PostAdModal({ isOpen, onClose }) {
   )
 }
 
-/* ─── Step 1: Login ─── */
+/* ─── Step 1: Login (matches LoginPage design) ─── */
 function LoginStep({ onNext }) {
+  const [tab, setTab] = useState('login')
+
+  // Login state
+  const [loginEmail, setLoginEmail] = useState('')
+  const [loginPass, setLoginPass] = useState('')
+  const [showLoginPass, setShowLoginPass] = useState(false)
+  const [loginErrors, setLoginErrors] = useState({})
+  const [loginSubmitted, setLoginSubmitted] = useState(false)
+
+  // Signup state
+  const [signupName, setSignupName] = useState('')
+  const [signupEmail, setSignupEmail] = useState('')
+  const [signupPass, setSignupPass] = useState('')
+  const [signupConfirm, setSignupConfirm] = useState('')
+  const [showSignupPass, setShowSignupPass] = useState(false)
+  const [signupErrors, setSignupErrors] = useState({})
+  const [signupSubmitted, setSignupSubmitted] = useState(false)
+
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+
+  function validateLogin() {
+    const e = {}
+    if (!loginEmail.trim()) e.email = 'Email is required'
+    else if (!emailRegex.test(loginEmail)) e.email = 'Enter a valid email address'
+    if (!loginPass) e.pass = 'Password is required'
+    else if (loginPass.length < 6) e.pass = 'Min. 6 characters'
+    return e
+  }
+
+  function validateSignup() {
+    const e = {}
+    if (!signupName.trim()) e.name = 'Full name is required'
+    if (!signupEmail.trim()) e.email = 'Email is required'
+    else if (!emailRegex.test(signupEmail)) e.email = 'Enter a valid email address'
+    if (!signupPass) e.pass = 'Password is required'
+    else if (signupPass.length < 6) e.pass = 'Min. 6 characters'
+    if (!signupConfirm) e.confirm = 'Please confirm your password'
+    else if (signupConfirm !== signupPass) e.confirm = 'Passwords do not match'
+    return e
+  }
+
+  function handleLoginSubmit(ev) {
+    ev.preventDefault()
+    setLoginSubmitted(true)
+    const e = validateLogin()
+    setLoginErrors(e)
+    if (Object.keys(e).length === 0) onNext()
+  }
+
+  function handleSignupSubmit(ev) {
+    ev.preventDefault()
+    setSignupSubmitted(true)
+    const e = validateSignup()
+    setSignupErrors(e)
+    if (Object.keys(e).length === 0) onNext()
+  }
+
+  function handleLoginChange(field, val) {
+    if (field === 'email') setLoginEmail(val)
+    if (field === 'pass') setLoginPass(val)
+    if (loginSubmitted) setLoginErrors(validateLogin())
+  }
+
+  function handleSignupChange(field, val) {
+    if (field === 'name') setSignupName(val)
+    if (field === 'email') setSignupEmail(val)
+    if (field === 'pass') setSignupPass(val)
+    if (field === 'confirm') setSignupConfirm(val)
+    if (signupSubmitted) setSignupErrors(validateSignup())
+  }
+
+  const inp = (err) => ({
+    padding: '11px 14px', width: '100%', border: `1.5px solid ${err ? '#e8192c' : '#e5e5e5'}`,
+    borderRadius: 8, fontFamily: 'inherit', fontSize: 14, color: '#222', outline: 'none',
+    background: err ? '#fff5f5' : '#fff', boxSizing: 'border-box', transition: 'border-color 0.15s',
+  })
+  const fieldErr = (msg) => msg ? <p style={{ margin: '4px 0 0', fontSize: 11, color: '#e8192c' }}>⚠ {msg}</p> : null
+
   return (
     <>
-      {/* Logo */}
-      <div style={{ textAlign: 'center', marginBottom: 20 }}>
-        <div style={{ fontSize: 28 }}>🔥</div>
-        <div style={{ fontSize: 24, fontWeight: 700, letterSpacing: -0.5 }}>
-          du<span style={{ color: '#e8192c' }}>b</span>izzle
-        </div>
-        <div style={{ fontSize: 11, color: '#aaa' }}>formerly OLX</div>
+      {/* Tab bar */}
+      <div style={{ display: 'flex', borderBottom: '1.5px solid #f0f0f0', marginBottom: 20 }}>
+        {['login', 'signup'].map(t => (
+          <button key={t} onClick={() => setTab(t)} style={{
+            flex: 1, padding: '10px 0', background: 'none', border: 'none',
+            borderBottom: tab === t ? '2px solid #e8192c' : '2px solid transparent',
+            color: tab === t ? '#e8192c' : '#aaa', fontFamily: 'inherit',
+            fontSize: 14, fontWeight: 700, cursor: 'pointer', transition: 'all 0.15s',
+          }}>
+            {t === 'login' ? 'Log In' : 'Sign Up'}
+          </button>
+        ))}
       </div>
 
-      <h2 style={styles.h2}>Login into your Dubizzle<br />account</h2>
-
-      {/* Google */}
+      {/* Social buttons */}
       <button style={styles.socialBtn} onClick={onNext}>
-        <GoogleIcon />
-        Login with Google
+        <GoogleIcon />{tab === 'login' ? 'Continue with Google' : 'Sign up with Google'}
       </button>
-
-      {/* Facebook */}
       <button style={styles.socialBtn} onClick={onNext}>
-        <FacebookIcon />
-        Login with Facebook
+        <FacebookIcon />{tab === 'login' ? 'Continue with Facebook' : 'Sign up with Facebook'}
       </button>
+      <div style={styles.orDivider}><div style={styles.divLine}/><span>OR</span><div style={styles.divLine}/></div>
 
-      <div style={styles.orDivider}>
-        <div style={styles.divLine} /><span>OR</span><div style={styles.divLine} />
-      </div>
+      {/* LOGIN FORM */}
+      {tab === 'login' && (
+        <form onSubmit={handleLoginSubmit} noValidate style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+          <div>
+            <label style={{ display: 'block', fontSize: 12, fontWeight: 600, color: '#444', marginBottom: 5 }}>Email address</label>
+            <input type="email" value={loginEmail} onChange={e => handleLoginChange('email', e.target.value)}
+              placeholder="you@example.com" style={inp(loginErrors.email)} />
+            {fieldErr(loginErrors.email)}
+          </div>
+          <div>
+            <label style={{ display: 'block', fontSize: 12, fontWeight: 600, color: '#444', marginBottom: 5 }}>Password</label>
+            <div style={{ position: 'relative' }}>
+              <input type={showLoginPass ? 'text' : 'password'} value={loginPass}
+                onChange={e => handleLoginChange('pass', e.target.value)}
+                placeholder="Min. 6 characters" style={{ ...inp(loginErrors.pass), paddingRight: 40 }} />
+              <button type="button" onClick={() => setShowLoginPass(v => !v)}
+                style={{ position: 'absolute', right: 10, top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}>
+                <EyeIcon show={showLoginPass} />
+              </button>
+            </div>
+            {fieldErr(loginErrors.pass)}
+          </div>
+          <button type="submit" style={{ ...styles.submitBtn, background: '#e8192c', color: '#fff', cursor: 'pointer', marginTop: 4 }}>
+            Log In
+          </button>
+        </form>
+      )}
 
-      {/* Email */}
-      <button style={styles.emailBtn} onClick={onNext}>
-        <EmailIcon />
-        Login with Email
-      </button>
+      {/* SIGNUP FORM */}
+      {tab === 'signup' && (
+        <form onSubmit={handleSignupSubmit} noValidate style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+          <div>
+            <label style={{ display: 'block', fontSize: 12, fontWeight: 600, color: '#444', marginBottom: 5 }}>Full name</label>
+            <input type="text" value={signupName} onChange={e => handleSignupChange('name', e.target.value)}
+              placeholder="Your full name" style={inp(signupErrors.name)} />
+            {fieldErr(signupErrors.name)}
+          </div>
+          <div>
+            <label style={{ display: 'block', fontSize: 12, fontWeight: 600, color: '#444', marginBottom: 5 }}>Email address</label>
+            <input type="email" value={signupEmail} onChange={e => handleSignupChange('email', e.target.value)}
+              placeholder="you@example.com" style={inp(signupErrors.email)} />
+            {fieldErr(signupErrors.email)}
+          </div>
+          <div>
+            <label style={{ display: 'block', fontSize: 12, fontWeight: 600, color: '#444', marginBottom: 5 }}>Password</label>
+            <div style={{ position: 'relative' }}>
+              <input type={showSignupPass ? 'text' : 'password'} value={signupPass}
+                onChange={e => handleSignupChange('pass', e.target.value)}
+                placeholder="Min. 6 characters" style={{ ...inp(signupErrors.pass), paddingRight: 40 }} />
+              <button type="button" onClick={() => setShowSignupPass(v => !v)}
+                style={{ position: 'absolute', right: 10, top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}>
+                <EyeIcon show={showSignupPass} />
+              </button>
+            </div>
+            {fieldErr(signupErrors.pass)}
+          </div>
+          <div>
+            <label style={{ display: 'block', fontSize: 12, fontWeight: 600, color: '#444', marginBottom: 5 }}>Confirm password</label>
+            <input type="password" value={signupConfirm} onChange={e => handleSignupChange('confirm', e.target.value)}
+              placeholder="Re-enter your password" style={inp(signupErrors.confirm)} />
+            {fieldErr(signupErrors.confirm)}
+          </div>
+          <button type="submit" style={{ ...styles.submitBtn, background: '#e8192c', color: '#fff', cursor: 'pointer', marginTop: 4 }}>
+            Create Account
+          </button>
+        </form>
+      )}
 
-      <div style={styles.signupLink}>New to Dubizzle? Create an account</div>
+      <p style={{ textAlign: 'center', marginTop: 16, fontSize: 12, color: '#888' }}>
+        {tab === 'login'
+          ? <span>Don't have an account? <button onClick={() => setTab('signup')} style={{ background: 'none', border: 'none', color: '#e8192c', fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit', fontSize: 12 }}>Sign Up</button></span>
+          : <span>Already have an account? <button onClick={() => setTab('login')} style={{ background: 'none', border: 'none', color: '#e8192c', fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit', fontSize: 12 }}>Log In</button></span>
+        }
+      </p>
     </>
   )
 }
+
+function EyeIcon({ show }) {
+  return show ? (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#999" strokeWidth="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+  ) : (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#999" strokeWidth="2"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+  )
+}
+
 
 /* ─── Step 2: Phone ─── */
 function PhoneStep({ phone, setPhone, onNext }) {
@@ -209,6 +358,40 @@ function PhoneStep({ phone, setPhone, onNext }) {
 
 /* ─── Step 3: Post Ad ─── */
 function PostAdStep({ previews, fileRef, onImageChange, removePreview, onSubmit }) {
+  const [form, setForm] = useState({ category: '', title: '', description: '', price: '', city: '', condition: '' })
+  const [errors, setErrors] = useState({})
+  const [submitted, setSubmitted] = useState(false)
+
+  function validate(f) {
+    const e = {}
+    if (!f.category) e.category = 'Please select a category'
+    if (!f.title.trim()) e.title = 'Ad title is required'
+    else if (f.title.trim().length < 5) e.title = 'Title must be at least 5 characters'
+    if (!f.description.trim()) e.description = 'Description is required'
+    else if (f.description.trim().length < 10) e.description = 'Description must be at least 10 characters'
+    if (!f.price) e.price = 'Price is required'
+    else if (isNaN(f.price) || Number(f.price) < 0) e.price = 'Enter a valid price'
+    if (!f.city) e.city = 'Please select a city'
+    return e
+  }
+
+  function set(field, val) {
+    const next = { ...form, [field]: val }
+    setForm(next)
+    if (submitted) setErrors(validate(next))
+  }
+
+  function handleSubmit() {
+    setSubmitted(true)
+    const e = validate(form)
+    setErrors(e)
+    if (Object.keys(e).length === 0) onSubmit()
+  }
+
+  const ctrl = (field) => ({
+    style: { ...styles.control, borderColor: errors[field] ? '#e8192c' : '#e5e5e5', background: errors[field] ? '#fff5f5' : '#fff' }
+  })
+
   return (
     <>
       <h2 style={{ fontSize: 20, fontWeight: 700, marginBottom: 4 }}>Place your ad</h2>
@@ -217,44 +400,53 @@ function PostAdStep({ previews, fileRef, onImageChange, removePreview, onSubmit 
       </p>
 
       <FormGroup label="Category" required>
-        <select style={styles.control}>
+        <select value={form.category} onChange={e => set('category', e.target.value)} {...ctrl('category')}>
           <option value="">Select a category</option>
           {['Mobile Phones', 'Vehicles', 'Property for Rent', 'Property for Sale',
             'Electronics', 'Furniture & Garden', 'Jobs', 'Sports Equipment', 'Rooms for Rent'].map(c => (
             <option key={c}>{c}</option>
           ))}
         </select>
+        {errors.category && <p style={styles.fieldErr}>⚠ {errors.category}</p>}
       </FormGroup>
 
       <FormGroup label="Ad Title" required>
-        <input style={styles.control} type="text" placeholder="e.g. iPhone 15 Pro Max 256GB" />
+        <input value={form.title} onChange={e => set('title', e.target.value)} style={{ ...styles.control, borderColor: errors.title ? '#e8192c' : '#e5e5e5', background: errors.title ? '#fff5f5' : '#fff' }} type="text" placeholder="e.g. iPhone 15 Pro Max 256GB" />
+        {errors.title && <p style={styles.fieldErr}>⚠ {errors.title}</p>}
       </FormGroup>
 
       <FormGroup label="Description" required>
         <textarea
-          style={{ ...styles.control, resize: 'vertical', minHeight: 90 }}
+          value={form.description}
+          onChange={e => set('description', e.target.value)}
+          style={{ ...styles.control, resize: 'vertical', minHeight: 90, borderColor: errors.description ? '#e8192c' : '#e5e5e5', background: errors.description ? '#fff5f5' : '#fff' }}
           placeholder="Describe condition, features, reason for selling…"
         />
+        {errors.description && <p style={styles.fieldErr}>⚠ {errors.description}</p>}
       </FormGroup>
 
       <FormGroup label="Price (AED)" required>
         <div style={{ display: 'flex', gap: 8 }}>
           <div style={styles.currencyBadge}>AED</div>
-          <input style={{ ...styles.control, flex: 1 }} type="number" placeholder="0" />
+          <div style={{ flex: 1 }}>
+            <input value={form.price} onChange={e => set('price', e.target.value)} style={{ ...styles.control, borderColor: errors.price ? '#e8192c' : '#e5e5e5', background: errors.price ? '#fff5f5' : '#fff' }} type="number" placeholder="0" />
+            {errors.price && <p style={styles.fieldErr}>⚠ {errors.price}</p>}
+          </div>
         </div>
       </FormGroup>
 
       <div style={{ display: 'flex', gap: 12 }}>
         <FormGroup label="City" required style={{ flex: 1 }}>
-          <select style={styles.control}>
+          <select value={form.city} onChange={e => set('city', e.target.value)} style={{ ...styles.control, borderColor: errors.city ? '#e8192c' : '#e5e5e5', background: errors.city ? '#fff5f5' : '#fff' }}>
             <option value="">Select city</option>
             {['Dubai', 'Abu Dhabi', 'Sharjah', 'Ajman', 'Ras Al Khaimah'].map(c => (
               <option key={c}>{c}</option>
             ))}
           </select>
+          {errors.city && <p style={styles.fieldErr}>⚠ {errors.city}</p>}
         </FormGroup>
         <FormGroup label="Condition" style={{ flex: 1 }}>
-          <select style={styles.control}>
+          <select value={form.condition} onChange={e => set('condition', e.target.value)} style={styles.control}>
             <option value="">Select</option>
             {['New', 'Like New', 'Good', 'Fair', 'For Parts'].map(c => (
               <option key={c}>{c}</option>
@@ -306,7 +498,7 @@ function PostAdStep({ previews, fileRef, onImageChange, removePreview, onSubmit 
       </FormGroup>
 
       <button
-        onClick={onSubmit}
+        onClick={handleSubmit}
         style={styles.postBtn}
         onMouseEnter={e => e.currentTarget.style.background = '#c41424'}
         onMouseLeave={e => e.currentTarget.style.background = '#e8192c'}
@@ -316,6 +508,7 @@ function PostAdStep({ previews, fileRef, onImageChange, removePreview, onSubmit 
     </>
   )
 }
+
 
 /* ─── Step 4: Success ─── */
 function SuccessStep({ onClose }) {
@@ -503,5 +696,9 @@ const styles = {
     color: '#fff', border: 'none', borderRadius: 8,
     fontFamily: 'inherit', fontSize: 15, fontWeight: 600,
     cursor: 'pointer', transition: 'background 0.15s',
+  },
+  fieldErr: {
+    margin: '4px 0 0', fontSize: 12, color: '#e8192c',
+    display: 'flex', alignItems: 'center', gap: 4,
   },
 }
