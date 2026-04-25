@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 /* ─────────────────────────────────────────────
    PostAdModal
@@ -9,18 +10,16 @@ import { useState, useEffect, useRef } from 'react'
 ───────────────────────────────────────────── */
 
 export default function PostAdModal({ isOpen, onClose }) {
-  const [step, setStep] = useState(2)
-  const [phone, setPhone] = useState('')
-  const [previews, setPreviews] = useState([])
+  const [step, setStep] = useState(1)
+  const [phoneData, setPhoneData] = useState({ code: '+971', number: '' })
   const [visible, setVisible] = useState(false)
-  const fileRef = useRef(null)
+  const navigate = useNavigate()
 
   /* animate in/out */
   useEffect(() => {
     if (isOpen) {
-      setStep(2)
-      setPhone('')
-      setPreviews([])
+      setStep(1)
+      setPhoneData({ code: '+971', number: '' })
       requestAnimationFrame(() => setVisible(true))
     } else {
       setVisible(false)
@@ -34,16 +33,6 @@ export default function PostAdModal({ isOpen, onClose }) {
   const handleClose = () => {
     setVisible(false)
     setTimeout(() => onClose(), 200)
-  }
-
-  const handleImageChange = (e) => {
-    const files = Array.from(e.target.files).slice(0, 10)
-    files.forEach((file) => {
-      const reader = new FileReader()
-      reader.onload = (ev) =>
-        setPreviews((prev) => [...prev, ev.target.result].slice(0, 10))
-      reader.readAsDataURL(file)
-    })
   }
 
   if (!isOpen) return null
@@ -66,8 +55,8 @@ export default function PostAdModal({ isOpen, onClose }) {
           background: '#fff',
           borderRadius: 16,
           width: '100%',
-          maxWidth: step === 3 ? 520 : 400,
-          padding: step === 4 ? '40px 28px' : '28px 28px 24px',
+          maxWidth: 440,
+          padding: '40px 32px 32px',
           position: 'relative',
           boxShadow: '0 8px 48px rgba(0,0,0,0.18)',
           transform: visible ? 'translateY(0) scale(1)' : 'translateY(16px) scale(0.97)',
@@ -78,244 +67,113 @@ export default function PostAdModal({ isOpen, onClose }) {
         }}
       >
         {/* Close button */}
-        {step !== 4 && (
+        {step !== 5 && (
           <button onClick={handleClose} style={styles.closeBtn}>✕</button>
         )}
 
-        {/* Step dots - 2 steps: Phone + Post Ad */}
-        {step !== 4 && (
-          <div style={styles.stepRow}>
-            {[2, 3].map((s) => (
-              <div
-                key={s}
-                style={{
-                  ...styles.dot,
-                  background: s === step ? '#e8192c' : s < step ? 'rgba(232,25,44,0.35)' : '#e5e5e5',
-                  width: s === step ? 22 : 8,
-                  borderRadius: s === step ? 4 : '50%',
-                }}
-              />
-            ))}
-          </div>
+        {step === 1 && (
+          <LoginStep onNext={() => setStep(2)} />
         )}
-
         {step === 2 && (
           <PhoneStep
-            phone={phone}
-            setPhone={setPhone}
-            onNext={() => setStep(3)}
+            phoneData={phoneData}
+            setPhoneData={setPhoneData}
+            onNext={() => {
+              handleClose();
+              navigate('/place-an-ad');
+            }}
           />
         )}
-        {step === 3 && (
-          <PostAdStep
-            previews={previews}
-            fileRef={fileRef}
-            onImageChange={handleImageChange}
-            removePreview={(i) => setPreviews((p) => p.filter((_, idx) => idx !== i))}
-            onSubmit={() => setStep(4)}
-          />
-        )}
-        {step === 4 && <SuccessStep onClose={handleClose} />}
       </div>
     </div>
   )
 }
 
-/* ─── Step 1: Login (matches LoginPage design) ─── */
+/* ─── Step 1: Login ─── */
 function LoginStep({ onNext }) {
-  const [tab, setTab] = useState('login')
-
-  // Login state
-  const [loginEmail, setLoginEmail] = useState('')
-  const [loginPass, setLoginPass] = useState('')
-  const [showLoginPass, setShowLoginPass] = useState(false)
-  const [loginErrors, setLoginErrors] = useState({})
-  const [loginSubmitted, setLoginSubmitted] = useState(false)
-
-  // Signup state
-  const [signupName, setSignupName] = useState('')
-  const [signupEmail, setSignupEmail] = useState('')
-  const [signupPass, setSignupPass] = useState('')
-  const [signupConfirm, setSignupConfirm] = useState('')
-  const [showSignupPass, setShowSignupPass] = useState(false)
-  const [signupErrors, setSignupErrors] = useState({})
-  const [signupSubmitted, setSignupSubmitted] = useState(false)
-
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-
-  function validateLogin() {
-    const e = {}
-    if (!loginEmail.trim()) e.email = 'Email is required'
-    else if (!emailRegex.test(loginEmail)) e.email = 'Enter a valid email address'
-    if (!loginPass) e.pass = 'Password is required'
-    else if (loginPass.length < 6) e.pass = 'Min. 6 characters'
-    return e
-  }
-
-  function validateSignup() {
-    const e = {}
-    if (!signupName.trim()) e.name = 'Full name is required'
-    if (!signupEmail.trim()) e.email = 'Email is required'
-    else if (!emailRegex.test(signupEmail)) e.email = 'Enter a valid email address'
-    if (!signupPass) e.pass = 'Password is required'
-    else if (signupPass.length < 6) e.pass = 'Min. 6 characters'
-    if (!signupConfirm) e.confirm = 'Please confirm your password'
-    else if (signupConfirm !== signupPass) e.confirm = 'Passwords do not match'
-    return e
-  }
-
-  function handleLoginSubmit(ev) {
-    ev.preventDefault()
-    setLoginSubmitted(true)
-    const e = validateLogin()
-    setLoginErrors(e)
-    if (Object.keys(e).length === 0) onNext()
-  }
-
-  function handleSignupSubmit(ev) {
-    ev.preventDefault()
-    setSignupSubmitted(true)
-    const e = validateSignup()
-    setSignupErrors(e)
-    if (Object.keys(e).length === 0) onNext()
-  }
-
-  function handleLoginChange(field, val) {
-    if (field === 'email') setLoginEmail(val)
-    if (field === 'pass') setLoginPass(val)
-    if (loginSubmitted) setLoginErrors(validateLogin())
-  }
-
-  function handleSignupChange(field, val) {
-    if (field === 'name') setSignupName(val)
-    if (field === 'email') setSignupEmail(val)
-    if (field === 'pass') setSignupPass(val)
-    if (field === 'confirm') setSignupConfirm(val)
-    if (signupSubmitted) setSignupErrors(validateSignup())
-  }
-
-  const inp = (err) => ({
-    padding: '11px 14px', width: '100%', border: `1.5px solid ${err ? '#e8192c' : '#e5e5e5'}`,
-    borderRadius: 8, fontFamily: 'inherit', fontSize: 14, color: '#222', outline: 'none',
-    background: err ? '#fff5f5' : '#fff', boxSizing: 'border-box', transition: 'border-color 0.15s',
-  })
-  const fieldErr = (msg) => msg ? <p style={{ margin: '4px 0 0', fontSize: 11, color: '#e8192c' }}>⚠ {msg}</p> : null
-
   return (
-    <>
-      {/* Tab bar */}
-      <div style={{ display: 'flex', borderBottom: '1.5px solid #f0f0f0', marginBottom: 20 }}>
-        {['login', 'signup'].map(t => (
-          <button key={t} onClick={() => setTab(t)} style={{
-            flex: 1, padding: '10px 0', background: 'none', border: 'none',
-            borderBottom: tab === t ? '2px solid #e8192c' : '2px solid transparent',
-            color: tab === t ? '#e8192c' : '#aaa', fontFamily: 'inherit',
-            fontSize: 14, fontWeight: 700, cursor: 'pointer', transition: 'all 0.15s',
-          }}>
-            {t === 'login' ? 'Log In' : 'Sign Up'}
-          </button>
-        ))}
+    <div style={{ textAlign: 'center' }}>
+      <div style={{ marginBottom: 24, display: 'inline-block', position: 'relative' }}>
+        <svg width="80" height="80" viewBox="0 0 100 100" fill="none">
+          <rect x="35" y="20" width="30" height="40" rx="4" fill="#E8E8E8" />
+          <rect x="40" y="28" width="20" height="4" rx="2" fill="#D1D1D1" />
+          <rect x="40" y="36" width="20" height="4" rx="2" fill="#D1D1D1" />
+          <rect x="40" y="44" width="20" height="4" rx="2" fill="#D1D1D1" />
+          <rect x="40" y="52" width="20" height="4" rx="2" fill="#A8A8A8" />
+          <circle cx="65" cy="20" r="8" fill="#e8192c" />
+          <path d="M65 16v8M61 20h8" stroke="#fff" strokeWidth="2" strokeLinecap="round" />
+        </svg>
       </div>
 
-      {/* Social buttons */}
-      <button style={styles.socialBtn} onClick={onNext}>
-        <GoogleIcon />{tab === 'login' ? 'Continue with Google' : 'Sign up with Google'}
-      </button>
-      <button style={styles.socialBtn} onClick={onNext}>
-        <FacebookIcon />{tab === 'login' ? 'Continue with Facebook' : 'Sign up with Facebook'}
-      </button>
-      <div style={styles.orDivider}><div style={styles.divLine}/><span>OR</span><div style={styles.divLine}/></div>
+      <h2 style={{ fontSize: 22, fontWeight: 700, color: '#222', marginBottom: 28 }}>Log in to post an ad</h2>
 
-      {/* LOGIN FORM */}
-      {tab === 'login' && (
-        <form onSubmit={handleLoginSubmit} noValidate style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-          <div>
-            <label style={{ display: 'block', fontSize: 12, fontWeight: 600, color: '#444', marginBottom: 5 }}>Email address</label>
-            <input type="email" value={loginEmail} onChange={e => handleLoginChange('email', e.target.value)}
-              placeholder="you@example.com" style={inp(loginErrors.email)} />
-            {fieldErr(loginErrors.email)}
-          </div>
-          <div>
-            <label style={{ display: 'block', fontSize: 12, fontWeight: 600, color: '#444', marginBottom: 5 }}>Password</label>
-            <div style={{ position: 'relative' }}>
-              <input type={showLoginPass ? 'text' : 'password'} value={loginPass}
-                onChange={e => handleLoginChange('pass', e.target.value)}
-                placeholder="Min. 6 characters" style={{ ...inp(loginErrors.pass), paddingRight: 40 }} />
-              <button type="button" onClick={() => setShowLoginPass(v => !v)}
-                style={{ position: 'absolute', right: 10, top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}>
-                <EyeIcon show={showLoginPass} />
-              </button>
-            </div>
-            {fieldErr(loginErrors.pass)}
-          </div>
-          <button type="submit" style={{ ...styles.submitBtn, background: '#e8192c', color: '#fff', cursor: 'pointer', marginTop: 4 }}>
-            Log In
-          </button>
-        </form>
-      )}
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+        <button style={styles.loginOptionBtn} onClick={onNext}>
+          <FacebookIcon /> Continue with Facebook
+        </button>
+        <button style={styles.loginOptionBtn} onClick={onNext}>
+          <GoogleIcon /> Continue with Google
+        </button>
+        <button style={styles.loginOptionBtn} onClick={onNext}>
+          <AppleIcon /> Continue with Apple
+        </button>
+        <button style={styles.loginOptionBtn} onClick={onNext}>
+          <EmailIcon /> Continue with Email
+        </button>
+      </div>
 
-      {/* SIGNUP FORM */}
-      {tab === 'signup' && (
-        <form onSubmit={handleSignupSubmit} noValidate style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-          <div>
-            <label style={{ display: 'block', fontSize: 12, fontWeight: 600, color: '#444', marginBottom: 5 }}>Full name</label>
-            <input type="text" value={signupName} onChange={e => handleSignupChange('name', e.target.value)}
-              placeholder="Your full name" style={inp(signupErrors.name)} />
-            {fieldErr(signupErrors.name)}
-          </div>
-          <div>
-            <label style={{ display: 'block', fontSize: 12, fontWeight: 600, color: '#444', marginBottom: 5 }}>Email address</label>
-            <input type="email" value={signupEmail} onChange={e => handleSignupChange('email', e.target.value)}
-              placeholder="you@example.com" style={inp(signupErrors.email)} />
-            {fieldErr(signupErrors.email)}
-          </div>
-          <div>
-            <label style={{ display: 'block', fontSize: 12, fontWeight: 600, color: '#444', marginBottom: 5 }}>Password</label>
-            <div style={{ position: 'relative' }}>
-              <input type={showSignupPass ? 'text' : 'password'} value={signupPass}
-                onChange={e => handleSignupChange('pass', e.target.value)}
-                placeholder="Min. 6 characters" style={{ ...inp(signupErrors.pass), paddingRight: 40 }} />
-              <button type="button" onClick={() => setShowSignupPass(v => !v)}
-                style={{ position: 'absolute', right: 10, top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}>
-                <EyeIcon show={showSignupPass} />
-              </button>
-            </div>
-            {fieldErr(signupErrors.pass)}
-          </div>
-          <div>
-            <label style={{ display: 'block', fontSize: 12, fontWeight: 600, color: '#444', marginBottom: 5 }}>Confirm password</label>
-            <input type="password" value={signupConfirm} onChange={e => handleSignupChange('confirm', e.target.value)}
-              placeholder="Re-enter your password" style={inp(signupErrors.confirm)} />
-            {fieldErr(signupErrors.confirm)}
-          </div>
-          <button type="submit" style={{ ...styles.submitBtn, background: '#e8192c', color: '#fff', cursor: 'pointer', marginTop: 4 }}>
-            Create Account
-          </button>
-        </form>
-      )}
-
-      <p style={{ textAlign: 'center', marginTop: 16, fontSize: 12, color: '#888' }}>
-        {tab === 'login'
-          ? <span>Don't have an account? <button onClick={() => setTab('signup')} style={{ background: 'none', border: 'none', color: '#e8192c', fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit', fontSize: 12 }}>Sign Up</button></span>
-          : <span>Already have an account? <button onClick={() => setTab('login')} style={{ background: 'none', border: 'none', color: '#e8192c', fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit', fontSize: 12 }}>Log In</button></span>
-        }
+      <p style={{ marginTop: 24, fontSize: 14 }}>
+        <button style={{ background: 'none', border: 'none', color: '#e8192c', fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit' }}>
+          Don't have an account? Create one
+        </button>
       </p>
-    </>
+    </div>
   )
 }
-
-function EyeIcon({ show }) {
-  return show ? (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#999" strokeWidth="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-  ) : (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#999" strokeWidth="2"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
-  )
-}
-
 
 /* ─── Step 2: Phone ─── */
-function PhoneStep({ phone, setPhone, onNext }) {
-  const valid = phone.replace(/\D/g, '').length >= 9
+const countryCodes = [
+  { code: '+971', flag: '🇦🇪', name: 'United Arab Emirates' },
+  { code: '+92', flag: '🇵🇰', name: 'Pakistan' },
+  { code: '+968', flag: '🇴🇲', name: 'Oman' },
+  { code: '+965', flag: '🇰🇼', name: 'Kuwait' },
+  { code: '+962', flag: '🇯🇴', name: 'Jordan' },
+  { code: '+20', flag: '🇪🇬', name: 'Egypt' },
+  { code: '+966', flag: '🇸🇦', name: 'Saudi Arabia' },
+  { code: '+974', flag: '🇶🇦', name: 'Qatar' },
+  { code: '+973', flag: '🇧🇭', name: 'Bahrain' },
+  { code: '+1', flag: '🇺🇸', name: 'United States' },
+  { code: '+44', flag: '🇬🇧', name: 'United Kingdom' },
+  { code: '+91', flag: '🇮🇳', name: 'India' },
+  { code: '+61', flag: '🇦🇺', name: 'Australia' },
+  { code: '+86', flag: '🇨🇳', name: 'China' },
+  { code: '+49', flag: '🇩🇪', name: 'Germany' },
+  { code: '+33', flag: '🇫🇷', name: 'France' },
+  { code: '+81', flag: '🇯🇵', name: 'Japan' },
+  { code: '+7', flag: '🇷🇺', name: 'Russia' },
+  { code: '+27', flag: '🇿🇦', name: 'South Africa' },
+  { code: '+82', flag: '🇰🇷', name: 'South Korea' },
+  { code: '+34', flag: '🇪🇸', name: 'Spain' },
+  { code: '+90', flag: '🇹🇷', name: 'Turkey' }
+];
+
+function PhoneStep({ phoneData, setPhoneData, onNext }) {
+  const [error, setError] = useState('');
+  
+  const numberOnly = phoneData.number.replace(/\D/g, '');
+  const valid = numberOnly.length >= 7 && numberOnly.length <= 15;
+
+  const handleSubmit = () => {
+    if (!valid) {
+      setError('Please enter a valid phone number (7-15 digits).');
+      return;
+    }
+    setError('');
+    onNext();
+  };
+
+  const selectedCountry = countryCodes.find(c => c.code === phoneData.code) || countryCodes[0];
+
   return (
     <>
       <h2 style={{ ...styles.h2, textAlign: 'left', marginBottom: 12 }}>Enter phone number</h2>
@@ -327,22 +185,41 @@ function PhoneStep({ phone, setPhone, onNext }) {
       </p>
 
       <label style={styles.inputLabel}>Phone number</label>
-      <div style={styles.phoneRow}>
-        <div style={styles.phoneFlag}>
-          <span style={{ fontSize: 18 }}>🇦🇪</span>
-          <span style={{ fontSize: 13, fontWeight: 500 }}>+971</span>
+      <div style={{ ...styles.phoneRow, borderColor: error ? '#e8192c' : '#e5e5e5', background: error ? '#fff5f5' : '#fff' }}>
+        <div style={styles.phoneFlagWrapper}>
+          <select
+            value={phoneData.code}
+            onChange={(e) => setPhoneData({ ...phoneData, code: e.target.value })}
+            style={styles.phoneSelect}
+          >
+            {countryCodes.map((c, i) => (
+              <option key={i} value={c.code}>
+                {c.flag} {c.code} ({c.name})
+              </option>
+            ))}
+          </select>
+          <div style={styles.phoneFlagDisplay}>
+            <span style={{ fontSize: 18 }}>{selectedCountry.flag}</span>
+            <span style={{ fontSize: 13, fontWeight: 500 }}>{selectedCountry.code}</span>
+            <span style={{ fontSize: 10, color: '#666', marginLeft: 4 }}>▼</span>
+          </div>
         </div>
         <input
           type="tel"
-          value={phone}
-          onChange={(e) => setPhone(e.target.value)}
+          value={phoneData.number}
+          onChange={(e) => {
+            const onlyNums = e.target.value.replace(/\D/g, '');
+            setPhoneData({ ...phoneData, number: onlyNums });
+            if (error) setError('');
+          }}
           placeholder="Enter phone number"
           style={styles.phoneInput}
         />
       </div>
+      {error && <p style={styles.fieldErr}>⚠ {error}</p>}
 
       <button
-        onClick={valid ? onNext : undefined}
+        onClick={handleSubmit}
         style={{
           ...styles.submitBtn,
           background: valid ? '#e8192c' : '#e5e5e5',
@@ -353,182 +230,6 @@ function PhoneStep({ phone, setPhone, onNext }) {
         Submit
       </button>
     </>
-  )
-}
-
-/* ─── Step 3: Post Ad ─── */
-function PostAdStep({ previews, fileRef, onImageChange, removePreview, onSubmit }) {
-  const [form, setForm] = useState({ category: '', title: '', description: '', price: '', city: '', condition: '' })
-  const [errors, setErrors] = useState({})
-  const [submitted, setSubmitted] = useState(false)
-
-  function validate(f) {
-    const e = {}
-    if (!f.category) e.category = 'Please select a category'
-    if (!f.title.trim()) e.title = 'Ad title is required'
-    else if (f.title.trim().length < 5) e.title = 'Title must be at least 5 characters'
-    if (!f.description.trim()) e.description = 'Description is required'
-    else if (f.description.trim().length < 10) e.description = 'Description must be at least 10 characters'
-    if (!f.price) e.price = 'Price is required'
-    else if (isNaN(f.price) || Number(f.price) < 0) e.price = 'Enter a valid price'
-    if (!f.city) e.city = 'Please select a city'
-    return e
-  }
-
-  function set(field, val) {
-    const next = { ...form, [field]: val }
-    setForm(next)
-    if (submitted) setErrors(validate(next))
-  }
-
-  function handleSubmit() {
-    setSubmitted(true)
-    const e = validate(form)
-    setErrors(e)
-    if (Object.keys(e).length === 0) onSubmit()
-  }
-
-  const ctrl = (field) => ({
-    style: { ...styles.control, borderColor: errors[field] ? '#e8192c' : '#e5e5e5', background: errors[field] ? '#fff5f5' : '#fff' }
-  })
-
-  return (
-    <>
-      <h2 style={{ fontSize: 20, fontWeight: 700, marginBottom: 4 }}>Place your ad</h2>
-      <p style={{ fontSize: 13, color: '#666', marginBottom: 20 }}>
-        Fill in the details below to post your ad
-      </p>
-
-      <FormGroup label="Category" required>
-        <select value={form.category} onChange={e => set('category', e.target.value)} {...ctrl('category')}>
-          <option value="">Select a category</option>
-          {['Mobile Phones', 'Vehicles', 'Property for Rent', 'Property for Sale',
-            'Electronics', 'Furniture & Garden', 'Jobs', 'Sports Equipment', 'Rooms for Rent'].map(c => (
-            <option key={c}>{c}</option>
-          ))}
-        </select>
-        {errors.category && <p style={styles.fieldErr}>⚠ {errors.category}</p>}
-      </FormGroup>
-
-      <FormGroup label="Ad Title" required>
-        <input value={form.title} onChange={e => set('title', e.target.value)} style={{ ...styles.control, borderColor: errors.title ? '#e8192c' : '#e5e5e5', background: errors.title ? '#fff5f5' : '#fff' }} type="text" placeholder="e.g. iPhone 15 Pro Max 256GB" />
-        {errors.title && <p style={styles.fieldErr}>⚠ {errors.title}</p>}
-      </FormGroup>
-
-      <FormGroup label="Description" required>
-        <textarea
-          value={form.description}
-          onChange={e => set('description', e.target.value)}
-          style={{ ...styles.control, resize: 'vertical', minHeight: 90, borderColor: errors.description ? '#e8192c' : '#e5e5e5', background: errors.description ? '#fff5f5' : '#fff' }}
-          placeholder="Describe condition, features, reason for selling…"
-        />
-        {errors.description && <p style={styles.fieldErr}>⚠ {errors.description}</p>}
-      </FormGroup>
-
-      <FormGroup label="Price (AED)" required>
-        <div style={{ display: 'flex', gap: 8 }}>
-          <div style={styles.currencyBadge}>AED</div>
-          <div style={{ flex: 1 }}>
-            <input value={form.price} onChange={e => set('price', e.target.value)} style={{ ...styles.control, borderColor: errors.price ? '#e8192c' : '#e5e5e5', background: errors.price ? '#fff5f5' : '#fff' }} type="number" placeholder="0" />
-            {errors.price && <p style={styles.fieldErr}>⚠ {errors.price}</p>}
-          </div>
-        </div>
-      </FormGroup>
-
-      <div style={{ display: 'flex', gap: 12 }}>
-        <FormGroup label="City" required style={{ flex: 1 }}>
-          <select value={form.city} onChange={e => set('city', e.target.value)} style={{ ...styles.control, borderColor: errors.city ? '#e8192c' : '#e5e5e5', background: errors.city ? '#fff5f5' : '#fff' }}>
-            <option value="">Select city</option>
-            {['Dubai', 'Abu Dhabi', 'Sharjah', 'Ajman', 'Ras Al Khaimah'].map(c => (
-              <option key={c}>{c}</option>
-            ))}
-          </select>
-          {errors.city && <p style={styles.fieldErr}>⚠ {errors.city}</p>}
-        </FormGroup>
-        <FormGroup label="Condition" style={{ flex: 1 }}>
-          <select value={form.condition} onChange={e => set('condition', e.target.value)} style={styles.control}>
-            <option value="">Select</option>
-            {['New', 'Like New', 'Good', 'Fair', 'For Parts'].map(c => (
-              <option key={c}>{c}</option>
-            ))}
-          </select>
-        </FormGroup>
-      </div>
-
-      <FormGroup label="Photos">
-        <div
-          onClick={() => fileRef.current?.click()}
-          style={styles.uploadZone}
-          onMouseEnter={e => {
-            e.currentTarget.style.borderColor = '#e8192c'
-            e.currentTarget.style.background = '#fff0f1'
-            e.currentTarget.style.color = '#e8192c'
-          }}
-          onMouseLeave={e => {
-            e.currentTarget.style.borderColor = '#e5e5e5'
-            e.currentTarget.style.background = 'transparent'
-            e.currentTarget.style.color = '#aaa'
-          }}
-        >
-          <div style={{ fontSize: 26, marginBottom: 4 }}>📷</div>
-          <p style={{ fontSize: 13 }}>Tap to add photos</p>
-          <span style={{ fontSize: 11, color: '#aaa' }}>Up to 10 · JPG, PNG</span>
-        </div>
-        <input
-          ref={fileRef}
-          type="file"
-          accept="image/*"
-          multiple
-          style={{ display: 'none' }}
-          onChange={onImageChange}
-        />
-        {previews.length > 0 && (
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginTop: 10 }}>
-            {previews.map((src, i) => (
-              <div key={i} style={{ position: 'relative' }}>
-                <img src={src} alt="" style={styles.thumb} />
-                <button
-                  onClick={() => removePreview(i)}
-                  style={styles.removeThumb}
-                >✕</button>
-              </div>
-            ))}
-          </div>
-        )}
-      </FormGroup>
-
-      <button
-        onClick={handleSubmit}
-        style={styles.postBtn}
-        onMouseEnter={e => e.currentTarget.style.background = '#c41424'}
-        onMouseLeave={e => e.currentTarget.style.background = '#e8192c'}
-      >
-        Post Ad
-      </button>
-    </>
-  )
-}
-
-
-/* ─── Step 4: Success ─── */
-function SuccessStep({ onClose }) {
-  return (
-    <div style={{ textAlign: 'center' }}>
-      <div style={styles.successIcon}>✅</div>
-      <h2 style={{ fontSize: 22, fontWeight: 700, marginBottom: 8 }}>Ad Posted!</h2>
-      <p style={{ color: '#666', fontSize: 14, lineHeight: 1.6, marginBottom: 24 }}>
-        Your ad is live and will be seen by thousands of buyers.<br />
-        We'll notify you when someone contacts you.
-      </p>
-      <button
-        onClick={onClose}
-        style={styles.doneBtn}
-        onMouseEnter={e => e.currentTarget.style.background = '#c41424'}
-        onMouseLeave={e => e.currentTarget.style.background = '#e8192c'}
-      >
-        Done
-      </button>
-    </div>
   )
 }
 
@@ -572,8 +273,24 @@ function EmailIcon() {
   )
 }
 
+function AppleIcon() {
+  return (
+    <svg width="20" height="20" viewBox="0 0 24 24">
+      <path d="M16.82 15.65c-1.6 2.37-3.14 4.78-5.75 4.86-2.58.07-3.41-1.48-6.38-1.48-2.94 0-3.92 1.45-6.35 1.51-2.65.07-4.43-2.6-6.04-4.94C-.96 10.87.5 5.89 3.65 5.86c1.51-.02 2.87.99 3.82.99 1.01 0 2.65-1.22 4.48-1.04 1.9.18 3.51.91 4.5 2.34-3.83 2.15-3.16 7.42.37 7.5zm-3.55-11.83c1.02-1.25 1.7-2.98 1.51-4.72-1.5.06-3.26.97-4.32 2.22-.9.1-1.68 2.82-1.44 4.54 1.63.13 3.23-.8 4.25-2.04z" transform="translate(4, 2)" fill="#000"/>
+    </svg>
+  )
+}
+
 /* ─── Styles ─── */
 const styles = {
+  loginOptionBtn: {
+    width: '100%', display: 'flex', alignItems: 'center',
+    gap: 12, padding: '14px 20px',
+    border: '1.5px solid #eaeaea', borderRadius: 8,
+    background: '#fff', fontFamily: 'inherit',
+    fontSize: 15, fontWeight: 500, color: '#444',
+    cursor: 'pointer', transition: 'background 0.15s',
+  },
   closeBtn: {
     position: 'absolute', top: 14, right: 14,
     background: '#f2f2f2', border: 'none',
@@ -630,12 +347,26 @@ const styles = {
     display: 'flex', border: '1.5px solid #e5e5e5',
     borderRadius: 8, overflow: 'hidden',
   },
-  phoneFlag: {
-    display: 'flex', alignItems: 'center', gap: 6,
-    padding: '0 12px', background: '#f9f9f9',
+  phoneFlagWrapper: {
+    position: 'relative',
+    display: 'flex',
+    alignItems: 'center',
+    background: '#f9f9f9',
     borderRight: '1px solid #e5e5e5',
+  },
+  phoneSelect: {
+    position: 'absolute',
+    inset: 0,
+    opacity: 0,
+    cursor: 'pointer',
+    width: '100%',
+  },
+  phoneFlagDisplay: {
+    display: 'flex', alignItems: 'center', gap: 6,
+    padding: '0 12px',
     fontSize: 13, fontWeight: 500,
     whiteSpace: 'nowrap',
+    pointerEvents: 'none',
   },
   phoneInput: {
     flex: 1, border: 'none', outline: 'none',

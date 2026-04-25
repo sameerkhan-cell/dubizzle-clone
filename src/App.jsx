@@ -31,6 +31,7 @@ import ClassifiedsPage from './pages/ClassifiedsPage'
 import FurniturePage from './pages/FurniturePage'
 import MobilesPage from './pages/MobilesPage'
 import CommunityPage from './pages/CommunityPage'
+import PostAdPage from './pages/PostAdPage'
 
 /* ── Mobile layout (additive — zero impact on desktop) ── */
 import ResponsivePage from './mobile/ResponsivePage'
@@ -79,6 +80,7 @@ export default function App() {
       <Route path="/furniture-and-garden" element={<ResponsivePage desktop={<FurniturePage />} mobile={<MobileHome />} />} />
       <Route path="/mobiles-and-tablets" element={<ResponsivePage desktop={<MobilesPage />} mobile={<MobileHome />} />} />
       <Route path="/community" element={<ResponsivePage desktop={<CommunityPage />} mobile={<MobileHome />} />} />
+      <Route path="/place-an-ad" element={<PostAdPage />} />
 
       {/* Protected Action Prompts */}
       <Route path="/notifications" element={<ProtectedActionPage />} />
