@@ -103,8 +103,7 @@ function A({ href, children }) {
 ═══════════════════════════════════════════════ */
 export default function TermsPage() {
   const [activeSection, setActiveSection] = useState('terms-of-use')
-  const [mobileNavOpen, setMobileNavOpen] = useState(false)
-  const [modalOpen, setModalOpen] = useState(false)  // ← PostAdModal state
+    const [modalOpen, setModalOpen] = useState(false)  // ← PostAdModal state
   const contentRef = useRef(null)
 
   useEffect(() => {
@@ -127,7 +126,6 @@ export default function TermsPage() {
       const y = el.getBoundingClientRect().top + window.scrollY - 76
       window.scrollTo({ top: y, behavior: 'smooth' })
     }
-    setMobileNavOpen(false)
   }
 
   return (

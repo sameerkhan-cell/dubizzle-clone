@@ -373,7 +373,7 @@ export default function Navbar({ city = 'Dubai', onPostAd }) {
             {/* Right - Icons + Login + Place Ad */}
             <div className="flex items-center gap-3 sm:gap-4">
               <div className="hidden items-center gap-4 md:flex">
-                {iconActions.map(({ icon: Icon, label, path }) => {
+                {iconActions.map(({ label, path }) => {
                   const isActive = location.pathname === path
                   return (
                     <Link
@@ -601,7 +601,7 @@ export default function Navbar({ city = 'Dubai', onPostAd }) {
 
             {/* Icon actions */}
             <div className="flex flex-col gap-1 px-2 py-3">
-              {iconActions.map(({ icon: Icon, label, path }) => {
+              {iconActions.map(({ label, path }) => {
                 const isActive = location.pathname === path
                 return (
                   <Link

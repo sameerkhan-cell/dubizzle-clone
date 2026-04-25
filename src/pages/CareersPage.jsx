@@ -1,7 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { FaFacebook, FaInstagram, FaLinkedin, FaXTwitter, FaYoutube } from 'react-icons/fa6'
-import { footerSocialLinks } from '../components/Footer'
 import dubaiOffice1 from '../assets/dubai-office/dubai-1.png'
 import dubaiOffice2 from '../assets/dubai-office/dubai-2.png'
 import dubaiOffice3 from '../assets/dubai-office/dubai-3.png'
@@ -217,6 +216,7 @@ export default function CareersPage() {
   )
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setVisibleJobs(11)
   }, [searchTerm, workplaceFilter, locationFilter, departmentFilter, workTypeFilter])
 

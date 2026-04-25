@@ -188,6 +188,7 @@ export default function ProductDetailPage() {
     // Simulate fetch
     window.scrollTo(0, 0)
     const data = getProductById(id)
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setProduct(data)
     setLoading(false)
   }, [id])

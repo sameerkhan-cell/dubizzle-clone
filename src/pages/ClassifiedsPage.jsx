@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { Search, BadgeCheck } from 'lucide-react'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'

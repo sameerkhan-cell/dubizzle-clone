@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 /* ─────────────────────────────────────────────
@@ -18,6 +18,7 @@ export default function PostAdModal({ isOpen, onClose }) {
   /* animate in/out */
   useEffect(() => {
     if (isOpen) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setStep(1)
       setPhoneData({ code: '+971', number: '' })
       requestAnimationFrame(() => setVisible(true))

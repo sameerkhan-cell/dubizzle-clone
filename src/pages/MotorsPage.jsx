@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import { Search, CheckCircle2, MapPin, Calendar, Quote } from 'lucide-react'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'

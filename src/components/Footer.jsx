@@ -62,7 +62,6 @@ const footerColumns = [
   },
 ]
 
-export const footerSocialLinks = footerColumns.find((column) => column.title === 'Get Social')?.links ?? []
 
 /* ─── Call Us Modal ─── */
 function CallUsModal({ onClose }) {

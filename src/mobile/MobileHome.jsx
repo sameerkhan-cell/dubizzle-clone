@@ -1,4 +1,4 @@
-import { useState } from 'react'
+/* eslint-disable no-unused-vars */
 import { Link, useNavigate } from 'react-router-dom'
 import {
   Search,
@@ -51,8 +51,7 @@ const mobileCategories = [
 
 export default function MobileHome({ city = 'Dubai' }) {
   const navigate = useNavigate()
-  const cityRoute = cityRoutes[city] || '/dubai'
-
+  
   // Data fetching for carousels
   const motors = getProductsByCategory('car')
   const furniture = getProductsByCategory('furn')

@@ -1,0 +1,116 @@
+﻿
+> dubizzle-clone@0.0.0 lint
+> eslint .
+
+
+C:\Users\MICR TRAD\dubizzle-clone\src\components\ContactUs.jsx
+  102:10  error  'showCallModal' is assigned a value but never used. Allowed unused vars must match /^[A-Z_]/u  no-unused-vars
+
+C:\Users\MICR TRAD\dubizzle-clone\src\components\Footer.jsx
+  65:14  error  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+C:\Users\MICR TRAD\dubizzle-clone\src\components\Navbar.jsx
+  376:43  error  'Icon' is defined but never used  no-unused-vars
+  604:41  error  'Icon' is defined but never used  no-unused-vars
+
+C:\Users\MICR TRAD\dubizzle-clone\src\components\PostAdModal.jsx
+   1:31  error  'useRef' is defined but never used. Allowed unused vars must match /^[A-Z_]/u                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  no-unused-vars
+  21:7   error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+  19 |   useEffect(() => {
+  20 |     if (isOpen) {
+> 21 |       setStep(1)
+     |       ^^^^^^^ Avoid calling setState() directly within an effect
+  22 |       setPhoneData({ code: '+971', number: '' })
+  23 |       requestAnimationFrame(() => setVisible(true))
+  24 |     } else {  react-hooks/set-state-in-effect
+
+C:\Users\MICR TRAD\dubizzle-clone\src\components\VerticalListingCard.jsx
+  4:56  error  'urlPrefix' is defined but never used  no-unused-vars
+
+C:\Users\MICR TRAD\dubizzle-clone\src\hooks\useIsMobile.js
+  23:5  error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+  21 |
+  22 |     // Sync on mount
+> 23 |     setIsMobile(mql.matches)
+     |     ^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  24 |
+  25 |     return () => {
+  26 |       if (mql.removeEventListener) {  react-hooks/set-state-in-effect
+
+C:\Users\MICR TRAD\dubizzle-clone\src\mobile\MobileBottomNav.jsx
+  1:10  error  'useState' is defined but never used. Allowed unused vars must match /^[A-Z_]/u  no-unused-vars
+
+C:\Users\MICR TRAD\dubizzle-clone\src\mobile\MobileHome.jsx
+    1:10  error  'useState' is defined but never used. Allowed unused vars must match /^[A-Z_]/u            no-unused-vars
+   54:9   error  'cityRoute' is assigned a value but never used. Allowed unused vars must match /^[A-Z_]/u  no-unused-vars
+  100:29  error  'i' is defined but never used                                                              no-unused-vars
+
+C:\Users\MICR TRAD\dubizzle-clone\src\mobile\MobileMenu.jsx
+  245:27  error  'Icon' is defined but never used  no-unused-vars
+
+C:\Users\MICR TRAD\dubizzle-clone\src\pages\AdvertisingPage.jsx
+  505:70  error  'Icon' is defined but never used  no-unused-vars
+
+C:\Users\MICR TRAD\dubizzle-clone\src\pages\CareersPage.jsx
+    4:10  error  'footerSocialLinks' is defined but never used. Allowed unused vars must match /^[A-Z_]/u                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           no-unused-vars
+  220:5   error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+  218 |
+  219 |   useEffect(() => {
+> 220 |     setVisibleJobs(11)
+      |     ^^^^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  221 |   }, [searchTerm, workplaceFilter, locationFilter, departmentFilter, workTypeFilter])
+  222 |
+  223 |   const isExpandedJobsList = visibleJobs >= filteredJobs.length  react-hooks/set-state-in-effect
+
+C:\Users\MICR TRAD\dubizzle-clone\src\pages\ClassifiedsPage.jsx
+  6:10  error  'getProductsByCategory' is defined but never used. Allowed unused vars must match /^[A-Z_]/u  no-unused-vars
+
+C:\Users\MICR TRAD\dubizzle-clone\src\pages\EgyptPage.jsx
+  1:10  error  'useState' is defined but never used. Allowed unused vars must match /^[A-Z_]/u  no-unused-vars
+
+C:\Users\MICR TRAD\dubizzle-clone\src\pages\MotorsPage.jsx
+  1:10  error  'useState' is defined but never used. Allowed unused vars must match /^[A-Z_]/u  no-unused-vars
+
+C:\Users\MICR TRAD\dubizzle-clone\src\pages\ProductDetailPage.jsx
+  191:5  error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+  189 |     window.scrollTo(0, 0)
+  190 |     const data = getProductById(id)
+> 191 |     setProduct(data)
+      |     ^^^^^^^^^^ Avoid calling setState() directly within an effect
+  192 |     setLoading(false)
+  193 |   }, [id])
+  194 |  react-hooks/set-state-in-effect
+
+C:\Users\MICR TRAD\dubizzle-clone\src\pages\TermsPage.jsx
+  106:10  error  'mobileNavOpen' is assigned a value but never used. Allowed unused vars must match /^[A-Z_]/u  no-unused-vars
+
+Γ£û 21 problems (21 errors, 0 warnings)
+

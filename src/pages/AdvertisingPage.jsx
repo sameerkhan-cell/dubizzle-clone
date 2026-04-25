@@ -502,7 +502,7 @@ export default function AdvertisingPage() {
 
         <section className="bg-white px-5 py-[56px]">
           <div className="mx-auto grid max-w-[1232px] gap-10 md:grid-cols-3">
-            {businessCards.map(({ title, description, cta, disabled, Icon }) => (
+            {businessCards.map(({ title, description, cta, disabled }) => (
               <div key={title} className="flex flex-col items-center text-center">
                 <div className="mb-4 flex h-14 w-14 items-center justify-center text-[#787878]">
                   <Icon size={44} strokeWidth={1.7} />

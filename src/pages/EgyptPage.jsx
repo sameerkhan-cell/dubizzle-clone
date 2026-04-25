@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useState } from 'react'
 import PromoBanners from '../components/PromoBanners'
 import Categories from '../components/Categories'

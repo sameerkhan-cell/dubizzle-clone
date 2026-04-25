@@ -242,7 +242,7 @@ export default function MobileMenu() {
   )
 }
 
-function MenuItem({ icon: Icon, label, rightText, onClick }) {
+function MenuItem({ label, rightText, onClick }) {
   return (
     <button 
       onClick={onClick}

@@ -20,6 +20,7 @@ export default function useIsMobile(breakpoint = 768) {
     }
 
     // Sync on mount
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setIsMobile(mql.matches)
 
     return () => {
